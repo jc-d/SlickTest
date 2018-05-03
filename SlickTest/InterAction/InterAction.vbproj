@@ -1,0 +1,253 @@
+﻿<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="3.5">
+  <PropertyGroup>
+    <ProjectType>Local</ProjectType>
+    <ProductVersion>9.0.21022</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{B02D1804-8CD8-49E0-8485-DB10E53955C9}</ProjectGuid>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ApplicationIcon>
+    </ApplicationIcon>
+    <AssemblyKeyContainerName>
+    </AssemblyKeyContainerName>
+    <AssemblyName>InterAction</AssemblyName>
+    <AssemblyOriginatorKeyFile>
+    </AssemblyOriginatorKeyFile>
+    <AssemblyOriginatorKeyMode>None</AssemblyOriginatorKeyMode>
+    <DefaultClientScript>VBScript</DefaultClientScript>
+    <DefaultHTMLPageLayout>Grid</DefaultHTMLPageLayout>
+    <DefaultTargetSchema>IE50</DefaultTargetSchema>
+    <DelaySign>false</DelaySign>
+    <OutputType>Library</OutputType>
+    <OptionCompare>Binary</OptionCompare>
+    <OptionExplicit>On</OptionExplicit>
+    <OptionStrict>Off</OptionStrict>
+    <RootNamespace>UIControls</RootNamespace>
+    <StartupObject>InterAction.%28None%29</StartupObject>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <MyType>Windows</MyType>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
+    <SignAssembly>false</SignAssembly>
+    <OldToolsVersion>2.0</OldToolsVersion>
+    <PublishUrl>http://localhost/InterAction/</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Web</InstallFrom>
+    <UpdateEnabled>true</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <IsWebBootstrapper>true</IsWebBootstrapper>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <OutputPath>bin\</OutputPath>
+    <DocumentationFile>InterAction.xml</DocumentationFile>
+    <BaseAddress>285212672</BaseAddress>
+    <ConfigurationOverrideFile>
+    </ConfigurationOverrideFile>
+    <DefineConstants>
+    </DefineConstants>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <DebugSymbols>true</DebugSymbols>
+    <Optimize>false</Optimize>
+    <RegisterForComInterop>true</RegisterForComInterop>
+    <RemoveIntegerChecks>false</RemoveIntegerChecks>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <WarningLevel>1</WarningLevel>
+    <NoWarn>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036</NoWarn>
+    <DebugType>full</DebugType>
+    <WarningsAsErrors>
+    </WarningsAsErrors>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <OutputPath>bin\</OutputPath>
+    <DocumentationFile>InterAction.xml</DocumentationFile>
+    <BaseAddress>285212672</BaseAddress>
+    <ConfigurationOverrideFile>
+    </ConfigurationOverrideFile>
+    <DefineConstants>
+    </DefineConstants>
+    <DefineDebug>false</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <DebugSymbols>false</DebugSymbols>
+    <Optimize>true</Optimize>
+    <RegisterForComInterop>false</RegisterForComInterop>
+    <RemoveIntegerChecks>false</RemoveIntegerChecks>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <WarningLevel>1</WarningLevel>
+    <NoWarn>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036</NoWarn>
+    <DebugType>none</DebugType>
+    <WarningsAsErrors>
+    </WarningsAsErrors>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System">
+      <Name>System</Name>
+    </Reference>
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data">
+      <Name>System.Data</Name>
+    </Reference>
+    <Reference Include="System.Data.SqlServerCe, Version=3.5.0.0, PublicKeyToken=89845dcd8080cc91" />
+    <Reference Include="System.Drawing">
+      <Name>System.Drawing</Name>
+    </Reference>
+    <Reference Include="System.Windows.Forms">
+      <Name>System.Windows.Forms</Name>
+    </Reference>
+    <Reference Include="System.Xml">
+      <Name>System.XML</Name>
+    </Reference>
+    <Reference Include="UIAutomationClient, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\Program Files\Reference Assemblies\Microsoft\Framework\v3.0\UIAutomationClient.dll</HintPath>
+    </Reference>
+    <Reference Include="UIAutomationClientsideProviders, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\Program Files\Reference Assemblies\Microsoft\Framework\v3.0\UIAutomationClientsideProviders.dll</HintPath>
+    </Reference>
+    <Reference Include="UIAutomationProvider, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\Program Files\Reference Assemblies\Microsoft\Framework\v3.0\UIAutomationProvider.dll</HintPath>
+    </Reference>
+    <Reference Include="UIAutomationTypes, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\Program Files\Reference Assemblies\Microsoft\Framework\v3.0\UIAutomationTypes.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Import Include="Microsoft.VisualBasic" />
+    <Import Include="System" />
+    <Import Include="System.Collections" />
+    <Import Include="System.Data" />
+    <Import Include="System.Diagnostics" />
+    <Import Include="System.Linq" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AutomationSettings.vb" />
+    <Compile Include="CSVReader.vb" />
+    <Compile Include="Description.vb" />
+    <Compile Include="DotNet2\AbstractSwfWinObject.vb" />
+    <Compile Include="DotNet2\SwfListView.vb" />
+    <Compile Include="DotNet2\SwfButton.vb" />
+    <Compile Include="DotNet2\SwfCheckBox.vb" />
+    <Compile Include="DotNet2\SwfComboBox.vb" />
+    <Compile Include="DotNet2\SwfListBox.vb" />
+    <Compile Include="DotNet2\SwfRadioButton.vb" />
+    <Compile Include="DotNet2\SwfStaticLabel.vb" />
+    <Compile Include="DotNet2\SwfTextBox.vb" />
+    <Compile Include="DotNet2\SwfWindow.vb" />
+    <Compile Include="DotNet2\SwfWinObject.vb" />
+    <Compile Include="DotNet2\SwfTabControl.vb" />
+    <Compile Include="DotNet2\SwfTreeView.vb" />
+    <Compile Include="FlashHighlighter.vb" />
+    <Compile Include="IReport.vb" />
+    <Compile Include="ITestCase.vb" />
+    <Compile Include="Mouse.vb" />
+    <Compile Include="RedHighlight.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Settings.vb" />
+    <Compile Include="SlickTestUIException.vb" />
+    <Compile Include="StubbedReport.vb" />
+    <Compile Include="TestCaseAttributes.vb" />
+    <Compile Include="Web\AbstractWebObject.vb" />
+    <Compile Include="Web\WebElement.vb" />
+    <Compile Include="Web\WebBrowser.vb" />
+    <Compile Include="Win32Styles\ButtonStyle.vb" />
+    <Compile Include="Win32Styles\ComboBoxStyle.vb" />
+    <Compile Include="Win32Styles\ListBoxStyle.vb" />
+    <Compile Include="Win32Styles\ListViewStyle.vb" />
+    <Compile Include="Win32Styles\StyleExtendedInfo.vb" />
+    <Compile Include="Win32Styles\TabStyle.vb" />
+    <Compile Include="Win32Styles\TextBoxStyle.vb" />
+    <Compile Include="Win32Styles\TreeViewStyle.vb" />
+    <Compile Include="Win32\IAbstractWinObject.vb" />
+    <Compile Include="AssemblyInfo.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Clipboard.vb" />
+    <Compile Include="Win32\ComboBox.vb" />
+    <Compile Include="Win32\Button.vb" />
+    <Compile Include="Win32\CheckBox.vb" />
+    <Compile Include="Win32\AbstractWinObject.vb" />
+    <Compile Include="Win32\ListView.vb" />
+    <Compile Include="Win32\Menu.vb" />
+    <Compile Include="Win32\RadioButton.vb" />
+    <Compile Include="Win32\StaticLabel.vb" />
+    <Compile Include="Capture.vb" />
+    <Compile Include="InterAct.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Keyboard.vb" />
+    <Compile Include="InternalMouse.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Log.vb" />
+    <Compile Include="Alert.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Report.vb" />
+    <Compile Include="Win32Styles\StyleInfo.vb" />
+    <Compile Include="Win32\TabControl.vb" />
+    <Compile Include="Win32\TextBox.vb" />
+    <Compile Include="Win32\TreeView.vb" />
+    <Compile Include="Win32\WinObject.vb" />
+    <Compile Include="Screenshot.vb" />
+    <Compile Include="Win32\ListBox.vb" />
+    <Compile Include="Win32\Window.vb" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\APIControls\APIControls.vbproj">
+      <Project>{D34469FD-2F56-415F-85B2-0B8A012CBF2B}</Project>
+      <Name>APIControls</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\winAPI\WinAPI.csproj">
+      <Project>{6DC8C8E5-C050-424A-B8B2-CCBCFBA3CAFC}</Project>
+      <Name>WinAPI</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\XmlSettingsDLL\XmlSettings.csproj">
+      <Project>{9D0BA9B8-D062-4343-BFD4-D68BC3B44A7C}</Project>
+      <Name>XmlSettings</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.2.0">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 2.0 %28x86%29</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.0">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.0 %28x86%29</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="My Project\" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.VisualBasic.targets" />
+  <PropertyGroup>
+    <PreBuildEvent>
+    </PreBuildEvent>
+    <PostBuildEvent>
+    </PostBuildEvent>
+  </PropertyGroup>
+</Project>

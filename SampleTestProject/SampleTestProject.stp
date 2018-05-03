@@ -1,0 +1,110 @@
+<?xml version="1.0" standalone="yes"?>
+<!--XML Version=2.0-->
+<Sections>
+  <Section Name="ProjectSettings">
+    <Setting Name="OptionStrict" Type="Boolean" Desc="Visual Basic allows conversions of many data types to other data types. Data loss can occur when the value of one data type is converted to a data type with less precision or smaller capacity. A run-time error occurs if such a narrowing conversion fails. Option Strict ensures compile-time notification of these narrowing conversions so they can be avoided.">
+      <Value>False</Value>
+    </Setting>
+    <Setting Name="OptionExplicit" Type="Boolean" Desc="When Option Explicit appears in a file, you must explicitly declare all variables using the Dim or ReDim statements. If you attempt to use an undeclared variable name, an error occurs at compile time.">
+      <Value>True</Value>
+    </Setting>
+    <Setting Name="ShowUI" Type="Boolean" Desc="Shows a DOS console if set to true.">
+      <Value>True</Value>
+    </Setting>
+    <Setting Name="RuntimeTimeout" Type="Int32" Desc="Set the timer to prevent Slick Test from going into an infinite loop.  Set to 0 for infinite time.">
+      <Value>10</Value>
+    </Setting>
+    <Setting Name="RuntimeClassName" Type="String" Desc="Typically this does not need to be set.">
+      <Value />
+    </Setting>
+    <Setting Name="CompileAsDebug" Type="Boolean" Desc="Compile the executable or DLL with debug information or optimized.">
+      <Value>False</Value>
+    </Setting>
+    <Setting Name="ProjectName" Type="String" Desc="The name of the project.">
+      <Value>Cal</Value>
+    </Setting>
+    <Setting Name="ReportDatabasePath" Type="String" Desc="The database path which will store all the local reports.">
+      <Value>M:\My Documents\Visual Studio 2008\Projects\SlickTestDeveloper_SourceForge\Trunk\SlickTestDeveloper\bin\Release\DBSTD.sdf</Value>
+    </Setting>
+    <Setting Name="ExternalReportDatabaseConnectionString" Type="String" Desc="If a external database is used for reporting, then the connection string must be provided here.This will only be used for external reports or if you use a custom report.">
+      <Value>M:\My Documents\Visual Studio 2008\Projects\SlickTestDeveloper_SourceForge\Trunk\SlickTestDeveloper\bin\Release\DBSTD.sdf</Value>
+    </Setting>
+    <Setting Name="TakePictureBeforeTyping" Type="Boolean" Desc="Takes an image before typing to an object.">
+      <Value>True</Value>
+    </Setting>
+    <Setting Name="TakePictureAfterTyping" Type="Boolean" Desc="Takes an image after typing to an object.">
+      <Value>True</Value>
+    </Setting>
+    <Setting Name="TakePictureBeforeClick" Type="Boolean" Desc="Takes an image before clicking on an object.">
+      <Value>True</Value>
+    </Setting>
+    <Setting Name="TakePictureAfterClick" Type="Boolean" Desc="Takes an image after clicking on an object.">
+      <Value>True</Value>
+    </Setting>
+    <Setting Name="ProjectType" Type="ProjectTypes" Desc="Changes how the system compiles and runs the code (using a exe or dll).">
+      <Value>RecordAndGo</Value>
+    </Setting>
+  </Section>
+  <Section Name="InternalProjectSettings">
+    <Setting Name="ExecuteFileName" Type="String" Desc="The executable file name.">
+      <Value>Cal.exe</Value>
+    </Setting>
+    <Setting Name="LastOpenedFile" Type="String">
+      <Value>File.vb</Value>
+    </Setting>
+    <Setting Name="ProjectVersionNumber" Type="Int32">
+      <Value>2</Value>
+    </Setting>
+    <Setting Name="ProjectGUID" Type="String">
+      <Value>c95851d2-9e70-4c1a-8ccf-4e1d4e0988a3</Value>
+    </Setting>
+    <Setting Name="IsOfficalRun" Type="Boolean">
+      <Value>False</Value>
+    </Setting>
+  </Section>
+  <Section Name="Assemblies">
+    <Setting Name="0" Type="String">
+      <Value>C:\WINDOWS\Microsoft.NET\Framework\v2.0.50727\System.dll</Value>
+    </Setting>
+    <Setting Name="1" Type="String">
+      <Value>C:\WINDOWS\Microsoft.NET\Framework\v2.0.50727\System.Data.dll</Value>
+    </Setting>
+    <Setting Name="2" Type="String">
+      <Value>C:\WINDOWS\Microsoft.NET\Framework\v2.0.50727\System.Drawing.dll</Value>
+    </Setting>
+    <Setting Name="3" Type="String">
+      <Value>C:\WINDOWS\Microsoft.NET\Framework\v2.0.50727\Microsoft.VisualBasic.dll</Value>
+    </Setting>
+    <Setting Name="4" Type="String">
+      <Value>C:\WINDOWS\Microsoft.NET\Framework\v2.0.50727\System.Windows.Forms.dll</Value>
+    </Setting>
+    <Setting Name="Count" Type="Int32">
+      <Value>5</Value>
+    </Setting>
+  </Section>
+  <Section Name="SpecialAssemblies">
+    <Setting Name="0" Type="String">
+      <Value>M:\My Documents\Visual Studio 2008\Projects\SlickTestDeveloper_SourceForge\Trunk\SlickTestDeveloper\bin\Release\DBInterAction.dll</Value>
+    </Setting>
+    <Setting Name="1" Type="String">
+      <Value>M:\My Documents\Visual Studio 2008\Projects\SlickTestDeveloper_SourceForge\Trunk\SlickTestDeveloper\bin\Release\DBAPIControls.dll</Value>
+    </Setting>
+    <Setting Name="2" Type="String">
+      <Value>M:\My Documents\Visual Studio 2008\Projects\SlickTestDeveloper_SourceForge\Trunk\SlickTestDeveloper\bin\Release\DBWindowsHookLib.dll</Value>
+    </Setting>
+    <Setting Name="3" Type="String">
+      <Value>M:\My Documents\Visual Studio 2008\Projects\SlickTestDeveloper_SourceForge\Trunk\SlickTestDeveloper\bin\Release\DBWinAPI.dll</Value>
+    </Setting>
+    <Setting Name="4" Type="String">
+      <Value>M:\My Documents\Visual Studio 2008\Projects\SlickTestDeveloper_SourceForge\Trunk\SlickTestDeveloper\bin\Release\DBXmlSettings.dll</Value>
+    </Setting>
+    <Setting Name="Count" Type="Int32">
+      <Value>5</Value>
+    </Setting>
+  </Section>
+  <Section Name="UserAssemblies">
+    <Setting Name="Count" Type="Int32">
+      <Value>0</Value>
+    </Setting>
+  </Section>
+</Sections>

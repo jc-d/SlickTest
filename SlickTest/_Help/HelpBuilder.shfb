@@ -1,0 +1,75 @@
+﻿<project schemaVersion="1.6.0.7">
+    <assemblies>
+        <assembly assemblyPath="..\APIControls\bin\Release\APIControls.dll" xmlCommentsPath="..\APIControls\bin\Release\APIControls.xml" commentsOnly="False" />
+        <assembly assemblyPath="..\InterAction\bin\InterAction.dll" xmlCommentsPath="..\InterAction\bin\InterAction.xml" commentsOnly="False" />
+        <assembly assemblyPath="..\winAPI\bin\Release\winAPI.dll" xmlCommentsPath=".\Unknown.xml" commentsOnly="False" />
+        <assembly assemblyPath="..\XmlSettingsDLL\bin\Release\XmlSettings.dll" xmlCommentsPath="..\XmlSettingsDLL\bin\Release\XmlSettings.xml" commentsOnly="False" />
+    </assemblies>
+    <namespaceSummaries>
+        <namespaceSummaryItem name="" isDocumented="False" />
+        <namespaceSummaryItem name="APIControls" isDocumented="False" />
+        <namespaceSummaryItem name="InterAction" isDocumented="True" />
+        <namespaceSummaryItem name="InterAction.My" isDocumented="True" />
+        <namespaceSummaryItem name="SHDocVw" isDocumented="False" />
+        <namespaceSummaryItem name="XmlSettings" isDocumented="False" />
+    </namespaceSummaries>
+    <apiFilter>
+        <filter entryType="Namespace" fullName="APIControls" isExposed="False">
+            <filter entryType="Interface" fullName="APIControls.IDescription" filterName="IDescription" isExposed="True" />
+            <filter entryType="Class" fullName="APIControls.SlickTestAPIException" filterName="SlickTestAPIException" isExposed="True" />
+        </filter>
+        <filter entryType="Namespace" fullName="UIControls" isExposed="True">
+            <filter entryType="Class" fullName="UIControls.AutomationSettings.CurrentProjectData" filterName="AutomationSettings.CurrentProjectData" isExposed="False" />
+            <filter entryType="Enumeration" fullName="UIControls.AutomationSettings.CurrentProjectData.ProjectTypes" filterName="AutomationSettings.CurrentProjectData.ProjectTypes" isExposed="False" />
+            <filter entryType="Class" fullName="UIControls.SwfWindow" filterName="SwfWindow" isExposed="True">
+                <filter entryType="Constructor" fullName="UIControls.SwfWindow.#ctor" filterName=".ctor" isExposed="False" />
+            </filter>
+            <filter entryType="Class" fullName="UIControls.Window" filterName="Window" isExposed="True">
+                <filter entryType="Constructor" fullName="UIControls.Window.#ctor" filterName=".ctor" isExposed="False" />
+            </filter>
+        </filter>
+        <filter entryType="Namespace" fullName="WinAPI" isExposed="False" />
+        <filter entryType="Namespace" fullName="XmlSettings" isExposed="False" />
+    </apiFilter>
+    <ProjectSummary />
+    <MissingTags>AutoDocumentCtors, TypeParameter</MissingTags>
+    <VisibleItems>ExplicitInterfaceImplementations, InheritedMembers, InheritedFrameworkMembers</VisibleItems>
+    <HtmlHelp1xCompilerPath path="" />
+    <HtmlHelp2xCompilerPath path="" />
+    <OutputPath>..\.\SlickTestDeveloper\Guides\</OutputPath>
+    <SandcastlePath path="" />
+    <WorkingPath path="" />
+    <CleanIntermediates>True</CleanIntermediates>
+    <KeepLogFile>True</KeepLogFile>
+    <BuildLogFile path="" />
+    <HelpFileFormat>HtmlHelp1x</HelpFileFormat>
+    <CppCommentsFixup>False</CppCommentsFixup>
+    <FrameworkVersion>3.5</FrameworkVersion>
+    <IndentHtml>False</IndentHtml>
+    <Preliminary>False</Preliminary>
+    <RootNamespaceContainer>False</RootNamespaceContainer>
+    <RootNamespaceTitle />
+    <HelpTitle>Slick Test Developer</HelpTitle>
+    <HtmlHelpName>SlickTestAPI</HtmlHelpName>
+    <Language>en-US</Language>
+    <CopyrightHref />
+    <CopyrightText />
+    <FeedbackEMailAddress />
+    <FeedbackEMailLinkText />
+    <HeaderText />
+    <FooterText />
+    <ProjectLinkType>Local</ProjectLinkType>
+    <SdkLinkType>Msdn</SdkLinkType>
+    <SdkLinkTarget>Parent</SdkLinkTarget>
+    <PresentationStyle>hana</PresentationStyle>
+    <NamingMethod>MemberName</NamingMethod>
+    <SyntaxFilters>CSharp, VisualBasic</SyntaxFilters>
+    <ShowFeedbackControl>False</ShowFeedbackControl>
+    <BinaryTOC>True</BinaryTOC>
+    <IncludeFavorites>True</IncludeFavorites>
+    <CollectionTocStyle>Hierarchical</CollectionTocStyle>
+    <IncludeStopWordList>True</IncludeStopWordList>
+    <PlugInNamespaces>ms.vsipcc+, ms.vsexpresscc+</PlugInNamespaces>
+    <HelpFileVersion>1.0.0.0</HelpFileVersion>
+    <ContentPlacement>BelowNamespaces</ContentPlacement>
+</project>

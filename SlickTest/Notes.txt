@@ -1,0 +1,136 @@
+History:
+
+-----------------------------------------------------------------
+Slick Test Developer 1.15 (Release 1)
+-----------------------------------------------------------------
+Fixes:
+ - Removed some exception suppression.
+ - Fixed a 64 bit problem with object spy.
+ - Fixed possible highligher issue where the highligher remains on after the command has been run.
+ - Fixed Send Keys / Type text issue involving ctrl, shift and alt.
+ - Corrected issue where a value was not always being returned in GetCheckedString.
+ - Updated documentation to be a little more clear about how type text uses sendkeys.
+
+-----------------------------------------------------------------
+Slick Test Developer 1.11 Release Candidate
+-----------------------------------------------------------------
+ - Added a simple single line tester intended for testing descriptions.
+ - Added a large number of unit tests.
+ - Updated documentation.
+
+Fixes:
+ - Correct the way that we get text when the win32 method fails (This could break some descriptions).
+ - Fixed GetChildDescriptions for .net
+ - Fixed a few small spots where C# was being handled correctly.
+
+-----------------------------------------------------------------
+Slick Test Developer 1.1 Beta
+-----------------------------------------------------------------
+ - Both VB.NET and C# support.
+ - Updated SharpDevelop DLLs.
+
+Fixes:
+ - C# loading multiple times causing errors.
+ - Crashing if record was used for long periods of time.
+ - Descriptions not being processed correctly for TabControls.
+ - NearByLabel being ignored in Descriptions.
+ - Updated unit tests to be a bit more stable.
+ - Checkbox and Radiobutton issues in .net.
+
+Personal Note: I found that adding C# support for Slick Test was easier than expected.  VB.NET is still the primary target and will get the most testing, but from this point on both will be supported.  There are some possible issues involving "("" in a string but it should really all work.  That being said, I think C# support calls for a new version as that is major functionality.  I also upgraded the editor's DLLs and did some quick testing.  No issues appeared, so I'm keeping the upgrade for this new Beta.
+-----------------------------------------------------------------
+Slick Test Developer 1.0 Beta
+-----------------------------------------------------------------
+* Initial Release:
+ - Most support of win32 and .net applications (menus currently not supported in .net and grids, calanders and spinners are not supported).
+ - Object Spy for Win32 and .net applications.
+ - Recording of clicks and typing and automatic creation of descriptions.
+ - Direct control over the mouse and keyboard.
+ - Recording of test results, including before and after images of clicking and typing.
+ - Compiler and full IDE support.
+ - Exports to external systems such as VS 2008 and Sharp Develop.
+ - Initial support for web automation can be compiled in by find all "#Const IncludeWeb = 2" and replacing with "#Const IncludeWeb = 1" and then recompiling the software.  The API for the web automation may change over time.
+
+-----------------------------------------------------------------
+Supported Technology:
+-----------------------------------------------------------------
+* Win32 and System.Windows.Forms in .NET. 
+* Windows XP and Windows Vista fully supported.
+* Partial support for Windows 2003, 2008 and 7.
+* Partial support for 64 bit systems.
+* Export for Sharp Develop or VS 2008
+
+-----------------------------------------------------------------
+Requirements:
+-----------------------------------------------------------------
+* .net 3.5 must be installed. (http://www.microsoft.com/downloads/details.aspx?FamilyId=333325FD-AE52-4E35-B531-508D977D32A6&displaylang=en)
+* SQL CE 3.5 (http://www.microsoft.com/downloads/details.aspx?FamilyID=dc614aee-7e1c-4881-9c32-3a6ce53384d9&displaylang=en).
+ - If you are using a 64 bit sytem, both the 32 and 64 bit installers must be run.
+
+NOTE: The installer should automatically make sure these are installed, but if you run into problems, use the links given above.
+
+-----------------------------------------------------------------
+Known Issues:
+-----------------------------------------------------------------
+1. Command line args are poorly done and are not supported.
+2. Only the first tab of IE 7+ will work correctly if you compile in IE7.
+3. This software does not support more than the primary monitor.
+4. The record will always record the most possible, sometimes more than is needed.
+5. On rare occassions the recorder will fail due to unknown characters or odd character sets will cause it to fail converting to descriptions.
+6. Many windows are not supported.  Windows made by VB6, Java, WPF or Firefox are not supported.
+7. On some computers the screenshots are not taken correctly.
+8. Test reports are not open if no reporting is recorded by the user.
+9. Only the primary monitor is supported.
+10. Some documentation needs to be updated.
+
+-----------------------------------------------------------------
+Possible TODOs for the future:
+-----------------------------------------------------------------
+-- General
+* Add undo for internal edits to text editor.
+* Red highlight (Obj Spy) actually finds the Obj Spy.
+* C# is currently not fully supported.
+* Unit test support is only so-so.
+* Add autocomplete support to more than the currently opened file and all added DLLs.
+
+-- Reporting
+* Add Generic Email support.  Add support to email at the end of a test.
+* Add additional views, with better seperation of tests rather than just per project.
+* Add better support for larger databases...  Possibly MySQL or MS SQL Server.
+
+-- Recording
+* Double Click does two single clicks, due to the odd way the text editor works, it doesn't seem easy to fix.
+* When pasting in a class after recording, add it to the shared sub main() method?
+* Better, more intelligent recording...
+
+-- Win32
+* Add additional treeview, list view support.  
+* Look into future tool tip support.
+* Look into additional WindowsObjects to support.
+
+-- Dot NET
+* Look at full .net support (rather than the mostly/partial support currently provided).
+* Add support for menus.
+
+-- Web
+* Compile in web support.
+* Decide on a way to add web support
+* Look into IE displaying "Message (1) processing took xxx ms"
+* Remove all those console.writelines...
+* Add description getting for web apps (when using object spy).
+* Fix X/Y coords for Web objects.
+* Add Description information to object spy for web.
+* Add "Save all descriptions" for web pages in object spy.
+  - Make sure if you click on IE that it grabs both IE real objects AND web objects.
+* Speed (MAJOR!!)
+* Improved recording methodology.
+* Support scan all objects method for web.
+
+-----------------------------------------------------------------
+Special Thanks:
+-----------------------------------------------------------------
+* My family and friends for putting up with my coding habits.
+* Sharp Develop
+* Google and all those who posted code that I looked over and learned from.
+* Code Project and those who provided code for me to use.
+* VBDT and others at http://www.vbforums.com/

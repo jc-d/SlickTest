@@ -1,0 +1,126 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="3.5">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.21022</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{D34469FD-2F56-415F-85B2-0B8A012CBF2B}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <RootNamespace>APIControls</RootNamespace>
+    <AssemblyName>APIControls</AssemblyName>
+    <MyType>Empty</MyType>
+    <StartupObject>
+    </StartupObject>
+    <SignAssembly>false</SignAssembly>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <OldToolsVersion>2.0</OldToolsVersion>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DocumentationFile>APIControls.xml</DocumentationFile>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <DefineDebug>false</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DocumentationFile>APIControls.xml</DocumentationFile>
+  </PropertyGroup>
+  <ItemGroup>
+    <Import Include="Microsoft.VisualBasic" />
+    <Import Include="System" />
+    <Import Include="System.Linq" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Web\IElement.vb" />
+    <Compile Include="Web\VElement.vb" />
+    <Compile Include="Windows\ButtonWindowsAPI.vb" />
+    <Compile Include="Windows\ComboBoxWindowsAPI.vb" />
+    <Compile Include="Description.vb" />
+    <Compile Include="IDescription.vb" />
+    <Compile Include="Web\InternetExplorer.vb" />
+    <Compile Include="Windows\ListBoxWindowsAPI.vb" />
+    <Compile Include="DotNet\DotNetControlInfo.vb" />
+    <Compile Include="Windows\EnumerateWindows.vb" />
+    <Compile Include="Windows\IndependentWindowsFunctionsv1.vb" />
+    <Compile Include="Keyboard.vb" />
+    <Compile Include="Windows\ListViewWindowsAPI.vb" />
+    <Compile Include="My Project\AssemblyInfo.vb" />
+    <Compile Include="SlickTestAPIException.vb" />
+    <Compile Include="Windows\StaticLabelWindowsAPI.vb" />
+    <Compile Include="Windows\TabControlWindowsAPI.vb.vb" />
+    <Compile Include="TestFriends.vb" />
+    <Compile Include="Windows\TextBoxWindowsAPI.vb" />
+    <Compile Include="Windows\TopWindow.vb" />
+    <Compile Include="Windows\TreeViewWindowsAPI.vb" />
+    <Compile Include="Web\WebElement.vb" />
+    <Compile Include="Windows\Win32Window.vb" />
+    <Compile Include="Windows\WindowWindowsAPI.vb" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\winAPI\WinAPI.csproj">
+      <Project>{6DC8C8E5-C050-424A-B8B2-CCBCFBA3CAFC}</Project>
+      <Name>WinAPI</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.mshtml, Version=7.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+    <Reference Include="System" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+    <Reference Include="UIAutomationClient">
+      <RequiredTargetFramework>3.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="UIAutomationClientsideProviders">
+      <RequiredTargetFramework>3.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="UIAutomationProvider">
+      <RequiredTargetFramework>3.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="UIAutomationTypes">
+      <RequiredTargetFramework>3.0</RequiredTargetFramework>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <COMReference Include="SHDocVw">
+      <Guid>{EAB22AC0-30C1-11CF-A7EB-0000C05BAE0B}</Guid>
+      <VersionMajor>1</VersionMajor>
+      <VersionMinor>1</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>tlbimp</WrapperTool>
+      <Isolated>False</Isolated>
+    </COMReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Dlls\Microsoft.mshtml.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Dlls\SHDOCVW.DLL">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.VisualBasic.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

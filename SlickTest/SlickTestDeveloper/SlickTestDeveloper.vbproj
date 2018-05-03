@@ -1,0 +1,445 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="3.5">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.21022</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{826CB016-03E6-46C7-879E-DF160A4E8E70}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <StartupObject>Sub Main</StartupObject>
+    <RootNamespace>SlickTestDeveloper</RootNamespace>
+    <AssemblyName>SlickTestDeveloper</AssemblyName>
+    <MyType>WindowsForms</MyType>
+    <ApplicationIcon>662.ico</ApplicationIcon>
+    <SignAssembly>false</SignAssembly>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <OldToolsVersion>2.0</OldToolsVersion>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
+    <IsWebBootstrapper>true</IsWebBootstrapper>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <ApplicationManifest>My Project\app.manifest</ApplicationManifest>
+    <PublishUrl>http://localhost/SlickTestDeveloper/</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Web</InstallFrom>
+    <UpdateEnabled>true</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DocumentationFile>SlickTestDeveloper.xml</DocumentationFile>
+    <NoWarn>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036</NoWarn>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <DefineDebug>false</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DocumentationFile>SlickTestDeveloper.xml</DocumentationFile>
+    <NoWarn>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036</NoWarn>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="ICSharpCode.Core, Version=3.1.0.4603, Culture=neutral, PublicKeyToken=f829da5c02be14ee, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\CodeCompletion\DLLs\ICSharpCode.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="ICSharpCode.Core.WinForms, Version=3.1.0.4603, Culture=neutral, PublicKeyToken=f829da5c02be14ee, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\CodeCompletion\DLLs\ICSharpCode.Core.WinForms.dll</HintPath>
+    </Reference>
+    <Reference Include="ICSharpCode.NRefactory, Version=3.1.0.4603, Culture=neutral, PublicKeyToken=efe927acf176eea2, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\CodeCompletion\DLLs\ICSharpCode.NRefactory.dll</HintPath>
+    </Reference>
+    <Reference Include="ICSharpCode.SharpDevelop, Version=3.1.0.4603, Culture=neutral, PublicKeyToken=f829da5c02be14ee, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\CodeCompletion\DLLs\ICSharpCode.SharpDevelop.dll</HintPath>
+    </Reference>
+    <Reference Include="ICSharpCode.SharpDevelop.BuildWorker, Version=3.1.0.4603, Culture=neutral, PublicKeyToken=f829da5c02be14ee, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <ExecutableExtension>.exe</ExecutableExtension>
+      <HintPath>..\CodeCompletion\DLLs\ICSharpCode.SharpDevelop.BuildWorker.exe</HintPath>
+    </Reference>
+    <Reference Include="ICSharpCode.SharpDevelop.Dom, Version=3.1.0.4603, Culture=neutral, PublicKeyToken=f829da5c02be14ee, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\CodeCompletion\DLLs\ICSharpCode.SharpDevelop.Dom.dll</HintPath>
+    </Reference>
+    <Reference Include="ICSharpCode.SharpDevelop.Widgets, Version=3.1.0.4603, Culture=neutral, PublicKeyToken=f829da5c02be14ee, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\CodeCompletion\DLLs\ICSharpCode.SharpDevelop.Widgets.dll</HintPath>
+    </Reference>
+    <Reference Include="ICSharpCode.TextEditor, Version=3.1.0.4603, Culture=neutral, PublicKeyToken=4d61825e8dd49f1a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\CodeCompletion\DLLs\ICSharpCode.TextEditor.dll</HintPath>
+    </Reference>
+    <Reference Include="log4net, Version=1.2.10.0, Culture=neutral, PublicKeyToken=1b44e1d426115821, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\CodeCompletion\DLLs\log4net.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Build.Engine" />
+    <Reference Include="Mono.Cecil, Version=0.6.9.1, Culture=neutral, PublicKeyToken=0738eb9f132ed756, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\CodeCompletion\DLLs\Mono.Cecil.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Core, Version=3.5.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data" />
+    <Reference Include="System.Data.SqlServerCe, Version=3.5.0.0, PublicKeyToken=89845dcd8080cc91" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+    <Reference Include="VBNetBinding, Version=3.0.0.3800, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\CodeCompletion\DLLs\VBNetBinding.dll</HintPath>
+    </Reference>
+    <Reference Include="WeifenLuo.WinFormsUI.Docking, Version=2.2.3640.41806, Culture=neutral, PublicKeyToken=f829da5c02be14ee, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\CodeCompletion\DLLs\WeifenLuo.WinFormsUI.Docking.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Import Include="Microsoft.VisualBasic" />
+    <Import Include="System" />
+    <Import Include="System.Collections" />
+    <Import Include="System.Collections.Generic" />
+    <Import Include="System.Data" />
+    <Import Include="System.Drawing" />
+    <Import Include="System.Diagnostics" />
+    <Import Include="System.Linq" />
+    <Import Include="System.Windows.Forms" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="CodeTranslator.vb" />
+    <Compile Include="My Project\Application.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Application.myapp</DependentUpon>
+    </Compile>
+    <Compile Include="AboutBox.Designer.vb">
+      <DependentUpon>AboutBox.vb</DependentUpon>
+    </Compile>
+    <Compile Include="AboutBox.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AddDLLs.Designer.vb">
+      <DependentUpon>AddDLLs.vb</DependentUpon>
+    </Compile>
+    <Compile Include="AddDLLs.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CodeViewer.Designer.vb">
+      <DependentUpon>CodeViewer.vb</DependentUpon>
+    </Compile>
+    <Compile Include="CodeViewer.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CurrentProjectData.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="FindMyHwnd.Designer.vb">
+      <DependentUpon>FindMyHwnd.vb</DependentUpon>
+    </Compile>
+    <Compile Include="FindMyHwnd.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmFind.Designer.vb">
+      <DependentUpon>frmFind.vb</DependentUpon>
+    </Compile>
+    <Compile Include="frmFind.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmProjectSettings.Designer.vb">
+      <DependentUpon>frmProjectSettings.vb</DependentUpon>
+    </Compile>
+    <Compile Include="frmProjectSettings.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmReplace.Designer.vb">
+      <DependentUpon>frmReplace.vb</DependentUpon>
+    </Compile>
+    <Compile Include="frmReplace.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GotoLine.Designer.vb">
+      <DependentUpon>GotoLine.vb</DependentUpon>
+    </Compile>
+    <Compile Include="GotoLine.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ObjSpy.designer.vb">
+      <DependentUpon>ObjSpy.vb</DependentUpon>
+    </Compile>
+    <Compile Include="ObjSpy.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ProjectSelect.Designer.vb">
+      <DependentUpon>ProjectSelect.vb</DependentUpon>
+    </Compile>
+    <Compile Include="ProjectSelect.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Recorder.Designer.vb">
+      <DependentUpon>Recorder.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Recorder.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="RecordHelper.vb" />
+    <Compile Include="SettingsForm.designer.vb">
+      <DependentUpon>SettingsForm.vb</DependentUpon>
+    </Compile>
+    <Compile Include="SettingsForm.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SlickTestDev.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="My Project\AssemblyInfo.vb" />
+    <Compile Include="My Project\Resources.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="My Project\Settings.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="ScreenCapture.designer.vb">
+      <DependentUpon>ScreenCapture.vb</DependentUpon>
+    </Compile>
+    <Compile Include="ScreenCapture.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Settings.vb" />
+    <Compile Include="VerifyDescription.Designer.vb">
+      <DependentUpon>VerifyDescription.vb</DependentUpon>
+    </Compile>
+    <Compile Include="VerifyDescription.vb">
+      <SubType>Form</SubType>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="AboutBox.resx">
+      <DependentUpon>AboutBox.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AddDLLs.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>AddDLLs.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CodeViewer.resx">
+      <DependentUpon>CodeViewer.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FindMyHwnd.resx">
+      <DependentUpon>FindMyHwnd.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmFind.resx">
+      <DependentUpon>frmFind.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmProjectSettings.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>frmProjectSettings.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmReplace.resx">
+      <DependentUpon>frmReplace.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GotoLine.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>GotoLine.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ObjSpy.resx">
+      <DependentUpon>ObjSpy.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ProjectSelect.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>ProjectSelect.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Recorder.resx">
+      <DependentUpon>Recorder.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SettingsForm.resx">
+      <DependentUpon>SettingsForm.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SlickTestDev.resx">
+      <DependentUpon>SlickTestDev.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="My Project\Resources.resx">
+      <Generator>VbMyResourcesResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.vb</LastGenOutput>
+      <CustomToolNamespace>My.Resources</CustomToolNamespace>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ScreenCapture.resx">
+      <DependentUpon>ScreenCapture.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="VerifyDescription.resx">
+      <DependentUpon>VerifyDescription.vb</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="My Project\Application.myapp">
+      <Generator>MyApplicationCodeGenerator</Generator>
+    </None>
+    <None Include="My Project\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <CustomToolNamespace>My</CustomToolNamespace>
+      <LastGenOutput>Settings.Designer.vb</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\APIControls\APIControls.vbproj">
+      <Project>{D34469FD-2F56-415F-85B2-0B8A012CBF2B}</Project>
+      <Name>APIControls</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CodeCompletion\CodeCompletion.csproj">
+      <Project>{489CFE09-FDF7-4C89-BAB5-BD09CADD61AD}</Project>
+      <Name>CodeCompletion</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\HandleInput\HandleInput.vbproj">
+      <Project>{54A00C7E-10B9-438C-9A6C-1976508CB6F8}</Project>
+      <Name>HandleInput</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\InterAction\InterAction.vbproj">
+      <Project>{B02D1804-8CD8-49E0-8485-DB10E53955C9}</Project>
+      <Name>InterAction</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ResultsViewer\ResultsViewer.vbproj">
+      <Project>{4DBF7A70-2693-43A5-B0FB-E02986723064}</Project>
+      <Name>ResultsViewer</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TextEditor\TextEditor.csproj">
+      <Project>{7D1E0025-826F-4382-833B-51C6F0A77FD4}</Project>
+      <Name>TextEditor</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DOTNETCompiler\DOTNETCompiler.vbproj">
+      <Project>{D7D25788-A3DD-415B-A8C4-AEB45ED383AF}</Project>
+      <Name>DOTNETCompiler</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\winAPI\WinAPI.csproj">
+      <Project>{6DC8C8E5-C050-424A-B8B2-CCBCFBA3CAFC}</Project>
+      <Name>WinAPI</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\XmlSettingsDLL\XmlSettings.csproj">
+      <Project>{9D0BA9B8-D062-4343-BFD4-D68BC3B44A7C}</Project>
+      <Name>XmlSettings</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Utilities-128x128.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="662.ico" />
+    <None Include="CSharp.xshd">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Guides\SlickTestAPI.chm">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Guides\UserGuide.pdf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="harrow.cur">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="My Project\app.manifest" />
+    <None Include="Resources\Copy.ico" />
+    <None Include="Resources\Help.ico" />
+    <None Include="Resources\Exit.ico" />
+    <None Include="Resources\Find.ico" />
+    <None Include="Resources\Preview.ico" />
+    <None Include="Resources\Save As.ico" />
+    <None Include="Resources\_active_ Save.ico" />
+    <None Include="Resources\_active_ Save All.ico" />
+    <None Include="Resources\_active_ Save As.ico" />
+    <None Include="Resources\voicepad_118.ico" />
+    <None Include="Resources\wmploc_500.ico" />
+    <None Include="Template\NewFile.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Template\NewFile.vb">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Template\NewProjectFile.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Template\NewProjectFile.vb">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Test.stp">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="VBNET.xshd">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.2.0">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 2.0 %28x86%29</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.0">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.0 %28x86%29</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.SQL.Server.Compact.3.5">
+      <Visible>False</Visible>
+      <ProductName>SQL Server Compact 3.5</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <COMReference Include="SHDocVw">
+      <Guid>{EAB22AC0-30C1-11CF-A7EB-0000C05BAE0B}</Guid>
+      <VersionMajor>1</VersionMajor>
+      <VersionMinor>1</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>tlbimp</WrapperTool>
+      <Isolated>False</Isolated>
+    </COMReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.VisualBasic.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

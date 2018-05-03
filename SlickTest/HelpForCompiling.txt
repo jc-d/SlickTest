@@ -1,0 +1,2 @@
+NOTE: In .\SlickTestDeveloper\Guides some of the files must be manually copied over.
+NOTE: In .\SlickTestDeveloper\bin\Release or .\SlickTestDeveloper\bin\Debug the user will have to make sure a "DB" and "Library" folder are created.
