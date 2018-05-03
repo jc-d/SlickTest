@@ -217,7 +217,7 @@ Public Class SwfCheckBox
     ''' <remarks></remarks>
     Public Function IsCheckBox() As Boolean
         Try
-            Return WindowsFunctions.Button.IsCheckBox(Me.Hwnd())
+            Return WindowsFunctions.Button.IsCheckBox(New IntPtr(Me.Hwnd()))
         Catch ex As Exception
             Throw ex
         End Try

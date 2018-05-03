@@ -2,7 +2,7 @@
 
 'Imports System
 
-'Imports Microsoft.VisualStudio.TestTools.UnitTesting
+'Imports NUnit.Framework
 
 'Imports APIControls
 
@@ -12,11 +12,11 @@
 ''''This is a test class for TopWindowTest and is intended
 ''''to contain all TopWindowTest Unit Tests
 ''''</summary>
-'<TestClass()> _
+'<TestFixture()>  _
 'Public Class TopWindowTest
 
 
-'    Private testContextInstance As TestContext
+'
 
 '    '''<summary>
 '    '''Gets or sets the test context which provides
@@ -37,7 +37,7 @@
 '    '
 '    'Use ClassInitialize to run code before running the first test in the class
 '    '<ClassInitialize()>  _
-'    'Public Shared Sub MyClassInitialize(ByVal testContext As TestContext)
+'    'Public Shared Sub MyClassInitialize()
 '    'End Sub
 '    '
 '    'Use ClassCleanup to run code after all tests in a class have run
@@ -61,21 +61,21 @@
 '    '''<summary>
 '    '''A test for ShowWindow
 '    '''</summary>
-'    <TestMethod()> _
+'    <Test()> _
 '    Public Sub ShowWindowTest1()
 '        Dim target As TopWindow = New TopWindow ' TODO: Initialize to an appropriate value
 '        Dim hWnd As IntPtr = New IntPtr ' TODO: Initialize to an appropriate value
 '        Dim expected As Boolean = False ' TODO: Initialize to an appropriate value
 '        Dim actual As Boolean
 '        actual = target.ShowWindow(hWnd)
-'        Assert.AreEqual(expected, actual)
-'        Assert.Inconclusive("Verify the correctness of this test method.")
+'        Verify.AreEqual(expected, actual)
+'        Verify.Inconclusive("Verify the correctness of this test method.")
 '    End Sub
 
 '    '''<summary>
 '    '''A test for ShowWindow
 '    '''</summary>
-'    <TestMethod(), _
+'    <Test(), _
 '     DeploymentItem("APIControls.dll")> _
 '    Public Sub ShowWindowTest()
 '        Dim hWnd As IntPtr = New IntPtr ' TODO: Initialize to an appropriate value
@@ -83,40 +83,40 @@
 '        Dim expected As Boolean = False ' TODO: Initialize to an appropriate value
 '        Dim actual As Boolean
 '        actual = TopWindow_Accessor.ShowWindow(hWnd, nCmdShow)
-'        Assert.AreEqual(expected, actual)
-'        Assert.Inconclusive("Verify the correctness of this test method.")
+'        Verify.AreEqual(expected, actual)
+'        Verify.Inconclusive("Verify the correctness of this test method.")
 '    End Sub
 
 '    '''<summary>
 '    '''A test for IsZoomed
 '    '''</summary>
-'    <TestMethod()> _
+'    <Test()> _
 '    Public Sub IsZoomedTest()
 '        Dim hwnd As IntPtr = New IntPtr ' TODO: Initialize to an appropriate value
 '        Dim expected As Boolean = False ' TODO: Initialize to an appropriate value
 '        Dim actual As Boolean
 '        actual = TopWindow.IsZoomed(hwnd)
-'        Assert.AreEqual(expected, actual)
-'        Assert.Inconclusive("Verify the correctness of this test method.")
+'        Verify.AreEqual(expected, actual)
+'        Verify.Inconclusive("Verify the correctness of this test method.")
 '    End Sub
 
 '    '''<summary>
 '    '''A test for IsIconic
 '    '''</summary>
-'    <TestMethod()> _
+'    <Test()> _
 '    Public Sub IsIconicTest()
 '        Dim hwnd As IntPtr = New IntPtr ' TODO: Initialize to an appropriate value
 '        Dim expected As Boolean = False ' TODO: Initialize to an appropriate value
 '        Dim actual As Boolean
 '        actual = TopWindow.IsIconic(hwnd)
-'        Assert.AreEqual(expected, actual)
-'        Assert.Inconclusive("Verify the correctness of this test method.")
+'        Verify.AreEqual(expected, actual)
+'        Verify.Inconclusive("Verify the correctness of this test method.")
 '    End Sub
 
 '    '''<summary>
 '    '''A test for GetWindowText
 '    '''</summary>
-'    <TestMethod(), _
+'    <Test(), _
 '     DeploymentItem("APIControls.dll")> _
 '    Public Sub GetWindowTextTest()
 '        Dim hWnd As Integer = 0 ' TODO: Initialize to an appropriate value
@@ -125,55 +125,55 @@
 '        Dim expected As Integer = 0 ' TODO: Initialize to an appropriate value
 '        Dim actual As Integer
 '        actual = TopWindow_Accessor.GetWindowText(hWnd, text, count)
-'        Assert.AreEqual(expected, actual)
-'        Assert.Inconclusive("Verify the correctness of this test method.")
+'        Verify.AreEqual(expected, actual)
+'        Verify.Inconclusive("Verify the correctness of this test method.")
 '    End Sub
 
 '    '''<summary>
 '    '''A test for GetForegroundWindow
 '    '''</summary>
-'    <TestMethod(), _
+'    <Test(), _
 '     DeploymentItem("APIControls.dll")> _
 '    Public Sub GetForegroundWindowTest()
 '        Dim expected As Integer = 0 ' TODO: Initialize to an appropriate value
 '        Dim actual As Integer
 '        actual = TopWindow_Accessor.GetForegroundWindow
-'        Assert.AreEqual(expected, actual)
-'        Assert.Inconclusive("Verify the correctness of this test method.")
+'        Verify.AreEqual(expected, actual)
+'        Verify.Inconclusive("Verify the correctness of this test method.")
 '    End Sub
 
 '    '''<summary>
 '    '''A test for GetActiveWindowHandle
 '    '''</summary>
-'    <TestMethod()> _
+'    <Test()> _
 '    Public Sub GetActiveWindowHandleTest()
 '        Dim target As TopWindow = New TopWindow ' TODO: Initialize to an appropriate value
 '        Dim expected As IntPtr = New IntPtr ' TODO: Initialize to an appropriate value
 '        Dim actual As IntPtr
 '        actual = target.GetActiveWindowHandle
-'        Assert.AreEqual(expected, actual)
-'        Assert.Inconclusive("Verify the correctness of this test method.")
+'        Verify.AreEqual(expected, actual)
+'        Verify.Inconclusive("Verify the correctness of this test method.")
 '    End Sub
 
 '    '''<summary>
 '    '''A test for GetActiveWindow
 '    '''</summary>
-'    <TestMethod()> _
+'    <Test()> _
 '    Public Sub GetActiveWindowTest()
 '        Dim target As TopWindow = New TopWindow ' TODO: Initialize to an appropriate value
 '        Dim expected As String = String.Empty ' TODO: Initialize to an appropriate value
 '        Dim actual As String
 '        actual = target.GetActiveWindow
-'        Assert.AreEqual(expected, actual)
-'        Assert.Inconclusive("Verify the correctness of this test method.")
+'        Verify.AreEqual(expected, actual)
+'        Verify.Inconclusive("Verify the correctness of this test method.")
 '    End Sub
 
 '    '''<summary>
 '    '''A test for TopWindow Constructor
 '    '''</summary>
-'    <TestMethod()> _
+'    <Test()> _
 '    Public Sub TopWindowConstructorTest()
 '        Dim target As TopWindow = New TopWindow
-'        Assert.Inconclusive("TODO: Implement code to verify target")
+'        Verify.Inconclusive("TODO: Implement code to verify target")
 '    End Sub
 'End Class

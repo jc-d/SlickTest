@@ -1,4 +1,4 @@
-'Slick Test Developer, Copyright (c) 2007-2009 Jeremy Carey-dressler
+'Slick Test Developer, Copyright (c) 2007-2010 Jeremy Carey-dressler
 #Region "TODO"
 
 '************************TODO:
@@ -361,17 +361,18 @@
 #End Region
 
 #Const UseAttributes = 2 'set to 1 to enable attributes
-#Const IncludeWeb = 2 'set to 1 to enable web
 
 ''' <summary>
 ''' Allows user to perform various actions including: <p/>
-''' * Send Input (both mouse and keyboard).<p/>
-''' * Take a screenshot.<p/>
-''' * Compare Two Images<p/>
-''' * Record data in reporter.<p/>
-''' * Set/Get Text from a clipboard, clear clipboard.<p/>
-''' * Activate a window<p/>
-''' * Create a Window, SWFWindow.<p/>
+''' <ul>
+''' <li>Send Input (both mouse and keyboard).</li>
+''' <li>Take a screenshot.</li>
+''' <li>Compare Two Images</li>
+''' <li>Record data in reporter.</li>
+''' <li>Set/Get Text from a clipboard, clear clipboard.</li>
+''' <li>Activate a window</li>
+''' <li>Create a Window, SWFWindow.</li>
+''' </ul>
 ''' </summary>
 ''' <remarks></remarks>
 Public Class InterAct
@@ -386,7 +387,7 @@ Public Class InterAct
     Private Shared aReport As IReport = Nothing
     Private WindowsFunctions As New APIControls.IndependentWindowsFunctionsv1()
 
-#Region "Properties"
+#Region "Properties/Methods"
 #Region "Reporter Stuff"
     ''' <summary>
     ''' Provided for convenience for reporting Pass.
@@ -827,6 +828,69 @@ Public Class InterAct
         End If
     End Function
 
+    ''' <summary>
+    ''' Starts a program and attempts to define the window with either a 
+    ''' hwnd or a process name if the hwnd is not avalible via the process
+    ''' object.
+    ''' </summary>
+    ''' <param name="Program">Program name or path.</param>
+    ''' <param name="WaitForReady">How long to wait for input idle.  By Default it is set to 7 seconds.</param>
+    ''' <returns>A description with either a hwnd or a procress name</returns>
+    ''' <remarks></remarks>
+    Public Function StartProgram(ByVal Program As String, Optional ByVal WaitForReady As Integer = 7) As UIControls.Description
+        Dim p As Process = System.Diagnostics.Process.Start(Program)
+        Dim i As Integer = 0
+        Do
+            System.Threading.Thread.Sleep(500)
+            If (i = 10) Then
+                Throw New SlickTestUIException("Unable to start program: " & Program)
+            End If
+            i += 1
+        Loop While (p Is Nothing)
+        p.WaitForInputIdle(1000 * WaitForReady)
+        Dim desc As UIControls.Description = Description.Create()
+
+        Dim hwnd As IntPtr = System.Diagnostics.Process.GetProcessById(p.Id).MainWindowHandle
+        If (hwnd <> IntPtr.Zero) Then
+            desc.Add(UIControls.Description.DescriptionData.Hwnd, hwnd.ToString())
+        Else
+            desc.Add(APIControls.Description.DescriptionData.ProcessName, p.ProcessName.Replace(".exe", ""))
+        End If
+        Return desc
+    End Function
+
+    ''' <summary>
+    ''' Starts a program and attempts to define the window with either a 
+    ''' hwnd or a process name if the hwnd is not avalible via the process
+    ''' object.
+    ''' </summary>
+    ''' <param name="ProcessStartInfo">Information to start a program.</param>
+    ''' <param name="WaitForReady">How long to wait for input idle.  By Default it is set to 7 seconds.</param>
+    ''' <returns>A description with either a hwnd or a procress name</returns>
+    ''' <remarks></remarks>
+    Public Function StartProgram(ByVal ProcessStartInfo As System.Diagnostics.ProcessStartInfo, Optional ByVal WaitForReady As Integer = 7) As UIControls.Description
+        Dim p As Process = System.Diagnostics.Process.Start(ProcessStartInfo)
+        Dim i As Integer = 0
+        Do
+            System.Threading.Thread.Sleep(500)
+            If (i = 10) Then
+                Throw New SlickTestUIException("Unable to start program: " & ProcessStartInfo.FileName)
+            End If
+            i += 1
+        Loop While (p Is Nothing)
+        p.WaitForInputIdle(1000 * WaitForReady)
+        Dim desc As UIControls.Description = Description.Create()
+        Dim hwnd As IntPtr = System.Diagnostics.Process.GetProcessById(p.Id).MainWindowHandle
+        If (hwnd <> IntPtr.Zero) Then
+            desc.Add(UIControls.Description.DescriptionData.Hwnd, hwnd.ToString())
+        Else
+            desc.Add(APIControls.Description.DescriptionData.ProcessName, p.ProcessName.Replace(".exe", ""))
+        End If
+
+        Return desc
+    End Function
+
+
 #End Region
 
 #Region "Constructors"
@@ -1225,7 +1289,7 @@ Public Class InterAct
     ''' <returns>A Window object which allows you to perform various actions on the 
     ''' Window object or any objects below it.</returns>
     ''' <remarks>Throws an exception if no active window can be found.</remarks>
-    Public Function ActiveWindow()
+    Public Function ActiveWindow() As Window
         Dim hwnd As IntPtr = UIControls.Window.GetActiveWindow()
         Dim description As UIControls.Description = UIControls.Description.Create()
         If (hwnd = IntPtr.Zero) Then
@@ -1280,7 +1344,7 @@ Public Class InterAct
 #End Region
 
 #Region "//////////**********Web code***********\\\\\\\\\\\\"
-#If (IncludeWeb = 1) Then
+
 
     ''' <summary>
     ''' A IEWebBrowser type of Microsoft Windows object, inherits from WinObject.
@@ -1319,7 +1383,7 @@ Public Class InterAct
         End Try
         Return win
     End Function
-#End If
+
 #End Region
 
 #Region "AppActivate"
@@ -1353,7 +1417,7 @@ Public Class InterAct
     ''' </remarks>
     Public Sub AppActivateByHwnd(ByVal Hwnd As Int64)
         RunTimeReset()
-        WindowsFunctions.AppActivateByHwnd(Hwnd)
+        WindowsFunctions.AppActivateByHwnd(New IntPtr(Hwnd))
     End Sub
 
     ''' <summary>
@@ -1367,6 +1431,7 @@ Public Class InterAct
         WindowsFunctions.AppActivateByHwnd(Hwnd)
     End Sub
 #End Region
+
 
 End Class
 

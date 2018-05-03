@@ -1,7 +1,4 @@
 ﻿Imports System
-Imports System.Collections.Generic
-Imports System.Text
-Imports System.CodeDom
 Imports System.CodeDom.Compiler
 Imports Microsoft.VisualBasic
 Imports System.Diagnostics
@@ -10,7 +7,7 @@ Public MustInherit Class AbstractCompiler
     Implements ICompiler
 
     Protected StartDateTime As DateTime
-    Public MustOverride Function Compile(ByVal Execute As Boolean, ByVal Args As String) As Boolean Implements ICompiler.Compile
+    Public MustOverride Function Compile(ByVal Execute As Boolean, ByVal Args As String, ByVal PostBuildCommand As String, ByVal PostBuildArgs As String) As Boolean Implements ICompiler.Compile
     Public MustOverride Property OptionExplicit() As Boolean Implements ICompiler.OptionExplicit
     Public MustOverride Property OptionStrict() As Boolean Implements ICompiler.OptionStrict
     Protected Parameters As System.CodeDom.Compiler.CompilerParameters
@@ -251,5 +248,21 @@ Public MustInherit Class AbstractCompiler
         End If
         Return False
     End Function
+
+    Public Sub RunProcess(ByVal Command As String, ByVal Args As String, ByVal RunType As String) Implements ICompiler.RunProcess
+        Try
+            If (Command.Trim(New Char() {" "c, vbTab}) <> String.Empty) Then
+                Dim proc As System.Diagnostics.Process = _
+                System.Diagnostics.Process.Start(Command, Args)
+
+                proc.WaitForExit(60 * 2 * 1000)
+            End If
+        Catch ex As Exception
+            System.Windows.Forms.MessageBox.Show("Failed to run " & RunType & "." & vbNewLine & _
+                                                 "  File that failed to run: " & _
+                                                 Command & " with args: " & Args & vbNewLine & _
+                                                 " Error: " & vbNewLine & ex.ToString())
+        End Try
+    End Sub
 
 End Class

@@ -64,7 +64,8 @@
     <RemoveIntegerChecks>false</RemoveIntegerChecks>
     <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
     <WarningLevel>1</WarningLevel>
-    <NoWarn>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036</NoWarn>
+    <NoWarn>
+    </NoWarn>
     <DebugType>full</DebugType>
     <WarningsAsErrors>
     </WarningsAsErrors>
@@ -85,7 +86,8 @@
     <RemoveIntegerChecks>false</RemoveIntegerChecks>
     <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
     <WarningLevel>1</WarningLevel>
-    <NoWarn>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036</NoWarn>
+    <NoWarn>
+    </NoWarn>
     <DebugType>none</DebugType>
     <WarningsAsErrors>
     </WarningsAsErrors>
@@ -153,6 +155,8 @@
     <Compile Include="DotNet2\SwfTabControl.vb" />
     <Compile Include="DotNet2\SwfTreeView.vb" />
     <Compile Include="FlashHighlighter.vb" />
+    <Compile Include="ILog.vb" />
+    <Compile Include="InternalLog.vb" />
     <Compile Include="IReport.vb" />
     <Compile Include="ITestCase.vb" />
     <Compile Include="Mouse.vb" />
@@ -164,8 +168,24 @@
     <Compile Include="StubbedReport.vb" />
     <Compile Include="TestCaseAttributes.vb" />
     <Compile Include="Web\AbstractWebObject.vb" />
+    <Compile Include="Web\WebButton.vb" />
+    <Compile Include="Web\WebCheckbox.vb" />
+    <Compile Include="Web\WebComboBox.vb" />
+    <Compile Include="Web\WebDiv.vb" />
+    <Compile Include="Web\WebGenericInput.vb" />
+    <Compile Include="Web\WebImage.vb" />
+    <Compile Include="Web\WebLink.vb" />
+    <Compile Include="Web\WebList.vb" />
+    <Compile Include="Web\WebListItem.vb" />
+    <Compile Include="Web\WebRadioButton.vb" />
+    <Compile Include="Web\WebSpan.vb" />
+    <Compile Include="Web\WebStyle.vb" />
+    <Compile Include="Web\WebTableRow.vb" />
     <Compile Include="Web\WebElement.vb" />
-    <Compile Include="Web\WebBrowser.vb" />
+    <Compile Include="Web\IEWebBrowser.vb" />
+    <Compile Include="Web\WebTable.vb" />
+    <Compile Include="Web\WebTableCell.vb" />
+    <Compile Include="Web\WebTextBox.vb" />
     <Compile Include="Win32Styles\ButtonStyle.vb" />
     <Compile Include="Win32Styles\ComboBoxStyle.vb" />
     <Compile Include="Win32Styles\ListBoxStyle.vb" />

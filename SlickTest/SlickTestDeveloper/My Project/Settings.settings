@@ -117,5 +117,11 @@
     <Setting Name="Project_Default__Additional__Compiler__Options" Type="System.String" Scope="User">
       <Value Profile="(Default)">/verbose+ /errorreport:none</Value>
     </Setting>
+    <Setting Name="UnitRunner_Default__Execution__Type" Type="SlickUnitRunner.FrameworkType" Scope="User">
+      <Value Profile="(Default)">SlickUnit</Value>
+    </Setting>
+    <Setting Name="UnitRunner_External__UnitTest__FileDirectory" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
   </Settings>
 </SettingsFile>

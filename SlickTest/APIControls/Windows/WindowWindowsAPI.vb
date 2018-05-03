@@ -13,6 +13,10 @@ Friend Class WindowWindowsAPI
     End Sub
 
     Public Function IsWindow(ByVal hwnd As IntPtr) As Boolean
+        If (GenericMethodsUIAutomation.IsWPFOrCustom(hwnd) = True) Then
+            Return WindowsFunctions.WpfWindow.IsWindow(hwnd)
+        End If
+
         If (WindowsFunctions.GetParent(hwnd) = IntPtr.Zero) Then
             Return True
         Else

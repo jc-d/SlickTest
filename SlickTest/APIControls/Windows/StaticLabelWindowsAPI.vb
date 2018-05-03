@@ -13,6 +13,10 @@ Friend Class StaticLabelWindowsAPI
     End Sub
 
     Function IsStaticLabel(ByVal hwnd As IntPtr) As Boolean
+        If (GenericMethodsUIAutomation.IsWPFOrCustom(hwnd) = True) Then
+            Return WindowsFunctions.WpfStaticLabel.IsStaticLabel(hwnd)
+        End If
+
         Dim cn As String = WindowsFunctions.GetClassNameNoDotNet(hwnd)
         If (cn.ToLowerInvariant.Contains("static") = True) Then
             Return True

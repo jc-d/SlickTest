@@ -1,7 +1,5 @@
 ﻿Imports System
-
-Imports Microsoft.VisualStudio.TestTools.UnitTesting
-
+Imports NUnit.Framework
 Imports APIControls
 
 
@@ -10,24 +8,8 @@ Imports APIControls
 '''This is a test class for StaticLabelWindowsAPITest and is intended
 '''to contain all StaticLabelWindowsAPITest Unit Tests
 '''</summary>
-<TestClass()> _
+<TestFixture()> _
 Public Class StaticLabelWindowsAPITest
-
-
-    Private testContextInstance As TestContext
-
-    '''<summary>
-    '''Gets or sets the test context which provides
-    '''information about and functionality for the current test run.
-    '''</summary>
-    Public Property TestContext() As TestContext
-        Get
-            Return testContextInstance
-        End Get
-        Set(ByVal value As TestContext)
-            testContextInstance = Value
-        End Set
-    End Property
 
 #Region "Additional test attributes"
     Private Shared p As System.Diagnostics.Process
@@ -43,19 +25,19 @@ Public Class StaticLabelWindowsAPITest
     'You can use the following additional attributes as you write your tests:
     '
     'Use ClassInitialize to run code before running the first test in the class
-    <ClassInitialize()> _
-    Public Shared Sub MyClassInitialize(ByVal testContext As TestContext)
-        
+    <TestFixtureSetUp()> _
+    Public Shared Sub MyClassInitialize()
+
     End Sub
 
     'Use ClassCleanup to run code after all tests in a class have run
-    <ClassCleanup()> _
+    <TestFixtureTearDown()> _
     Public Shared Sub MyClassCleanup()
 
     End Sub
 
     Public Shared Sub Init()
-        p = Diagnostics.Process.Start("calc.exe")
+        p = Diagnostics.Process.Start(System.IO.Path.GetFullPath("..\..\..\zUnitTestUIAutomation\Programs\calc.exe"))
         System.Threading.Thread.Sleep(2000)
         Dim a As UIControls.InterAct
         a = New UIControls.InterAct()
@@ -64,13 +46,13 @@ Public Class StaticLabelWindowsAPITest
     End Sub
 
     'Use TestInitialize to run code before running each test
-    <TestInitialize()> _
+    <SetUp()> _
     Public Sub MyTestInitialize()
         Init()
     End Sub
 
     'Use TestCleanup to run code after each test has run
-    <TestCleanup()> _
+    <TearDown()> _
     Public Sub MyTestCleanup()
         CloseAll()
     End Sub
@@ -81,14 +63,14 @@ Public Class StaticLabelWindowsAPITest
     '''<summary>
     '''A test for IsStaticLabel
     '''</summary>
-    <TestMethod()> _
+    <Test()> _
     Public Sub IsStaticLabelTest()
         Dim wf As New IndependentWindowsFunctionsv1()
         Dim target As StaticLabelWindowsAPI = New StaticLabelWindowsAPI(wf)
         Dim expected As Boolean = True ' TODO: Initialize to an appropriate value
         Dim actual As Boolean
         actual = target.IsStaticLabel(hwnd)
-        Assert.AreEqual(expected, actual)
+        Verify.AreEqual(expected, actual)
     End Sub
 
 End Class

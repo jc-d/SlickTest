@@ -1,7 +1,4 @@
 'Slick Test Developer, Copyright (c) 2007-2010 Jeremy Carey-dressler
-Imports VBEditor
-Imports System.Threading
-Imports System.Reflection
 Imports TextEditor.TextEditorBox
 
 Public Class SlickTestDev
@@ -24,7 +21,7 @@ Public Class SlickTestDev
     Private WithEvents ObjSpy As ObjSpy
     Private options As OptionsForm
     Private VerifyDescription As VerifyDescription
-
+    Private UnitRunner As SlickUnitRunner.SlickUnitRunnerForm
 
 #Region "Recorder"
     Private Keys As HandleInput.MouseAndKeys
@@ -224,6 +221,7 @@ Public Class SlickTestDev
     Friend WithEvents ArgumentTimer As System.Windows.Forms.Timer
     Friend WithEvents UserGuideToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents DescriptionTesterToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents UnitTestRunnerToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents AddFileToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
 #End Region
 
@@ -300,6 +298,7 @@ Public Class SlickTestDev
         End If
 
         ObjSpy = Nothing
+        UnitRunner = Nothing
         Me.Size = My.Settings.FormSize
         Me.Location = My.Settings.FormLocation
         Me.WindowState = My.Settings.FormState
@@ -565,6 +564,7 @@ Public Class SlickTestDev
         Me.SaveFileDialogForProject = New System.Windows.Forms.SaveFileDialog
         Me.CurrentFileWatcher = New System.IO.FileSystemWatcher
         Me.ArgumentTimer = New System.Windows.Forms.Timer(Me.components)
+        Me.UnitTestRunnerToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.MenuStrip1.SuspendLayout()
         CType(Me.CompilerIssueDataGridView, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.ContextMenuCopyOnly.SuspendLayout()
@@ -910,7 +910,7 @@ Public Class SlickTestDev
         '
         'ToolsToolStripMenuItem1
         '
-        Me.ToolsToolStripMenuItem1.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.CodeHelpToolStripMenuItem, Me.ToolStripSeparator16, Me.StartRecordingToolStripMenuItem, Me.ToolStripSeparator15, Me.TakeScreenshotToolStripMenuItem, Me.ObjectSpyToolStripMenuItem, Me.FindWindowViaHwndToolStripMenuItem, Me.DescriptionTesterToolStripMenuItem})
+        Me.ToolsToolStripMenuItem1.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.CodeHelpToolStripMenuItem, Me.ToolStripSeparator16, Me.StartRecordingToolStripMenuItem, Me.ToolStripSeparator15, Me.TakeScreenshotToolStripMenuItem, Me.ObjectSpyToolStripMenuItem, Me.FindWindowViaHwndToolStripMenuItem, Me.DescriptionTesterToolStripMenuItem, Me.UnitTestRunnerToolStripMenuItem})
         Me.ToolsToolStripMenuItem1.Name = "ToolsToolStripMenuItem1"
         Me.ToolsToolStripMenuItem1.Size = New System.Drawing.Size(44, 21)
         Me.ToolsToolStripMenuItem1.Text = "&Tools"
@@ -925,55 +925,55 @@ Public Class SlickTestDev
         'IfToolStripMenuItem
         '
         Me.IfToolStripMenuItem.Name = "IfToolStripMenuItem"
-        Me.IfToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
+        Me.IfToolStripMenuItem.Size = New System.Drawing.Size(126, 22)
         Me.IfToolStripMenuItem.Text = "If"
         '
         'IfElseToolStripMenuItem
         '
         Me.IfElseToolStripMenuItem.Name = "IfElseToolStripMenuItem"
-        Me.IfElseToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
+        Me.IfElseToolStripMenuItem.Size = New System.Drawing.Size(126, 22)
         Me.IfElseToolStripMenuItem.Text = "&If-Else"
         '
         'DoWhileToolStripMenuItem
         '
         Me.DoWhileToolStripMenuItem.Name = "DoWhileToolStripMenuItem"
-        Me.DoWhileToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
+        Me.DoWhileToolStripMenuItem.Size = New System.Drawing.Size(126, 22)
         Me.DoWhileToolStripMenuItem.Text = "&Do Loop"
         '
         'ForLoopToolStripMenuItem
         '
         Me.ForLoopToolStripMenuItem.Name = "ForLoopToolStripMenuItem"
-        Me.ForLoopToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
+        Me.ForLoopToolStripMenuItem.Size = New System.Drawing.Size(126, 22)
         Me.ForLoopToolStripMenuItem.Text = "For &Loop"
         '
         'WhileLoopToolStripMenuItem
         '
         Me.WhileLoopToolStripMenuItem.Name = "WhileLoopToolStripMenuItem"
-        Me.WhileLoopToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
+        Me.WhileLoopToolStripMenuItem.Size = New System.Drawing.Size(126, 22)
         Me.WhileLoopToolStripMenuItem.Text = "&While Loop"
         '
         'TryCatchToolStripMenuItem
         '
         Me.TryCatchToolStripMenuItem.Name = "TryCatchToolStripMenuItem"
-        Me.TryCatchToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
+        Me.TryCatchToolStripMenuItem.Size = New System.Drawing.Size(126, 22)
         Me.TryCatchToolStripMenuItem.Text = "&Try Catch"
         '
         'ClassToolStripMenuItem
         '
         Me.ClassToolStripMenuItem.Name = "ClassToolStripMenuItem"
-        Me.ClassToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
+        Me.ClassToolStripMenuItem.Size = New System.Drawing.Size(126, 22)
         Me.ClassToolStripMenuItem.Text = "Class"
         '
         'FunctionToolStripMenuItem
         '
         Me.FunctionToolStripMenuItem.Name = "FunctionToolStripMenuItem"
-        Me.FunctionToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
+        Me.FunctionToolStripMenuItem.Size = New System.Drawing.Size(126, 22)
         Me.FunctionToolStripMenuItem.Text = "&Function"
         '
         'SubToolStripMenuItem
         '
         Me.SubToolStripMenuItem.Name = "SubToolStripMenuItem"
-        Me.SubToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
+        Me.SubToolStripMenuItem.Size = New System.Drawing.Size(126, 22)
         Me.SubToolStripMenuItem.Text = "&Sub"
         '
         'ToolStripSeparator16
@@ -1039,19 +1039,19 @@ Public Class SlickTestDev
         '
         Me.ContentsToolStripMenuItem.Image = Global.SlickTestDeveloper.My.Resources.Resources.Help
         Me.ContentsToolStripMenuItem.Name = "ContentsToolStripMenuItem"
-        Me.ContentsToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
+        Me.ContentsToolStripMenuItem.Size = New System.Drawing.Size(118, 22)
         Me.ContentsToolStripMenuItem.Text = "&Contents"
         '
         'IndexToolStripMenuItem
         '
         Me.IndexToolStripMenuItem.Name = "IndexToolStripMenuItem"
-        Me.IndexToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
+        Me.IndexToolStripMenuItem.Size = New System.Drawing.Size(118, 22)
         Me.IndexToolStripMenuItem.Text = "&Index"
         '
         'SearchToolStripMenuItem
         '
         Me.SearchToolStripMenuItem.Name = "SearchToolStripMenuItem"
-        Me.SearchToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
+        Me.SearchToolStripMenuItem.Size = New System.Drawing.Size(118, 22)
         Me.SearchToolStripMenuItem.Text = "&Search"
         '
         'UserGuideToolStripMenuItem
@@ -1296,6 +1296,12 @@ Public Class SlickTestDev
         Me.ArgumentTimer.Enabled = True
         Me.ArgumentTimer.Interval = 500
         '
+        'UnitTestRunnerToolStripMenuItem
+        '
+        Me.UnitTestRunnerToolStripMenuItem.Name = "UnitTestRunnerToolStripMenuItem"
+        Me.UnitTestRunnerToolStripMenuItem.Size = New System.Drawing.Size(182, 22)
+        Me.UnitTestRunnerToolStripMenuItem.Text = "Unit Test Runner"
+        '
         'SlickTestDev
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -1337,7 +1343,7 @@ Public Class SlickTestDev
 
         Try
             Dim engine As New Microsoft.Build.BuildEngine.Engine()
-            engine.BinPath = System.Runtime.InteropServices.RuntimeEnvironment.GetRuntimeDirectory()
+            'engine.BinPath = System.Runtime.InteropServices.RuntimeEnvironment.GetRuntimeDirectory()
             Dim project As Microsoft.Build.BuildEngine.Project = engine.CreateNewProject()
             Dim prop As Microsoft.Build.BuildEngine.BuildPropertyGroup = project.AddNewPropertyGroup(False)
             Dim propGroup2 As Microsoft.Build.BuildEngine.BuildPropertyGroup = project.AddNewPropertyGroup(False)
@@ -1422,6 +1428,7 @@ Public Class SlickTestDev
         End Try
 
     End Sub
+
     Private Function ConvertBoolAsOnOrOff(ByVal b As Boolean) As String
         If (b) Then Return "On"
         Return "Off"
@@ -1735,8 +1742,8 @@ Public Class SlickTestDev
                 Return False
             End If
         End If
-        Me.TxtEdit.Refresh()
-        Return False
+        'Me.TxtEdit.Refresh()
+        'Return False
     End Function
     Private LastTimeFileWatcherEventRaised As DateTime
     Private Sub CurrentFileWatcher_Changed(ByVal sender As System.Object, ByVal e As System.IO.FileSystemEventArgs) Handles CurrentFileWatcher.Changed
@@ -2428,8 +2435,13 @@ vbNewLine & SelectedTextForCodeHelp() & vbNewLine & "}" & vbNewLine)
     End Sub
 
     Private Sub Record()
-        If (Not Me.ObjSpy Is Nothing) Then
-            ObjSpy.TurnOffAndHide()
+        If (Not Me.ObjSpy Is Nothing OrElse Not Me.UnitRunner Is Nothing) Then
+            If (Not Me.ObjSpy Is Nothing) Then
+                ObjSpy.TurnOffAndHide()
+            Else
+                Me.UnitRunner.Hide()
+                Me.UnitRunner = Nothing
+            End If
         End If
         If (vbc.IsRunning = False) Then
             Me.WindowState = FormWindowState.Minimized 'Get this out of the way...
@@ -2986,6 +2998,7 @@ vbNewLine & SelectedTextForCodeHelp() & vbNewLine & "}" & vbNewLine)
 
     Private Function VBNETCompile(Optional ByVal Run As Boolean = True, Optional ByVal Args As String = "", Optional ByVal ForceCompile As Boolean = False) As Boolean
         Me.UserInformationBar.Text = "Build Started..."
+
         Dim DoCompile As Boolean = ForceCompile
         If (vbc.IsRunning = True) Then Return False
         If (ProjectCurrentlySaved = False) Then
@@ -3003,6 +3016,7 @@ vbNewLine & SelectedTextForCodeHelp() & vbNewLine & "}" & vbNewLine)
                 End If
             Next
         End If
+        vbc.RunProcess(Me.Project.PreBuildCommand, Me.Project.PreBuildCommandArgs, "prebuild")
 
         If (SaveProject(False, True) = Windows.Forms.DialogResult.None) Then 'saves the project files, including the compiled files.
             System.Windows.Forms.MessageBox.Show("Unable to save one or more the files for compiling.", _
@@ -3144,7 +3158,7 @@ vbNewLine & SelectedTextForCodeHelp() & vbNewLine & "}" & vbNewLine)
                 End If
             End If
             If (DoCompile = True) Then
-                vbc.Compile(Run, Args)
+                vbc.Compile(Run, Args, Me.Project.PostBuildCommand, Me.Project.PostBuildCommandArgs)
             End If
 
         Catch ex As Exception 'probably a previously running process.
@@ -3370,6 +3384,14 @@ vbNewLine & SelectedTextForCodeHelp() & vbNewLine & "}" & vbNewLine)
         If (Not ObjSpy Is Nothing) Then
             Me.ObjSpy.Hide()
             Me.ObjSpy = Nothing
+        End If
+        If (Not UnitRunner Is Nothing) Then
+            Try
+                Me.UnitRunner.Hide()
+                Me.UnitRunner = Nothing
+
+            Catch ex As Exception
+            End Try
         End If
         e.Cancel = False
         My.Settings.FormState = Me.WindowState
@@ -3744,6 +3766,17 @@ vbNewLine & SelectedTextForCodeHelp() & vbNewLine & "}" & vbNewLine)
             My.Settings.Recorder_Default__Total__Description__Length = 25
             My.Settings.Save()
         End If
+        If (My.Settings.UnitRunner_Default__Execution__Type = SlickUnitRunner.FrameworkType.NUnit) Then
+            If (System.IO.Directory.Exists(My.Settings.UnitRunner_External__UnitTest__FileDirectory) = False) Then
+                System.Windows.Forms.MessageBox.Show("Invalid UnitRunner Path " & _
+                                                     My.Settings.UnitRunner_External__UnitTest__FileDirectory & _
+                                                     ". Reverting to SlickUnit.", _
+                                                     MsgBoxTitle, MessageBoxButtons.OK)
+                My.Settings.UnitRunner_Default__Execution__Type = SlickUnitRunner.FrameworkType.SlickUnit
+                My.Settings.Save()
+
+            End If
+        End If
 
         UpdateUISettings()
         AddDLLs()
@@ -3927,7 +3960,100 @@ vbNewLine & SelectedTextForCodeHelp() & vbNewLine & "}" & vbNewLine)
             ArgsFromUser.Clear()
         End If
     End Sub
+
+    Private Sub UnitTestRunnerToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles UnitTestRunnerToolStripMenuItem.Click
+        If (System.Windows.Forms.MessageBox.Show("WARNING: This is still under development and is not even close to complete.  It is not suggest you use this tool.  Continue?", MsgBoxTitle, MessageBoxButtons.YesNo) = Windows.Forms.DialogResult.No) Then Return
+        UnitTestRunner()
+    End Sub
+
+    Private Appdomain As System.AppDomain = Nothing
+    Private Sub UnitTestRunner()
+        'Console.WriteLine("*******TEST*********")
+        'For Each asm As System.Reflection.Assembly In System.AppDomain.CurrentDomain.GetAssemblies()
+        '    Console.WriteLine("ASM Name: " & asm.GetName().Name)
+        'Next
+        'Console.WriteLine("*******END TEST*********")
+
+
+        Dim name As String = "SlickUnit.dll"
+        Dim DirectoryCachePath As String = SlickUnit.Framework.GetCacheDirectory().Replace(".\", System.Windows.Forms.Application.StartupPath & "\")
+        Dim path As String = System.IO.Path.GetDirectoryName(DirectoryCachePath)
+        If (path.EndsWith("\") = False) Then path += "\"
+        path += "..\"
+
+        If (System.IO.Directory.Exists(DirectoryCachePath) = False) Then
+            Try
+                System.IO.Directory.CreateDirectory(DirectoryCachePath)
+            Catch ex As Exception
+                System.Windows.Forms.MessageBox.Show("Unable to create folder " & DirectoryCachePath & ".  Please create folder manually.  " & _
+                                                     "Slick Test may need to be restarted after creating the folder in order to get the system to work.", "Slick Test", MessageBoxButtons.OK)
+            End Try
+        End If
+        Try
+            System.IO.File.Copy(path & name, DirectoryCachePath & name, True)
+        Catch ex As Exception
+
+        End Try
+
+
+        Dim setup As AppDomainSetup = New AppDomainSetup()
+        setup.ApplicationName = "Framework"
+        setup.ApplicationBase = DirectoryCachePath
+
+
+        If (System.IO.Directory.Exists(My.Settings.UnitRunner_External__UnitTest__FileDirectory)) Then setup.PrivateBinPath = My.Settings.UnitRunner_External__UnitTest__FileDirectory
+
+        Appdomain = System.AppDomain.CreateDomain("Unit Test Runner", System.AppDomain.CurrentDomain.Evidence, setup) 'Unloaded on close
+        UnitRunner = DirectCast(Appdomain.CreateInstanceFromAndUnwrap(System.Windows.Forms.Application.StartupPath & "\SlickUnitRunner.exe", "SlickUnitRunner.SlickUnitRunnerForm"), SlickUnitRunner.SlickUnitRunnerForm)
+
+
+
+        'AddHandler UnitRunner.FormClosing, AddressOf UnitRunner_FormClosing
+        My.Settings.FormState = Me.WindowState
+        ' Me.WindowState = FormWindowState.Minimized
+
+        Try
+            UnitRunner.NonUIInit(Nothing, Project.ReportDatabasePath, Project.GUID, Project.IsOfficialRun, Me.ReporterSize, Me.ReporterWindowState, Project.ExternalReportDatabaseConnectionString, DirectCast(My.Settings.UnitRunner_Default__Execution__Type, Integer), setup.ApplicationBase)
+            UnitRunner.Show()
+        Catch ex As Exception
+            Me.WindowState = My.Settings.FormState
+            Me.Activate()
+            ' RemoveHandler UnitRunner.FormClosing, AddressOf UnitRunner_FormClosing
+
+            System.AppDomain.Unload(Appdomain)
+
+        End Try
+        GC.Collect()
+
+    End Sub
+
+    'Private Sub UnitRunner_FormClosing(ByVal sender As Object, ByVal e As System.Windows.Forms.FormClosingEventArgs)
+    '    Console.WriteLine("here.")
+    '    RemoveHandler UnitRunner.FormClosing, AddressOf UnitRunner_FormClosing
+    '    'Try
+    '    '    UnitRunner.Hide()
+    '    'Catch ex As Exception
+    '    'End Try
+    '    'Me.WindowState = My.Settings.FormState
+    '    'Me.Activate()
+    '    'System.AppDomain.Unload(Appdomain)
+    'End Sub
+
+    'Private Sub UnitRunner_FormClosed(ByVal sender As Object, ByVal e As System.Windows.Forms.FormClosedEventArgs)
+
+    '    Try
+    '        UnitRunner.Hide()
+    '    Catch ex As Exception
+    '    End Try
+    '    Me.WindowState = My.Settings.FormState
+    '    Me.Activate()
+    '    System.AppDomain.Unload(Appdomain)
+    'End Sub
+
+
 End Class
+
+
 
 Public Class FileInfo
     Public FileText As String
@@ -4218,7 +4344,7 @@ End Namespace
 'Private Sub TestItToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles TestItToolStripMenuItem.Click
 '    'Me.Window("name:=""GAmpInterop""").RightClick()
 
-'    'MsgBox(Me.Window("windowtype:=""window"";;name:=""#32768""").Menu.GetText("*"))
+'    'MsgBox(Me.Window("ControlType:=""window"";;name:=""#32768""").Menu.GetText("*"))
 
 '    Dim win As New UIControls.Window("name:=""MSPaintApp""")
 '    Dim MenuArray() As String = {"View", "Zoom", "Cus*"}

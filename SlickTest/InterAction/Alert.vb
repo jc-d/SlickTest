@@ -27,7 +27,7 @@ Public Class Alert
     ''' System.Windows.Forms.MessageBoxDefaultButton.  Default: 
     ''' MessageBoxDefaultButton.Button1</param>
     ''' <param name="ShortcutsEnabled">Should links be clickable?  Default: True</param>
-    ''' <returns>returns  Windows.Forms.DialogResult.Cancel if user does not respond 
+    ''' <returns>Returns  Windows.Forms.DialogResult.Cancel if user does not respond 
     ''' to the GUI before the timeout, otherwise, it returns the 
     ''' Windows.Forms.DialogResult the user gave.</returns>
     ''' <remarks>

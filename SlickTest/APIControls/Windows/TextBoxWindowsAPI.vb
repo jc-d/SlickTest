@@ -1,10 +1,5 @@
 Imports winAPI.API
-Imports winAPI.NativeFunctions
-Imports System.Runtime.InteropServices
-Imports System.Text
-Imports System.ComponentModel
 Imports System
-Imports System.Collections
 
 Friend Class TextBoxWindowsAPI
     Private Declare Function SendMessage Lib "user32.dll" Alias "SendMessageA" (ByVal window As IntPtr, ByVal msg As Integer, ByVal wParam As IntPtr, ByVal lParam As IntPtr) As Integer
@@ -15,6 +10,9 @@ Friend Class TextBoxWindowsAPI
     End Sub
 
     Public Function IsTextBox(ByVal hwnd As IntPtr) As Boolean
+        If (GenericMethodsUIAutomation.IsWPFOrCustom(hwnd) = True) Then
+            Return WindowsFunctions.WpfTextBox.IsTextBox(hwnd)
+        End If
         Dim cn As String = WindowsFunctions.GetClassNameNoDotNet(hwnd)
         If (cn.ToLowerInvariant.Contains("edit") = True) Then
             Return True

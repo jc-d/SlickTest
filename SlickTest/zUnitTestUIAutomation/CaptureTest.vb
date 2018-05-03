@@ -2,9 +2,10 @@
 
 Imports System.Drawing
 
-Imports Microsoft.VisualStudio.TestTools.UnitTesting
+Imports NUnit.Framework
 
 Imports UIControls
+Imports System.Diagnostics
 
 
 
@@ -12,24 +13,9 @@ Imports UIControls
 '''This is a test class for CaptureTest and is intended
 '''to contain all CaptureTest Unit Tests
 '''</summary>
-<TestClass()> _
+<TestFixture()> _
 Public Class CaptureTest
 
-
-    Private testContextInstance As TestContext
-
-    '''<summary>
-    '''Gets or sets the test context which provides
-    '''information about and functionality for the current test run.
-    '''</summary>
-    Public Property TestContext() As TestContext
-        Get
-            Return testContextInstance
-        End Get
-        Set(ByVal value As TestContext)
-            testContextInstance = Value
-        End Set
-    End Property
 
 #Region "Additional test attributes"
     Private Shared p As System.Diagnostics.Process
@@ -45,19 +31,19 @@ Public Class CaptureTest
     'You can use the following additional attributes as you write your tests:
     '
     'Use ClassInitialize to run code before running the first test in the class
-    <ClassInitialize()> _
-    Public Shared Sub MyClassInitialize(ByVal testContext As TestContext)
+    <TestFixtureSetUp()> _
+    Public Shared Sub MyClassInitialize()
 
     End Sub
 
     'Use ClassCleanup to run code after all tests in a class have run
-    <ClassCleanup()> _
+    <TestFixtureTearDown()> _
     Public Shared Sub MyClassCleanup()
 
     End Sub
 
     Public Shared Sub Init()
-        p = Diagnostics.Process.Start("calc.exe")
+        p = Diagnostics.Process.Start(System.IO.Path.GetFullPath("..\..\..\zUnitTestUIAutomation\Programs\calc.exe"))
         System.Threading.Thread.Sleep(2000)
         Dim a As UIControls.InterAct
         a = New UIControls.InterAct()
@@ -67,29 +53,29 @@ Public Class CaptureTest
     End Sub
 
     'Use TestInitialize to run code before running each test
-    <TestInitialize()> _
+    <SetUp()> _
     Public Sub MyTestInitialize()
         Init()
     End Sub
 
     'Use TestCleanup to run code after each test has run
-    <TestCleanup()> _
+    <TearDown()> _
     Public Sub MyTestCleanup()
         CloseAll()
     End Sub
 
-    Private Sub AreSimilarImages(ByVal bmp1 As Bitmap, ByVal bmp2 As Bitmap)
+    Private Sub AreSimilarImages(ByVal bmp1 As Bitmap, ByVal bmp2 As Bitmap, ByVal method As String)
         If (bmp1 Is Nothing) Then
-            Assert.Fail("bmp1 is nothing")
+            Verify.Fail("bmp1 is nothing")
         End If
         If (bmp2 Is Nothing) Then
-            Assert.Fail("bmp2 is nothing")
+            Verify.Fail("bmp2 is nothing")
         End If
         If (bmp1.Width <> bmp2.Width) Then
-            Assert.Fail("bitmaps don't have same width")
+            Verify.Fail("bitmaps don't have same width")
         End If
         If (bmp1.Height <> bmp2.Height) Then
-            Assert.Fail("bitmaps don't have same height")
+            Verify.Fail("bitmaps don't have same height")
         End If
         Dim FailMsg As New System.Text.StringBuilder(bmp1.Width * bmp1.Height)
         Dim bmDiff As Bitmap = Nothing
@@ -125,13 +111,12 @@ Public Class CaptureTest
         Next
 
         If (FailMsg.Length <> 0) Then
-            Dim Filename As String = TestContext.TestDir.Substring(0, TestContext.TestDir.IndexOf(System.Windows.Forms.SystemInformation.UserName) - 1) & "\" & _
-        TestContext.TestName & "_DiffImage.bmp"
+            Dim Filename As String = System.IO.Path.GetTempPath() & method & "_DiffImage.bmp"
 
             bmDiff.Save(Filename)
             bmDiff.Dispose()
         End If
-        Assert.AreEqual("", FailMsg.ToString())
+        Verify.AreEqual("", FailMsg.ToString())
     End Sub
 
     Private Shared Function ProximityPlusOrMinus(ByVal Value1 As Integer, ByVal Value2 As Integer, ByVal HowClose As Integer) As Boolean
@@ -149,9 +134,9 @@ Public Class CaptureTest
     End Function
 
 
-    Private Sub SaveFileIfNeeded(ByVal bmp As Bitmap)
-        Dim TestFile As String = TestContext.TestDir.Substring(0, TestContext.TestDir.IndexOf(System.Windows.Forms.SystemInformation.UserName) - 1) & "\" & _
-        TestContext.TestName & ".bmp"
+    Private Sub SaveFileIfNeeded(ByVal bmp As Bitmap, ByVal method As String)
+
+        Dim TestFile As String = System.IO.Path.GetTempPath() & method & ".bmp"
         If (System.IO.File.Exists(TestFile) = False) Then
             bmp.Save(TestFile)
             Console.WriteLine("Saved BMP: " & TestFile)
@@ -163,9 +148,8 @@ Public Class CaptureTest
 
     End Sub
 
-    Private Function Load() As Bitmap
-        Dim TestFile As String = TestContext.TestDir.Substring(0, TestContext.TestDir.IndexOf("Noob") - 1) & "\" & _
-        TestContext.TestName & ".bmp"
+    Private Function Load(ByVal method As String) As Bitmap
+        Dim TestFile As String = System.IO.Path.GetTempPath() & method & ".bmp"
         Dim bmp As Bitmap
         If (System.IO.File.Exists(TestFile)) Then
             bmp = New Bitmap(TestFile)
@@ -183,82 +167,90 @@ Public Class CaptureTest
     '''<summary>
     '''A test for Window
     '''</summary>
-    <TestMethod()> _
+    <Test()> _
     Public Sub WindowTest()
-
-        Dim expected As Bitmap = Load()
+        Dim method As String = "WindowTest"
+        Dim expected As Bitmap = Load(method)
         Dim actual As Bitmap
         actual = Capture.Window(hwnd)
-        SaveFileIfNeeded(actual)
-        AreSimilarImages(expected, actual)
+        SaveFileIfNeeded(actual, method)
+        AreSimilarImages(expected, actual, method)
     End Sub
 
 
     '''<summary>
     '''A test for ScreenRectangle
     '''</summary>
-    <TestMethod()> _
+    <Test()> _
     Public Sub ScreenRectangleTest()
+        Dim method As String = "ScreenRectangleTest"
+
         Dim imageRect As Rectangle = target.GetLocationRect()
-        Dim expected As Bitmap = Load()
+        Dim expected As Bitmap = Load(method)
         Dim actual As Bitmap
         actual = Capture.ScreenRectangle(imageRect)
-        SaveFileIfNeeded(actual)
-        AreSimilarImages(expected, actual)
-        'Assert.Inconclusive("Currently can't be verified, except for no exceptions.")
+        SaveFileIfNeeded(actual, method)
+        AreSimilarImages(expected, actual, method)
+        'Verify.Inconclusive("Currently can't be verified, except for no exceptions.")
     End Sub
 
     '''<summary>
     '''A test for FullScreen
     '''</summary>
-    <TestMethod()> _
+    <Test()> _
     Public Sub FullScreenTest()
         Dim actual As Bitmap
         actual = Capture.FullScreen
 
-        Assert.AreNotEqual(0, actual.Width)
+        Verify.AreNotEqual(0, actual.Width)
     End Sub
 
     '''<summary>
     '''A test for Control
     '''</summary>
-    <TestMethod()> _
+    <Test()> _
     Public Sub ControlTest1()
-        Dim expected As Bitmap = Load()
+        Dim method As String = "ControlTest1"
+
+        Dim expected As Bitmap = Load(method)
         Dim actual As Bitmap
         actual = Capture.Control(hwnd)
-        SaveFileIfNeeded(actual)
+        SaveFileIfNeeded(actual, method)
 
 
-        'Assert.Inconclusive("Currently can't be verified, except for no exceptions.")
+        'Verify.Inconclusive("Currently can't be verified, except for no exceptions.")
     End Sub
 
     '''<summary>
     '''A test for Control
     '''</summary>
-    <TestMethod()> _
+    <Test()> _
     Public Sub ControlTest()
+        Dim method As String = "ControlTest"
+
         Dim p As Point = target.GetLocationRect.Location ' TODO: Initialize to an appropriate value
-        Dim expected As Bitmap = Load()
+        Dim expected As Bitmap = Load(method)
         Dim actual As Bitmap
         actual = Capture.Control(p)
-        SaveFileIfNeeded(actual)
-        AreSimilarImages(expected, actual)
-        'Assert.Inconclusive("Currently can't be verified, except for no exceptions.")
+        SaveFileIfNeeded(actual, method)
+        AreSimilarImages(expected, actual, method)
+        'Verify.Inconclusive("Currently can't be verified, except for no exceptions.")
     End Sub
 
     '''<summary>
     '''A test for ActiveWindow
     '''</summary>
-    <TestMethod()> _
+    <Test()> _
     Public Sub ActiveWindowTest()
-        Dim expected As Bitmap = Load()
+        Dim method As String = "ActiveWindowTest"
+
+        Dim expected As Bitmap = Load(method)
         target.AppActivateByHwnd(hwnd)
         Dim actual As Bitmap
         actual = Capture.ActiveWindow
-        SaveFileIfNeeded(actual)
-        AreSimilarImages(expected, actual)
-        'Assert.Inconclusive("Currently can't be verified, except for no exceptions.")
+        SaveFileIfNeeded(actual, method)
+        AreSimilarImages(expected, actual, method)
+        'Verify.Inconclusive("Currently can't be verified, except for no exceptions.")
     End Sub
 
 End Class

@@ -1,16 +1,13 @@
 Imports winAPI.API
 Imports System.Runtime.InteropServices
 
-#Const IncludeWeb = 2 'set to 1 to enable web
-
 Imports System.Runtime.CompilerServices
 <Assembly: InternalsVisibleTo("InterAction"), Assembly: CLSCompliantAttribute(True), _
 Assembly: InternalsVisibleTo("SlickTestDeveloper")> 
 Friend Class ProcessWindow
     Friend Shared WindowsFunctions As New APIControls.IndependentWindowsFunctionsv1()
-#If (IncludeWeb = 1) Then
-Private Shared IE As New APIControls.InternetExplorer()
-#End If
+
+    Private Shared IE As New APIControls.InternetExplorer()
     Public Shared WebX As Integer
     Public Shared WebY As Integer
     Private Shared RetStr As String = String.Empty
@@ -29,7 +26,26 @@ Private Shared IE As New APIControls.InternetExplorer()
     Private Const StaticLabel As String = "StaticLabel("""
     Private Const SWF As String = "Swf"
     Public Const Web As String = "Web"
+    Public Const WPF As String = "Wpf"
+
     Public Const WebElement As String = "WebElement("""
+    Public Const WebTable As String = "WebTable("""
+    Public Const WebTableRow As String = "WebTableRow("""
+    Public Const WebTableCell As String = "WebTableCell("""
+    Public Const WebSpan As String = "WebSpan("""
+    Public Const WebCheckbox As String = "WebCheckBox("""
+    Public Const WebButton As String = "WebButton("""
+    Public Const WebDiv As String = "WebDiv("""
+    Public Const WebLink As String = "WebLink("""
+    Public Const WebGenericInput As String = "WebGenericInput("""
+    Public Const WebImage As String = "WebImage("""
+    Public Const WebList As String = "WebList("""
+    Public Const WebTextBox As String = "WebTextBox("""
+    Public Const WebComboBox As String = "WebComboBox("""
+    Public Const WebRadioButton As String = "WebRadioButton("""
+
+
+
     Public Const IEWebBrower As String = "IEWebBrowser("""
     Public Shared IsWebJustProcessed As Boolean = False
     Private Shared WithEvents IETimer As New System.Timers.Timer()
@@ -38,7 +54,12 @@ Private Shared IE As New APIControls.InternetExplorer()
     TextBox, Button, CheckBox, RadioButton, StaticLabel, TabControl, TreeView, IEWebBrower, _
     SWF & Window, SWF & WinObject, SWF & ListBox, SWF & ListView, SWF & ComboBox, _
     SWF & TextBox, SWF & Button, SWF & CheckBox, SWF & RadioButton, SWF & StaticLabel, _
-    SWF & TabControl, SWF & TreeView, WebElement}
+    SWF & TabControl, SWF & TreeView, WPF & Window, WPF & WinObject, WPF & ListBox, _
+    WPF & ListView, WPF & ComboBox, WPF & TextBox, WPF & Button, WPF & CheckBox, _
+    WPF & RadioButton, WPF & StaticLabel, WPF & TabControl, WPF & TreeView, _
+    WebElement, WebTable, WebTableCell, WebTableRow, WebCheckbox, WebButton, _
+    WebDiv, WebLink, WebGenericInput, WebImage, WebList, WebTextBox, _
+    WebComboBox, WebSpan, WebRadioButton}
 
     '**************************This is where the update for recording clicks is needed for Internet Explorer
     Public Shared Function ProccessStrs(ByVal str As String, ByVal XCoord As Int32, ByVal YCoord As Int32, Optional ByVal counter As Integer = -1) As String
@@ -62,7 +83,6 @@ Private Shared IE As New APIControls.InternetExplorer()
                 End If
             End If
         Next
-#If (IncludeWeb = 1) Then
 
         If (WindowsFunctions.IsWebPartExactlyIE(Hwnds.Item(0)) = True AndAlso XCoord <> -1 AndAlso YCoord <> -1) Then 'recording shows this is IE
             'Dang it!  It's IE... Time to check if it involves the web...
@@ -73,10 +93,9 @@ Private Shared IE As New APIControls.InternetExplorer()
                 'Grab IE's main window, like normal.
                 newStr = CreateWindowString(Hwnds.Item(0), IntPtr.Zero)
                 'The rest of this counts on IE being good and giving good data.
-                Dim rec As New APIControls.IndependentWindowsFunctionsv1.RECT
-                APIControls.IndependentWindowsFunctionsv1.GetWindowRect(Hwnds.Item(Hwnds.Count - 1), rec)
-                WebX = XCoord - rec.Left
-                WebY = YCoord - rec.Top
+                Dim p As System.Drawing.Point = APIControls.InternetExplorer.GetPointByInternalIE(Hwnds.Item(Hwnds.Count - 1), XCoord, YCoord)
+                WebX = p.X 'XCoord - rec.Left
+                WebY = p.Y 'YCoord - rec.Top
                 Try
                     GetIE(Hwnds.Item(0))
                     IsWebJustProcessed = True
@@ -87,7 +106,7 @@ Private Shared IE As New APIControls.InternetExplorer()
                 Return newStr
             End If
         End If
-#End If
+
         For Each i As Integer In Hwnds
             tmpInt = i
 
@@ -130,7 +149,7 @@ Private Shared IE As New APIControls.InternetExplorer()
 #Region "web"
 
 
-#If (IncludeWeb = 1) Then
+
 
     Private Shared Sub GetIE(ByVal Hwnd As IntPtr)
         'System.Console.WriteLine("GetIE with IntPtr")
@@ -153,16 +172,23 @@ Private Shared IE As New APIControls.InternetExplorer()
     Private Shared Sub IETimer_Elapsed(ByVal sender As Object, ByVal e As System.Timers.ElapsedEventArgs) Handles IETimer.Elapsed
         IETimer.Stop()
         Console.WriteLine("IE Reading started: " & Now.TimeOfDay.ToString())
-        If (IE.TakeOverIESearch(IETimerHwnd) = False) Then
+        Dim takeOverIEResult As Boolean
+        SyncLock (IE)
+            takeOverIEResult = IE.TakeOverIESearch(IETimerHwnd)
+        End SyncLock
+
+        If (takeOverIEResult = False) Then
             IETimer.Interval = 2
-            Throw New Exception("Unable to find IE.")
+            Throw New Exception("Unable to find Internet Explorer.")
         End If
-        Dim elem As APIControls.Element = IE.GetElement(WebX, WebY)
+        IE.Stop()
+
+        Dim elem As APIControls.WebElementAPI = IE.GetElement(WebX, WebY)
         Console.WriteLine("*-*IE Element To description: " & Now.TimeOfDay.ToString())
-        Dim desc As APIControls.Description = IE.FindGoodDescription(elem)
+        Dim desc As APIControls.Description = IE.FindGoodDescription(elem, True)
         Console.WriteLine("*-*IE Element To description Done: " & Now.TimeOfDay.ToString())
         If (desc IsNot Nothing) Then
-            RetStr = CreateWebString(desc)
+            RetStr = CreateWebString(desc, elem.TagName)
         Else
             RetStr = ""
         End If
@@ -177,12 +203,13 @@ Private Shared IE As New APIControls.InternetExplorer()
         Console.WriteLine("IE located at: " & IE.GetIELocation().ToString())
         IETimer.Interval = 2
         Console.WriteLine("IE Reading ending: " & Now.TimeOfDay.ToString())
+        elem.Click()
     End Sub
 
-        Public Shared Function CreateWebString(ByVal desc As APIControls.Description) As String ', ByVal order As Boolean) As String
+    Public Shared Function CreateWebString(ByVal desc As APIControls.Description, ByVal TagName As String) As String
         Dim quote As String = """"
         quote += quote
-        Dim retVal As String = WebElement
+        Dim retVal As String = APIControls.WebTagDefinitions.GetWebType(TagName) & "("""
 
         Dim firstTimeInLoop As Boolean = True
 
@@ -190,6 +217,14 @@ Private Shared IE As New APIControls.InternetExplorer()
             'Newer method, may bust with newline fix
             Dim TmpRetVal As String
             If (desc.Contains(item) = True) Then
+                If (item = APIControls.Description.DescriptionData.WebValue OrElse item = APIControls.Description.DescriptionData.WebText) Then
+                    Dim tmp As String = desc.GetItemValue(item)
+                    If (tmp.Length = APIControls.InternetExplorer.RecorderTextLength) Then
+                        If tmp.EndsWith("*") Then
+                            desc.WildCard = True
+                        End If
+                    End If
+                End If
                 If (firstTimeInLoop = True) Then
                     firstTimeInLoop = False
                     TmpRetVal = desc.GetItemName(item) & ":=" & quote & _
@@ -224,8 +259,6 @@ Private Shared IE As New APIControls.InternetExplorer()
         Next
         Return retVal & """)." 'Good, it worked
     End Function
-
-#End If
 
 #End Region
 
@@ -264,13 +297,12 @@ Private Shared IE As New APIControls.InternetExplorer()
         ElseIf (WindowsFunctions.Window.IsWindow(hWnd)) Then
             'If (desc.Name.Equals("IEFrame") = True) Then 'window type is webbrowser
             Dim isWeb As Boolean = False
-#If (IncludeWeb = 1) Then
+
             If (hWnd = IntPtr.Zero) Then
                 isWeb = WindowsFunctions.IsWebPartExactlyIE(TophWnd)
             Else
                 isWeb = WindowsFunctions.IsWebPartExactlyIE(hWnd)
             End If
-#End If
             If (isWeb = True) Then
                 retVal = IEWebBrower
             Else

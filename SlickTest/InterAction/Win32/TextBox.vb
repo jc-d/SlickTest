@@ -219,7 +219,7 @@ Public NotInheritable Class TextBox
             ElseIf (Not TypeOf textAttribute Is Double) Then
                 Throw New SlickTestUIException("FontSize attribute does not appear to be supported for this object.")
             Else
-                Return textAttribute.ToString()
+                Return Convert.ToDouble(textAttribute)
             End If
         End Get
     End Property
@@ -279,7 +279,7 @@ Public NotInheritable Class TextBox
     ''' <returns></returns>
     ''' <remarks></remarks>
     Public Function IsTextBox() As Boolean
-        Return WindowsFunctions.TextBox.IsTextBox(Me.Hwnd())
+        Return WindowsFunctions.TextBox.IsTextBox(New IntPtr(Me.Hwnd()))
     End Function
 
 

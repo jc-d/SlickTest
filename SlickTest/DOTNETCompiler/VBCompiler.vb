@@ -1,8 +1,4 @@
 Imports System
-Imports System.Collections.Generic
-Imports System.Text
-Imports System.CodeDom
-Imports System.CodeDom.Compiler
 Imports Microsoft.VisualBasic
 Imports System.Diagnostics
 
@@ -38,12 +34,11 @@ Public Class VBCompiler
         End Set
     End Property
 
-    Public Overrides Function Compile(ByVal Execute As Boolean, ByVal Args As String) As Boolean 'Implements ICompiler.Compile
+    Public Overrides Function Compile(ByVal Execute As Boolean, ByVal Args As String, ByVal PostBuildCommand As String, ByVal PostBuildArgs As String) As Boolean 'Implements ICompiler.Compile
         codeProvider = New VBCodeProvider()
         'ICodeCompiler icc = codeProvider.CreateCompiler();
         For Each asm As String In IncludedAssemblies
             If Not Parameters.ReferencedAssemblies.Contains(asm) Then
-
                 Parameters.ReferencedAssemblies.Add(asm)
             End If
         Next
@@ -112,6 +107,7 @@ Public Class VBCompiler
             Next
             Return False
         Else
+            RunProcess(PostBuildCommand, PostBuildArgs, "postbuild")
             If Execute = True Then
                 StartDateTime = System.DateTime.Now
                 If ShowConsoleUI = True Then

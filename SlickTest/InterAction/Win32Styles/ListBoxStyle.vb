@@ -62,7 +62,7 @@ Public Class ListBoxStyle
     ''' <remarks></remarks>
     Public ReadOnly Property LBS_NOTIFY() As Integer
         Get
-            Return ListBoxStyles.LBS_NOTIFY
+            Return Convert.ToInt32(ListBoxStyles.LBS_NOTIFY)
         End Get
     End Property
 
@@ -74,7 +74,7 @@ Public Class ListBoxStyle
     ''' <remarks></remarks>
     Public ReadOnly Property LBS_SORT() As Integer
         Get
-            Return ListBoxStyles.LBS_SORT
+            Return Convert.ToInt32(ListBoxStyles.LBS_SORT)
         End Get
     End Property
 
@@ -87,7 +87,7 @@ Public Class ListBoxStyle
     ''' <remarks></remarks>
     Public ReadOnly Property LBS_NOREDRAW() As Integer
         Get
-            Return ListBoxStyles.LBS_NOREDRAW
+            Return Convert.ToInt32(ListBoxStyles.LBS_NOREDRAW)
         End Get
     End Property
 
@@ -100,7 +100,7 @@ Public Class ListBoxStyle
     ''' <remarks></remarks>
     Public ReadOnly Property LBS_MULTIPLESEL() As Integer
         Get
-            Return ListBoxStyles.LBS_MULTIPLESEL
+            Return Convert.ToInt32(ListBoxStyles.LBS_MULTIPLESEL)
         End Get
     End Property
 
@@ -115,7 +115,7 @@ Public Class ListBoxStyle
     ''' <remarks></remarks>
     Public ReadOnly Property LBS_OWNERDRAWFIXED() As Integer
         Get
-            Return ListBoxStyles.LBS_OWNERDRAWFIXED
+            Return Convert.ToInt32(ListBoxStyles.LBS_OWNERDRAWFIXED)
         End Get
     End Property
 
@@ -131,7 +131,7 @@ Public Class ListBoxStyle
     ''' <remarks></remarks>
     Public ReadOnly Property LBS_OWNERDRAWVARIABLE() As Integer
         Get
-            Return ListBoxStyles.LBS_OWNERDRAWVARIABLE
+            Return Convert.ToInt32(ListBoxStyles.LBS_OWNERDRAWVARIABLE)
         End Get
     End Property
 
@@ -147,7 +147,7 @@ Public Class ListBoxStyle
     ''' <remarks></remarks>
     Public ReadOnly Property LBS_HASSTRINGS() As Integer
         Get
-            Return ListBoxStyles.LBS_HASSTRINGS
+            Return Convert.ToInt32(ListBoxStyles.LBS_HASSTRINGS)
         End Get
     End Property
 
@@ -163,7 +163,7 @@ Public Class ListBoxStyle
     ''' <remarks></remarks>
     Public ReadOnly Property LBS_USETABSTOPS() As Integer
         Get
-            Return ListBoxStyles.LBS_USETABSTOPS
+            Return Convert.ToInt32(ListBoxStyles.LBS_USETABSTOPS)
         End Get
     End Property
 
@@ -177,7 +177,7 @@ Public Class ListBoxStyle
     ''' <remarks></remarks>
     Public ReadOnly Property LBS_NOINTEGRALHEIGHT() As Integer
         Get
-            Return ListBoxStyles.LBS_NOINTEGRALHEIGHT
+            Return Convert.ToInt32(ListBoxStyles.LBS_NOINTEGRALHEIGHT)
         End Get
     End Property
 
@@ -190,7 +190,7 @@ Public Class ListBoxStyle
     ''' <remarks></remarks>
     Public ReadOnly Property LBS_MULTICOLUMN() As Integer
         Get
-            Return ListBoxStyles.LBS_MULTICOLUMN
+            Return Convert.ToInt32(ListBoxStyles.LBS_MULTICOLUMN)
         End Get
     End Property
 
@@ -204,7 +204,7 @@ Public Class ListBoxStyle
     ''' <remarks></remarks>
     Public ReadOnly Property LBS_WANTKEYBOARDINPUT() As Integer
         Get
-            Return ListBoxStyles.LBS_WANTKEYBOARDINPUT
+            Return Convert.ToInt32(ListBoxStyles.LBS_WANTKEYBOARDINPUT)
         End Get
     End Property
 
@@ -217,7 +217,7 @@ Public Class ListBoxStyle
     ''' <remarks></remarks>
     Public ReadOnly Property LBS_EXTENDEDSEL() As Integer
         Get
-            Return ListBoxStyles.LBS_EXTENDEDSEL
+            Return Convert.ToInt32(ListBoxStyles.LBS_EXTENDEDSEL)
         End Get
     End Property
 
@@ -231,7 +231,7 @@ Public Class ListBoxStyle
     ''' <remarks></remarks>
     Public ReadOnly Property LBS_DISABLENOSCROLL() As Integer
         Get
-            Return ListBoxStyles.LBS_DISABLENOSCROLL
+            Return Convert.ToInt32(ListBoxStyles.LBS_DISABLENOSCROLL)
         End Get
     End Property
 
@@ -252,7 +252,7 @@ Public Class ListBoxStyle
     ''' <remarks></remarks>
     Public ReadOnly Property LBS_NODATA() As Integer
         Get
-            Return ListBoxStyles.LBS_NODATA
+            Return Convert.ToInt32(ListBoxStyles.LBS_NODATA)
         End Get
     End Property
 
@@ -264,7 +264,7 @@ Public Class ListBoxStyle
     ''' <remarks></remarks>
     Public ReadOnly Property LBS_NOSEL() As Integer
         Get
-            Return ListBoxStyles.LBS_NOSEL
+            Return Convert.ToInt32(ListBoxStyles.LBS_NOSEL)
         End Get
     End Property
 
@@ -278,7 +278,7 @@ Public Class ListBoxStyle
     ''' <remarks></remarks>
     Public ReadOnly Property LBS_STANDARD() As Integer
         Get
-            Return ListBoxStyles.LBS_STANDARD
+            Return Convert.ToInt32(ListBoxStyles.LBS_STANDARD)
         End Get
     End Property
 

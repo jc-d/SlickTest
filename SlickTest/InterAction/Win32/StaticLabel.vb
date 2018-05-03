@@ -40,7 +40,7 @@ Public Class StaticLabel
     ''' <returns></returns>
     ''' <remarks></remarks>
     Public Function IsStaticLabel() As Boolean
-        Return WindowsFunctions.StaticLabel.IsStaticLabel(Me.Hwnd())
+        Return WindowsFunctions.StaticLabel.IsStaticLabel(New IntPtr(Me.Hwnd()))
     End Function
 
 End Class

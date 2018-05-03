@@ -1,6 +1,5 @@
 Public Class Recorder
 #Const isAbs = 2 'Set to 1 if you want absolute coordinates
-#Const IncludeWeb = 2 'set to 1 to enable web
 
     Private IsRecording As Boolean
     Private TempText As String
@@ -144,9 +143,8 @@ Public Class Recorder
             TmpRecordText = TmpRecordText.Replace("StaticLabel(", "StaticLabel(" & DescriptionClassName & ".")
             TmpRecordText = TmpRecordText.Replace("TabControl(", "TabControl(" & DescriptionClassName & ".")
 
-#If IncludeWeb = 1 Then
-        TmpRecordText = TmpRecordText.Replace("WebElement(", "WebElement(" & DescriptionClassName & ".")
-#End If
+
+            TmpRecordText = TmpRecordText.Replace("WebElement(", "WebElement(" & DescriptionClassName & ".")
             TmpRecordText = TmpRecordText.Replace("ListView(", "ListView(" & DescriptionClassName & ".")
             TmpRecordText = TmpRecordText.Replace("TreeView(", "TreeView(" & DescriptionClassName & ".")
             ''''''''''''''''''''''''''''''Fix all Items which were not correctly converted.
@@ -164,9 +162,8 @@ Public Class Recorder
             TmpRecordText = TmpRecordText.Replace("StaticLabel(" & DescClassNameDotQuote, "StaticLabel(""")
             TmpRecordText = TmpRecordText.Replace("TabControl(" & DescClassNameDotQuote, "TabControl(""")
 
-#If IncludeWeb = 1 Then
-        TmpRecordText = TmpRecordText.Replace("WebElement(" & DescClassNameDotQuote, "WebElement(""")
-#End If
+
+            TmpRecordText = TmpRecordText.Replace("WebElement(" & DescClassNameDotQuote, "WebElement(""")
         End If
 
         If (DescriptionsText.Length <> 0) Then
@@ -318,6 +315,8 @@ Public Class Recorder
         Return ""
     End Function
 
+    Private Const IEWebBrowserString As String = "IEWebBrowser"
+
     Private Sub Keys_MouseAction(ByVal action As String, ByVal type As HandleInput.MouseAndKeys.MouseActionType, ByVal x As Integer, ByVal y As Integer) Handles Keys.MouseAction
         If (action <> "") Then
             'GetBufferedInfo()
@@ -342,53 +341,67 @@ Public Class Recorder
                 Next
                 UpdateText.Clear()
             End If
-            If (type = HandleInput.MouseAndKeys.MouseActionType.ClickXY) Then
-                'SendInput looks ugly for the user...
-                'UpdateText.Add(vbNewLine & ObjectRecorderID & "SendInput(""" & action & """)")
+            Select Case type
+                Case HandleInput.MouseAndKeys.MouseActionType.ClickXY
+                    'SendInput looks ugly for the user...
+                    'UpdateText.Add(vbNewLine & ObjectRecorderID & "SendInput(""" & action & """)")
+                    UpdateText.Add(vbNewLine & ObjectRecorderID & "Mouse." & action)
+                Case HandleInput.MouseAndKeys.MouseActionType.DoubleClickXY
+                    UpdateText.Add(vbNewLine & ObjectRecorderID & "Mouse." & action & _
+                    vbNewLine & ObjectIdenifier & "Mouse." & action)
+                Case HandleInput.MouseAndKeys.MouseActionType.ClickObjL
+                    If (My.Settings.Recorder_Absolute__Coordinates = True) Then
+                        x = UIControls.Mouse.RelativeToAbsCoordX(x)
+                        y = UIControls.Mouse.RelativeToAbsCoordY(y)
+                        UpdateText.Add(vbNewLine & ObjectRecorderID & action & _
+                        "Click(" & ObjectRecorderID & "Mouse.AbsToRelativeCoordX(" & x & "," & _
+                        System.Windows.Forms.Screen.PrimaryScreen.Bounds.Width & ")," & _
+                        "" & ObjectRecorderID & "Mouse.AbsToRelativeCoordY(" & y & "," & _
+                        System.Windows.Forms.Screen.PrimaryScreen.Bounds.Height & ")" & ")")
+                    Else
+                        If (action.StartsWith(IEWebBrowserString) AndAlso action.Contains("WinObject(""") = False) Then
+                            UpdateText.Add(vbNewLine & ObjectRecorderID & action & "Click(" & ")")
+                        Else
+                            UpdateText.Add(vbNewLine & ObjectRecorderID & action & "Click(" & x & "," & y & ")")
+                        End If
+                    End If
+                Case HandleInput.MouseAndKeys.MouseActionType.ClickObjR
+                    If (My.Settings.Recorder_Absolute__Coordinates = True) Then
+                        x = UIControls.Mouse.RelativeToAbsCoordX(x)
+                        y = UIControls.Mouse.RelativeToAbsCoordY(y)
+                        UpdateText.Add(vbNewLine & ObjectRecorderID & action & _
+                        "RightClick(" & ObjectRecorderID & "Mouse.AbsToRelativeCoordX(" & x & "," & _
+                        System.Windows.Forms.Screen.PrimaryScreen.Bounds.Width & ")," & _
+                        "" & ObjectRecorderID & "Mouse.AbsToRelativeCoordY(" & y & "," & _
+                        System.Windows.Forms.Screen.PrimaryScreen.Bounds.Height & ")" & ")")
+                    Else
+                        If (action.StartsWith(IEWebBrowserString) AndAlso action.Contains("WinObject(""") = False) Then
+                            UpdateText.Add(vbNewLine & ObjectRecorderID & action & "RightClick(" & ")")
+                        Else
+                            UpdateText.Add(vbNewLine & ObjectRecorderID & action & "RightClick(" & x & "," & y & ")")
+                        End If
+                    End If
+                Case HandleInput.MouseAndKeys.MouseActionType.DoubleClickObjL
+                    If (My.Settings.Recorder_Absolute__Coordinates = True) Then
+                        x = UIControls.Mouse.RelativeToAbsCoordX(x)
+                        y = UIControls.Mouse.RelativeToAbsCoordY(y)
 
-                UpdateText.Add(vbNewLine & ObjectRecorderID & "Mouse." & action)
-            ElseIf (type = HandleInput.MouseAndKeys.MouseActionType.DoubleClickXY) Then
-                UpdateText.Add(vbNewLine & ObjectRecorderID & "Mouse." & action & _
-                vbNewLine & ObjectIdenifier & "Mouse." & action)
-            ElseIf (type = HandleInput.MouseAndKeys.MouseActionType.ClickObjL) Then
-                If (My.Settings.Recorder_Absolute__Coordinates = True) Then
-                    x = UIControls.Mouse.RelativeToAbsCoordX(x)
-                    y = UIControls.Mouse.RelativeToAbsCoordY(y)
-                    UpdateText.Add(vbNewLine & ObjectRecorderID & action & _
-                    "Click(" & ObjectRecorderID & "Mouse.AbsToRelativeCoordX(" & x & "," & _
-                    System.Windows.Forms.Screen.PrimaryScreen.Bounds.Width & ")," & _
-                    "" & ObjectRecorderID & "Mouse.AbsToRelativeCoordY(" & y & "," & _
-                    System.Windows.Forms.Screen.PrimaryScreen.Bounds.Height & ")" & ")")
-                Else
-                    UpdateText.Add(vbNewLine & ObjectRecorderID & action & "Click(" & x & "," & y & ")")
-                End If
-
-            ElseIf (type = HandleInput.MouseAndKeys.MouseActionType.ClickObjR) Then
-                If (My.Settings.Recorder_Absolute__Coordinates = True) Then
-                    x = UIControls.Mouse.RelativeToAbsCoordX(x)
-                    y = UIControls.Mouse.RelativeToAbsCoordY(y)
-                    UpdateText.Add(vbNewLine & ObjectRecorderID & action & _
-                    "RightClick(" & ObjectRecorderID & "Mouse.AbsToRelativeCoordX(" & x & "," & _
-                    System.Windows.Forms.Screen.PrimaryScreen.Bounds.Width & ")," & _
-                    "" & ObjectRecorderID & "Mouse.AbsToRelativeCoordY(" & y & "," & _
-                    System.Windows.Forms.Screen.PrimaryScreen.Bounds.Height & ")" & ")")
-                Else
-                    UpdateText.Add(vbNewLine & ObjectRecorderID & action & "RightClick(" & x & "," & y & ")")
-                End If
-            ElseIf (type = HandleInput.MouseAndKeys.MouseActionType.DoubleClickObjL) Then
-                If (My.Settings.Recorder_Absolute__Coordinates = True) Then
-                    x = UIControls.Mouse.RelativeToAbsCoordX(x)
-                    y = UIControls.Mouse.RelativeToAbsCoordY(y)
-
-                    UpdateText.Add(vbNewLine & ObjectRecorderID & action & _
-                    "Click(" & ObjectRecorderID & "Mouse.AbsToRelativeCoordX(" & x & "," & _
-                    System.Windows.Forms.Screen.PrimaryScreen.Bounds.Width & ")," & _
-                    "" & ObjectRecorderID & "Mouse.AbsToRelativeCoordY(" & y & "," & _
-                    System.Windows.Forms.Screen.PrimaryScreen.Bounds.Height & ")" & ")")
-                Else
-                    UpdateText.Add(vbNewLine & ObjectRecorderID & action & "Click(" & x & "," & y & ")")
-                End If
-            End If
+                        UpdateText.Add(vbNewLine & ObjectRecorderID & action & _
+                        "Click(" & ObjectRecorderID & "Mouse.AbsToRelativeCoordX(" & x & "," & _
+                        System.Windows.Forms.Screen.PrimaryScreen.Bounds.Width & ")," & _
+                        "" & ObjectRecorderID & "Mouse.AbsToRelativeCoordY(" & y & "," & _
+                        System.Windows.Forms.Screen.PrimaryScreen.Bounds.Height & ")" & ")")
+                    Else
+                        If (action.StartsWith(IEWebBrowserString) AndAlso action.Contains("WinObject(""") = False) Then
+                            UpdateText.Add(vbNewLine & ObjectRecorderID & action & "Click(" & ")")
+                        Else
+                            UpdateText.Add(vbNewLine & ObjectRecorderID & action & "Click(" & x & "," & y & ")")
+                        End If
+                    End If
+                Case Else
+                    Throw New Exception(type.ToString() & " is not currently supported")
+            End Select
+          
             'ElseIf (type = HandleInput.Keys.MouseActionType.ClickObjR) Then
             '        RecorderTextBox.Text += vbNewLine & ObjectRecorderID & action & "RightClick(" & x & "," & y & ")" + _
             '        vbNewLine & ObjectRecorderID & action & "RightClick(" & x & "," & y & ")" & Pause()
@@ -686,7 +699,11 @@ Public Class Recorder
     Private Sub Keys_TypingWindowChanged(ByVal Action As String, ByVal Text As String, ByVal PreviousHwnd As System.IntPtr, ByVal OverrideErrors As Boolean) Handles Keys.TypingWindowChanged
         If (Action <> "") Then
             If (Text <> "") Then
-                RecorderTextBox.Text += vbNewLine & ObjectRecorderID & Action & "TypeKeys(""" & Text & """)" & Pause()
+                If (Action.StartsWith(IEWebBrowserString) AndAlso Action.Contains("WinObject(""") = False) Then
+                    RecorderTextBox.Text += vbNewLine & ObjectRecorderID & Action & "SetText(""" & Text & """)" & Pause()
+                Else
+                    RecorderTextBox.Text += vbNewLine & ObjectRecorderID & Action & "TypeKeys(""" & Text & """)" & Pause()
+                End If
             End If
         ElseIf (OverrideErrors = True) Then
             RecorderTextBox.Text += vbNewLine & ObjectRecorderID & "SendInput(""" & Text & """)" & Pause()

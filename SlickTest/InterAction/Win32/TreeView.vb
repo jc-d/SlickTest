@@ -1,5 +1,5 @@
 ''' <summary>
-''' A TreeView is just a specialized WinObject, and so it performs everything a WinObject does.
+''' A TreeView is just a specialized WinObject, and it performs everything a WinObject does.
 ''' </summary>
 ''' <remarks>In some cases, tree nodes are not loaded until 
 ''' the tree is expanded.</remarks>
@@ -35,9 +35,9 @@ Public NotInheritable Class TreeView
     Public Function GetItemIndex(ByVal Text As String, ByVal UseWildCard As Boolean) As Integer
         Dim Index As Integer
         If (UseWildCard = True) Then
-            Index = WindowsFunctions.TreeView.GetItemIndexByLikeText(Me.Hwnd(), Text)
+            Index = WindowsFunctions.TreeView.GetItemIndexByLikeText(New IntPtr(Me.Hwnd()), Text)
         Else
-            Index = WindowsFunctions.TreeView.GetItemIndexByExactText(Me.Hwnd(), Text)
+            Index = WindowsFunctions.TreeView.GetItemIndexByExactText(New IntPtr(Me.Hwnd()), Text)
         End If
         If (Index = -1) Then
             Throw New SlickTestUIException("Unable to find TreeView item '" & Text & "'.")
@@ -63,7 +63,7 @@ Public NotInheritable Class TreeView
     ''' <returns></returns>
     ''' <remarks></remarks>
     Public Function GetItemText(ByVal Index As Integer) As String
-        Dim TmpTVHwnd As IntPtr = Me.Hwnd()
+        Dim TmpTVHwnd As IntPtr = New IntPtr(Me.Hwnd())
         Dim TmpHwnd As IntPtr = WindowsFunctions.TreeView.GetItemHwndByIndex(TmpTVHwnd, Index)
         If (TmpHwnd = IntPtr.Zero) Then Throw New SlickTestUIException("Unable to find item with the index '" & Index & "'.")
         Return WindowsFunctions.TreeView.GetText(TmpTVHwnd, TmpHwnd)
@@ -75,7 +75,7 @@ Public NotInheritable Class TreeView
     ''' <returns></returns>
     ''' <remarks></remarks>
     Public Function GetAllItems() As String()
-        Return WindowsFunctions.TreeView.GetAllItemsText(Me.Hwnd()).ToArray()
+        Return WindowsFunctions.TreeView.GetAllItemsText(New IntPtr(Me.Hwnd())).ToArray()
     End Function
 
     ''' <summary>
@@ -84,7 +84,7 @@ Public NotInheritable Class TreeView
     ''' <param name="ItemText">The text of the item.</param>
     ''' <remarks></remarks>
     Public Sub ExpandItem(ByVal ItemText As String)
-        Dim TmpTVHwnd As IntPtr = Me.Hwnd()
+        Dim TmpTVHwnd As IntPtr = New IntPtr(Me.Hwnd())
         WindowsFunctions.TreeView.ExpandCollapseItem(TmpTVHwnd, ItemText, True)
     End Sub
 
@@ -94,7 +94,7 @@ Public NotInheritable Class TreeView
     ''' <param name="ItemText">The text of the item.</param>
     ''' <remarks></remarks>
     Public Sub CollapseItem(ByVal ItemText As String)
-        Dim TmpTVHwnd As IntPtr = Me.Hwnd()
+        Dim TmpTVHwnd As IntPtr = New IntPtr(Me.Hwnd())
         WindowsFunctions.TreeView.ExpandCollapseItem(TmpTVHwnd, ItemText, False)
     End Sub
 
@@ -104,7 +104,7 @@ Public NotInheritable Class TreeView
     ''' <param name="ItemIndex">The index of the item.</param>
     ''' <remarks></remarks>
     Public Sub ExpandItem(ByVal ItemIndex As Integer)
-        Dim TmpTVHwnd As IntPtr = Me.Hwnd()
+        Dim TmpTVHwnd As IntPtr = New IntPtr(Me.Hwnd())
         WindowsFunctions.TreeView.ExpandCollapseItem(TmpTVHwnd, ItemIndex, True)
     End Sub
 
@@ -114,7 +114,7 @@ Public NotInheritable Class TreeView
     ''' <param name="ItemIndex">The index of the item.</param>
     ''' <remarks></remarks>
     Public Sub CollapseItem(ByVal ItemIndex As Integer)
-        Dim TmpTVHwnd As IntPtr = Me.Hwnd()
+        Dim TmpTVHwnd As IntPtr = New IntPtr(Me.Hwnd())
         WindowsFunctions.TreeView.ExpandCollapseItem(TmpTVHwnd, ItemIndex, False)
     End Sub
 
@@ -125,7 +125,7 @@ Public NotInheritable Class TreeView
     ''' <param name="ItemsText">The text of each of the items to expand.</param>
     ''' <remarks></remarks>
     Public Sub ExpandItems(ByVal ItemsText() As String)
-        Dim TmpTVHwnd As IntPtr = Me.Hwnd()
+        Dim TmpTVHwnd As IntPtr = New IntPtr(Me.Hwnd())
         For i As Integer = 0 To ItemsText.Length - 1
             WindowsFunctions.TreeView.ExpandCollapseItem(TmpTVHwnd, ItemsText(i), True)
         Next
@@ -138,7 +138,7 @@ Public NotInheritable Class TreeView
     ''' <param name="ItemsText">The text of each of the items to expand.</param>
     ''' <remarks></remarks>
     Public Sub CollapseItems(ByVal ItemsText() As String)
-        Dim TmpTVHwnd As IntPtr = Me.Hwnd()
+        Dim TmpTVHwnd As IntPtr = New IntPtr(Me.Hwnd())
         For i As Integer = 0 To ItemsText.Length - 1
             WindowsFunctions.TreeView.ExpandCollapseItem(TmpTVHwnd, ItemsText(i), False)
         Next
@@ -152,7 +152,7 @@ Public NotInheritable Class TreeView
     ''' to select the item.  If multiple items have the same text, this may
     ''' select the wrong item.  In the future this will be purely index based.</remarks>
     Public Sub SetSelectedItem(ByVal Index As Integer)
-        'WindowsFunctions.TreeView.SetSelectedItem(Me.Hwnd(), Index, True)
+        'WindowsFunctions.TreeView.SetSelectedItem(New IntPtr(Me.Hwnd()), Index, True)
         Dim Text As String = Me.GetItemText(Index)
         SetSelectedItem(Text)
     End Sub
@@ -175,7 +175,7 @@ Public NotInheritable Class TreeView
     ''' <param name="Text">The exact text of the treeview.</param>
     ''' <remarks></remarks>
     Public Sub SetSelectedItem(ByVal Text As String)
-        WindowsFunctions.TreeView.SelectVisibleItem(Me.Hwnd(), Text, True)
+        WindowsFunctions.TreeView.SelectVisibleItem(New IntPtr(Me.Hwnd()), Text, True)
     End Sub
 
     ''' <summary>
@@ -185,7 +185,7 @@ Public NotInheritable Class TreeView
     ''' <remarks>If you add a node beyond 32767 this returns a negative value. 
     ''' After adding 65536 nodes the count returns to zero.</remarks>
     Public Function GetItemCount() As Integer
-        Return WindowsFunctions.TreeView.GetItemCount(Me.Hwnd())
+        Return WindowsFunctions.TreeView.GetItemCount(New IntPtr(Me.Hwnd()))
     End Function
 
     ''' <summary>
@@ -194,7 +194,7 @@ Public NotInheritable Class TreeView
     ''' <returns></returns>
     ''' <remarks></remarks>
     Public Function GetSelectedText() As String
-        Return WindowsFunctions.TreeView.GetSelectedItemText(Me.Hwnd())
+        Return WindowsFunctions.TreeView.GetSelectedItemText(New IntPtr(Me.Hwnd()))
     End Function
 
     ''' <summary>
@@ -203,7 +203,7 @@ Public NotInheritable Class TreeView
     ''' <returns></returns>
     ''' <remarks></remarks>
     Public Function IsTreeView() As Boolean
-        Return WindowsFunctions.TreeView.IsTreeView(Me.Hwnd())
+        Return WindowsFunctions.TreeView.IsTreeView(New IntPtr(Me.Hwnd()))
     End Function
 
 

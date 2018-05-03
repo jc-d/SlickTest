@@ -15,7 +15,7 @@ Public NotInheritable Class TabControl
     ''' <returns></returns>
     ''' <remarks>Currently failing.</remarks>
     Private Function GetTabRectangle(ByVal index As Integer) As System.Drawing.Rectangle
-        Return WindowsFunctions.TabControl.GetRECT(Me.Hwnd(), index)
+        Return WindowsFunctions.TabControl.GetRECT(New IntPtr(Me.Hwnd()), index)
     End Function
 
 #Region "Constructors"
@@ -42,7 +42,7 @@ Public NotInheritable Class TabControl
     ''' <remarks>It is known that sometimes tabs do not refresh after
     ''' being selected.</remarks>
     Sub SelectTab(ByVal index As Integer)
-        WindowsFunctions.TabControl.SelectTab(Me.Hwnd(), index)
+        WindowsFunctions.TabControl.SelectTab(New IntPtr(Me.Hwnd()), index)
     End Sub
 
     ''' <summary>
@@ -51,7 +51,7 @@ Public NotInheritable Class TabControl
     ''' <returns></returns>
     ''' <remarks></remarks>
     Function GetTabCount() As Integer
-        Return WindowsFunctions.TabControl.GetTabCount(Me.Hwnd())
+        Return WindowsFunctions.TabControl.GetTabCount(New IntPtr(Me.Hwnd()))
     End Function
 
     ''' <summary>
@@ -60,7 +60,7 @@ Public NotInheritable Class TabControl
     ''' <returns></returns>
     ''' <remarks></remarks>
     Function GetSelectedTab() As Integer
-        Return WindowsFunctions.TabControl.GetSelectedTab(Me.Hwnd())
+        Return WindowsFunctions.TabControl.GetSelectedTab(New IntPtr(Me.Hwnd()))
     End Function
     
     ''' <summary>
@@ -69,7 +69,7 @@ Public NotInheritable Class TabControl
     ''' <returns></returns>
     ''' <remarks></remarks>
     Public Function IsTabControl() As Boolean
-        Return WindowsFunctions.TabControl.IsTabControl(Me.Hwnd())
+        Return WindowsFunctions.TabControl.IsTabControl(New IntPtr(Me.Hwnd()))
     End Function
 
 End Class

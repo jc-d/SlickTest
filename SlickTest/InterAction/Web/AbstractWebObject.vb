@@ -1,15 +1,36 @@
-#Const IncludeWeb = 2 'set to 1 to enable web
-
-#If (IncludeWeb = 1) Then
+''' <summary>
+''' The Abstract Web is the set of abilities all Web object types must have.
+''' </summary>
+''' <remarks></remarks>
 Public MustInherit Class AbstractWebObject
     Protected Friend description As System.Collections.Generic.List(Of APIControls.IDescription)
     Protected Friend IEHwnd As New IntPtr(0) 'may not be needed.
-    Protected Friend reporter As UIControls.Report
+    Protected Friend reporter As UIControls.IReport
     Protected Friend currentRectangle As System.Drawing.Rectangle
     Friend Shared WindowsFunctions As New APIControls.IndependentWindowsFunctionsv1()
     Private WithEvents IETimer As New System.Timers.Timer()
     Friend Shared IE As New APIControls.InternetExplorer()
-    Friend CurrentElement As APIControls.Element
+    Friend CurrentElement As APIControls.WebElementAPI = Nothing
+    Public MustOverride ReadOnly Property ListOfSupportedHtmlTags() As System.Collections.Generic.List(Of String)
+    Protected Friend HtmlTags As New System.Collections.Generic.List(Of String)
+    Friend Enum ElementTypes
+        Element
+        Table
+        TableRow
+        TableCell
+        Div
+        Span
+        ComboBox
+        ListItem
+        List
+        Link
+        Checkbox
+        GenericInput
+        Image
+        Button
+        TextBox
+        RadioButton
+    End Enum
 
 #Region "Constructor"
 
@@ -42,9 +63,14 @@ Public MustInherit Class AbstractWebObject
 
     Private Sub IETimer_Elapsed(ByVal sender As Object, ByVal e As System.Timers.ElapsedEventArgs) Handles IETimer.Elapsed
         IETimer.Stop()
-        If (IE.TakeOverIESearch(IEHwnd) = False) Then
+        Dim takeOverIEResult As Boolean
+        SyncLock (IE)
+            takeOverIEResult = IE.TakeOverIESearch(IEHwnd)
+        End SyncLock
+
+        If (takeOverIEResult = False) Then
             IETimer.Interval = 2
-            Throw New SlickTestUIException("Unable to find IE.")
+            Throw New SlickTestUIException("Unable to find Internet Explorer.")
         End If
         IETimer.Interval = 2
     End Sub
@@ -72,7 +98,7 @@ Public MustInherit Class AbstractWebObject
         End If
         Try
             CurrentElement = Nothing
-            CurrentElement = IE.FindElement(ElementDescriptionToFindInExists())
+            CurrentElement = IE.FindElement(ElementDescriptionToFindInExists(), ElementDescriptionsForFormerElements())
             If (CurrentElement Is Nothing) Then
                 Return False
             End If
@@ -83,11 +109,20 @@ Public MustInherit Class AbstractWebObject
         Return False
     End Function
 
-    Private Function ElementDescriptionToFindInExists() As APIControls.IDescription
+    Protected Function ElementDescriptionsForFormerElements() As APIControls.IDescription()
+        If (description.Count - 3 < 0) Then Return Nothing
+        Dim descs(description.Count - 3) As APIControls.IDescription
+        For i As Integer = 1 To description.Count - 2
+            descs(i - 1) = description(i)
+        Next
+        Return descs
+    End Function
+
+    Protected Function ElementDescriptionToFindInExists() As APIControls.IDescription
         Return description(description.Count - 1)
     End Function
 
-    Protected Sub Report(ByVal Type As Short, ByVal MajorMessage As String, ByVal MinorMessage As String)
+    Protected Sub Report(ByVal Type As Byte, ByVal MajorMessage As String, ByVal MinorMessage As String)
         reporter.RecordEvent(Type, MinorMessage, MajorMessage)
     End Sub
 
@@ -156,20 +191,38 @@ Public MustInherit Class AbstractWebObject
     ''' end if<p/>
     ''' </remarks>
     Public Function Exists(ByVal Time As Integer) As Boolean
-        Dim timer As Integer = Time * 1000 'set to milliseconds
+        Dim currentTime As System.DateTime = System.DateTime.Now()
         If (Time <> 0) Then
             Do
                 If (TestExists() = True) Then
                     Return True
                 End If
                 System.Threading.Thread.Sleep(200)
-                timer -= 210 'add a little for processing time ;).. 
-                'note: This could be done much better, but good enough for now
-            Loop While (timer > 0)
+            Loop While ((System.DateTime.Now - currentTime).Seconds < Time)
         Else
             Return TestExists()
         End If
         Return False
+    End Function
+
+    ''' <summary>
+    ''' Test to see if an object can be found in a certain amount of time.
+    ''' </summary>
+    ''' <returns>Returns true if the object was found, false if it was not.</returns>
+    ''' <remarks>
+    ''' This method, when passing in a time, does not ensure a
+    ''' window will be found if the window appears and disappears
+    ''' quickly.  In those case, it is recommended you create 
+    ''' your own loop and perform a exists(0)<p/><p/>
+    '''   Example Code: <p/>
+    ''' if(Me.WebElement(MyElement).Exists(10)=true) then<p/>
+    '''   MsgBox "Window was found with in 10 seconds"<p/>
+    ''' else<p/>
+    '''   MsgBox "After 10 seconds, the window was never found"<p/>
+    ''' end if<p/>
+    ''' </remarks>
+    Public Function Exists() As Boolean
+        Return Exists(0)
     End Function
 
     ''' <summary>
@@ -188,10 +241,9 @@ Public MustInherit Class AbstractWebObject
     End Property
 
     Public Sub ExistsWithException()
+        If (Not CurrentElement Is Nothing) Then Return
         If (Exists(ExistTimeout) = False) Then
             Throw New SlickTestUIException("Failed to find object: " & ElementDescriptionToFindInExists().ToString())
         End If
-
     End Sub
 End Class
-#End If

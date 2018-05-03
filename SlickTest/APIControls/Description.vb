@@ -20,24 +20,28 @@
 ''' "right" - The right edge of the object.<p/>
 ''' "width" - The width of the object.<p/>
 ''' "height" - The height of the object.<p/>
-''' "windowtype" - The type of window the object is.<p/>
+''' "controltype" - The type of window the object is.<p/>
 ''' "hwnd" - The window handle, a unique handle for every windows object.<p/>
 ''' "processname" - The name of the process containing the window.<p/>
 ''' "index" - A index of when a certain object is created in windows.<p/>
 ''' "nearbylabel" - The label closest to the windows object.<p/>
 ''' "controlid" - An ID set for any windows object, except the windows themselves.<p/>
 ''' "wildcard" - Allows you to enable or disable wild cards for the name and value descriptions.<p/>
+''' <b>Web Only:</b><p/>
+''' "webvalue" - The value set in the html.<p/>
+''' "webtext" - The text set in the html.<p/>
+''' "webtitle" - The title (sometimes a tool tip) set in the html.<p/>
+''' "webtag" - The actual html version of the type, such as A, INPUT, etc.<p/>
+''' "webid" - A unique id in the html.<p/>
+''' "webinnerhtml" - The html that represents the tag and anything inside it.<p/>
+''' "webouterhtml" - The parent's InnerHTML.<p/>
 ''' </remarks>
-''' 
 Public Class Description
     Implements IDescription
 #Const isAbs = 2 ' This means it is using absolute positioning
-#Const IncludeWeb = 2 'set to 1 to enable web
-
     Private UseWildCard As Boolean
     Private myDesc As System.Collections.Specialized.StringDictionary
     Private Shared WindowsFunctions As New APIControls.IndependentWindowsFunctionsv1()
-    'Private Shared Windowsv1 As New Windowsv1()
 
     ''' <summary>
     ''' A list of possible describers.
@@ -45,7 +49,7 @@ Public Class Description
     ''' <remarks></remarks>
     Public Shadows Enum DescriptionData
         ''' <summary>The type of window the object is.</summary>
-        WindowType
+        ControlType
         ''' <summary>The height of the object.</summary>
         Height
         ''' <summary>The width of the object.</summary>
@@ -70,15 +74,20 @@ Public Class Description
         NearByLabel
         ''' <summary>The control ID assigned by the developer.  In .NET this value is not used. </summary>
         ControlID
-#If (IncludeWeb = 1) Then
-            WebValue
-            WebText
-            WebTitle
-            WebType
-            WebID
-            WebInnerHTML
-            WebOuterHTML
-#End If
+        ''' <summary>The value set in the html.</summary>
+        WebValue
+        ''' <summary>The text set in the html.</summary>
+        WebText
+        ''' <summary>The title (sometimes a tool tip) set in the html.</summary>
+        WebTitle
+        ''' <summary>The actual html version of the type, such as A, INPUT, etc.</summary>
+        WebTag
+        ''' <summary>A unique id in the html.</summary>
+        WebID
+        ''' <summary>The html that represents the tag and anything inside it.</summary>
+        WebInnerHTML
+        ''' <summary>The parent's InnerHTML.</summary>
+        WebOuterHTML
         ''' <summary>The window handle, a unique handle for every windows object.</summary>
         Hwnd
         ''' <summary>Allows you to enable or disable wild cards for the name and value descriptions.</summary>
@@ -111,8 +120,8 @@ Public Class Description
                 Return "width"
             Case DescriptionData.Height
                 Return "height"
-            Case DescriptionData.WindowType
-                Return "windowtype"
+            Case DescriptionData.ControlType
+                Return "controltype"
             Case DescriptionData.ProcessName
                 Return "processname"
             Case DescriptionData.Index
@@ -123,7 +132,6 @@ Public Class Description
                 Return "nearbylabel"
             Case DescriptionData.ControlID
                 Return "controlid"
-#If (IncludeWeb = 1) Then
             Case DescriptionData.WebText
                 Return "webtext"
             Case DescriptionData.WebTitle
@@ -138,7 +146,6 @@ Public Class Description
                 Return "webinnerhtml"
             Case DescriptionData.WebOuterHTML
                 Return "webouterhtml"
-#End If
             Case Else
                 Return ""
         End Select
@@ -170,8 +177,8 @@ Public Class Description
                 Return DescriptionData.Width
             Case "height"
                 Return DescriptionData.Height
-            Case "windowtype", "wintype" ', "type" 'todo
-                Return DescriptionData.WindowType
+            Case "controltype", "windowtype", "wintype" ', "type" 'todo
+                Return DescriptionData.ControlType
             Case "processname"
                 Return DescriptionData.ProcessName
             Case "index"
@@ -182,8 +189,7 @@ Public Class Description
                 Return DescriptionData.NearByLabel
             Case "controlid"
                 Return DescriptionData.ControlID
-#If (IncludeWeb = 1) Then
-            Case "webtype", "webtag"
+            Case "webtag"
                 Return DescriptionData.WebTag
             Case "webtitle"
                 Return DescriptionData.WebTitle
@@ -197,11 +203,9 @@ Public Class Description
                 Return DescriptionData.WebInnerHTML
             Case "webouterhtml"
                 Return DescriptionData.WebOuterHTML
-#End If
             Case Else
                 Throw New SlickTestAPIException(ItemType & " is an invalid type.")
         End Select
-        Return Nothing
     End Function
 
     ''' <summary>
@@ -243,7 +247,7 @@ Public Class Description
                 Return Height.ToString()
             Case DescriptionData.Width
                 Return Width.ToString()
-            Case DescriptionData.WindowType
+            Case DescriptionData.ControlType
                 Return WindowType()
             Case DescriptionData.ProcessName
                 Return ProcessName()
@@ -255,13 +259,14 @@ Public Class Description
                 Return NearByLabel()
             Case DescriptionData.ControlID
                 Return ControlID().ToString()
-#If (IncludeWeb = 1) Then
+            Case DescriptionData.WebTag
+                Return WebTag()
             Case DescriptionData.WebText
                 Return WebText()
             Case DescriptionData.WebTitle
                 Return WebTitle()
-            Case DescriptionData.WebTag
-                Return WebTag()
+            Case DescriptionData.ControlType
+                Return ControlType()
             Case DescriptionData.WebValue
                 Return WebValue()
             Case DescriptionData.WebID
@@ -270,7 +275,6 @@ Public Class Description
                 Return WebInnerHTML()
             Case DescriptionData.WebOuterHTML
                 Return WebOuterHTML()
-#End If
             Case Else
                 Return ""
         End Select
@@ -365,21 +369,22 @@ Public Class Description
                 myDesc.Add("width", Numeric(Value).ToString())
             Case DescriptionData.Height
                 myDesc.Add("height", Numeric(Value).ToString())
-            Case DescriptionData.WindowType
-                myDesc.Add("windowtype", Value.ToLower())
+            Case DescriptionData.ControlType
+                myDesc.Add("controltype", Value.ToLower())
             Case DescriptionData.WildCard
                 Me.WildCard = Convert.ToBoolean(Value)
             Case DescriptionData.NearByLabel
                 myDesc.Add("nearbylabel", Value.ToString())
             Case DescriptionData.ControlID
                 myDesc.Add("controlid", Numeric(Value).ToString())
-#If (IncludeWeb = 1) Then
+            Case DescriptionData.WebTag
+                myDesc.Add("webtag", Value.ToString())
             Case DescriptionData.WebText
                 myDesc.Add("webtext", Value)
             Case DescriptionData.WebTitle
                 myDesc.Add("webtitle", Value)
-            Case DescriptionData.WebTag
-                myDesc.Add("webtag", Value)
+            Case DescriptionData.ControlType
+                myDesc.Add("controltype", Value)
             Case DescriptionData.WebValue
                 myDesc.Add("webvalue", Value)
             Case DescriptionData.WebID
@@ -388,7 +393,7 @@ Public Class Description
                 myDesc.Add("webinnerhtml", Value)
             Case DescriptionData.WebOuterHTML
                 myDesc.Add("webouterhtml", Value)
-#End If
+
             Case Else
                 Throw New SlickTestAPIException(Type.ToString() & " is an invalid type to add")
         End Select
@@ -501,7 +506,7 @@ Public Class Description
     End Function
 
 #Region "Web"
-#If (IncludeWeb = 1) Then
+
     ''' <summary>
     ''' The web ID provided by the user.
     ''' </summary>
@@ -509,7 +514,7 @@ Public Class Description
     ''' <returns>The web ID for the html element, if this value is already set. 
     ''' </returns>
     ''' <remarks></remarks>
-    Public ReadOnly Property WebID() As String
+    Public ReadOnly Property WebID() As String Implements IDescription.WebID
         Get
             If (myDesc.ContainsKey(GetItemName(DescriptionData.WebID)) = False) Then
                 Return vbNullString
@@ -526,7 +531,7 @@ Public Class Description
     ''' <returns>The web ID for the html element, if this value is already set. 
     ''' </returns>
     ''' <remarks></remarks>
-    Public ReadOnly Property WebInnerHTML() As String
+    Public ReadOnly Property WebInnerHTML() As String Implements IDescription.WebInnerHTML
         Get
             If (myDesc.ContainsKey(GetItemName(DescriptionData.WebInnerHTML)) = False) Then
                 Return vbNullString
@@ -543,7 +548,7 @@ Public Class Description
     ''' <returns>The inner HTML for the html element, if this value is already set. 
     ''' </returns>
     ''' <remarks></remarks>
-    Public ReadOnly Property WebOuterHTML() As String
+    Public ReadOnly Property WebOuterHTML() As String Implements IDescription.WebOuterHTML
         Get
             If (myDesc.ContainsKey(GetItemName(DescriptionData.WebOuterHTML)) = False) Then
                 Return vbNullString
@@ -559,7 +564,7 @@ Public Class Description
     ''' <value></value>
     ''' <returns></returns>
     ''' <remarks></remarks>
-    Public ReadOnly Property WebValue() As String
+    Public ReadOnly Property WebValue() As String Implements IDescription.WebValue
         Get
             If (myDesc.ContainsKey(GetItemName(DescriptionData.WebValue)) = False) Then
                 Return vbNullString
@@ -571,12 +576,28 @@ Public Class Description
     End Property
 
     ''' <summary>
+    ''' The WebTag for the object, if this value is already set.
+    ''' </summary>
+    ''' <value></value>
+    ''' <returns></returns>
+    ''' <remarks></remarks>
+    Public ReadOnly Property WebTag() As String Implements IDescription.WebTag
+        Get
+            If (myDesc.ContainsKey(GetItemName(DescriptionData.WebTag)) = False) Then
+                Return "unknown"
+            Else
+                Return myDesc.Item(GetItemName(DescriptionData.WebTag)).ToLower()
+            End If
+        End Get
+    End Property
+
+    ''' <summary>
     ''' The text for the web element, if this value is already set.
     ''' </summary>
     ''' <value></value>
     ''' <returns></returns>
     ''' <remarks></remarks>
-    Public ReadOnly Property WebText() As String
+    Public ReadOnly Property WebText() As String Implements IDescription.WebText
         Get
             If (myDesc.ContainsKey(GetItemName(DescriptionData.WebText)) = False) Then
                 Return vbNullString
@@ -593,7 +614,7 @@ Public Class Description
     ''' <value></value>
     ''' <returns></returns>
     ''' <remarks></remarks>
-    Public ReadOnly Property WebTitle() As String
+    Public ReadOnly Property WebTitle() As String Implements IDescription.WebTitle
         Get
             If (myDesc.ContainsKey(GetItemName(DescriptionData.WebTitle)) = False) Then
                 Return vbNullString
@@ -605,21 +626,21 @@ Public Class Description
     End Property
 
     ''' <summary>
-    ''' The WebTag for the object, if this value is already set.
+    ''' The ControlType for the object, if this value is already set.
     ''' </summary>
     ''' <value></value>
     ''' <returns></returns>
-    ''' <remarks></remarks>
-    Public ReadOnly Property WebTag() As String
+    ''' <remarks>This is the general type, not the specific tag.</remarks>
+    Public ReadOnly Property ControlType() As String Implements IDescription.ControlType
         Get
-            If (myDesc.ContainsKey(GetItemName(DescriptionData.WebTag)) = False) Then
+            If (myDesc.ContainsKey(GetItemName(DescriptionData.ControlType)) = False) Then
                 Return "unknown"
             Else
-                Return myDesc.Item(GetItemName(DescriptionData.WebTag)).ToLower()
+                Return myDesc.Item(GetItemName(DescriptionData.ControlType)).ToLower()
             End If
         End Get
     End Property
-#End If
+
 #End Region
 
     ''' <summary>
@@ -845,17 +866,17 @@ Public Class Description
     End Property
 
     ''' <summary>
-    ''' The WindowType for the object, if this value is already set.
+    ''' The ControlType for the object, if this value is already set.
     ''' </summary>
     ''' <value></value>
     ''' <returns>Returns unknown if no value is set.</returns>
     ''' <remarks></remarks>
     Public ReadOnly Property WindowType() As String Implements IDescription.WindowType
         Get
-            If (myDesc.ContainsKey(GetItemName(DescriptionData.WindowType)) = False) Then
+            If (myDesc.ContainsKey(GetItemName(DescriptionData.ControlType)) = False) Then
                 Return "unknown"
             Else
-                Return myDesc.Item(GetItemName(DescriptionData.WindowType)).ToLower()
+                Return myDesc.Item(GetItemName(DescriptionData.ControlType)).ToLower()
             End If
         End Get
     End Property

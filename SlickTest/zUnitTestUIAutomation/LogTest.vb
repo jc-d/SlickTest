@@ -1,31 +1,13 @@
-﻿Imports Microsoft.VisualStudio.TestTools.UnitTesting
-
+﻿Imports NUnit.Framework
 Imports UIControls
-
 
 
 '''<summary>
 '''This is a test class for LogTest and is intended
 '''to contain all LogTest Unit Tests
 '''</summary>
-<TestClass()> _
+<TestFixture()> _
 Public Class LogTest
-
-
-    Private testContextInstance As TestContext
-
-    '''<summary>
-    '''Gets or sets the test context which provides
-    '''information about and functionality for the current test run.
-    '''</summary>
-    Public Property TestContext() As TestContext
-        Get
-            Return testContextInstance
-        End Get
-        Set(ByVal value As TestContext)
-            testContextInstance = Value
-        End Set
-    End Property
 
 #Region "Additional test attributes"
     '
@@ -33,8 +15,8 @@ Public Class LogTest
     '
     'Use ClassInitialize to run code before running the first test in the class
     '<ClassInitialize()>  _
-    Public Shared Sub MyClassInitialize(ByVal testContext As TestContext)
-        Log.StoreLogLocation = Log.LogLocation.ToFileAndConsole
+    Public Shared Sub MyClassInitialize()
+        Log.StoreLogLocation = LogLocation.ToFileAndConsole
         Dim rand As New Random()
 
         Log.FileLogLocation = "C:\MyFile" & (rand.NextDouble() * 1002).ToString() & ".txt"
@@ -51,7 +33,7 @@ Public Class LogTest
     'End Sub
     '
     'Use TestCleanup to run code after each test has run
-    <TestCleanup()> _
+    <TearDown()> _
     Public Sub MyTestCleanup()
         Try
             System.IO.File.Delete(Log.FileLogLocation)
@@ -66,42 +48,42 @@ Public Class LogTest
     '''<summary>
     '''A test for Filter
     '''</summary>
-    <TestMethod()> _
+    <Test()> _
     Public Sub FilterTest()
         Dim expected As Byte
         Dim actual As Byte
         For expected = 1 To 10
             Log.Filter = expected
             actual = Log.Filter
-            Assert.AreEqual(expected, actual)
+            Verify.AreEqual(expected, actual)
         Next
     End Sub
 
     '''<summary>
     '''A test for LogData
     '''</summary>
-    <TestMethod()> _
+    <Test()> _
     Public Sub LogDataTest1()
-        Log.StoreLogLocation = Log.LogLocation.ToFileAndConsole
+        Log.StoreLogLocation = LogLocation.ToFileAndConsole
         Dim LogInfo As String = "Hello world"
         Dim PriorityFilter As Byte = 3
         Log.Filter = 1
         Log.LogData(LogInfo, PriorityFilter)
         Log.LogData(LogInfo, PriorityFilter)
-        Assert.AreEqual(True, System.IO.File.Exists(Log.FileLogLocation))
+        Verify.AreEqual(True, System.IO.File.Exists(Log.FileLogLocation))
         System.IO.File.Delete(Log.FileLogLocation)
     End Sub
 
     '''<summary>
     '''A test for LogData
     '''</summary>
-    <TestMethod()> _
+    <Test()> _
     Public Sub LogDataTest()
-        Log.StoreLogLocation = Log.LogLocation.ToFileAndConsole
+        Log.StoreLogLocation = LogLocation.ToFileAndConsole
         Dim LogInfo As String = "Hello world"
         Log.LogData(LogInfo)
         Log.LogData(LogInfo)
-        Assert.AreEqual(System.IO.File.Exists(Log.FileLogLocation), True)
+        Verify.AreEqual(System.IO.File.Exists(Log.FileLogLocation), True)
         System.IO.File.Delete(Log.FileLogLocation)
     End Sub
 End Class

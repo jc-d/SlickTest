@@ -1,6 +1,6 @@
 ﻿'Imports System.Collections.Generic
 
-'Imports Microsoft.VisualStudio.TestTools.UnitTesting
+'Imports NUnit.Framework
 
 'Imports UIControls
 
@@ -10,11 +10,11 @@
 ''''This is a test class for SwfStaticLabelTest and is intended
 ''''to contain all SwfStaticLabelTest Unit Tests
 ''''</summary>
-'<TestClass()> _
+'<TestFixture()>  _
 'Public Class SwfStaticLabelTest
 
 
-'    Private testContextInstance As TestContext
+'
 
 '    '''<summary>
 '    '''Gets or sets the test context which provides
@@ -35,7 +35,7 @@
 '    '
 '    'Use ClassInitialize to run code before running the first test in the class
 '    '<ClassInitialize()>  _
-'    'Public Shared Sub MyClassInitialize(ByVal testContext As TestContext)
+'    'Public Shared Sub MyClassInitialize()
 '    'End Sub
 '    '
 '    'Use ClassCleanup to run code after all tests in a class have run

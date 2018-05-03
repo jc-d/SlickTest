@@ -43,7 +43,7 @@ Public NotInheritable Class Report
     Private CurrentTestName As String
     Private CurrentStepName As String
     Private CurrentStepNumber As Byte
-    Private aFilter As Integer
+    Private aFilter As Byte
     Private Shared ProjectGUID As System.Guid = System.Guid.Empty
     Private Shared RunGUID As System.Guid
     Private InternalProjectName As String
@@ -572,7 +572,7 @@ Public NotInheritable Class Report
     ''' <remarks>
     ''' NOTE: A step will not be recorded unless at least one event is recorded with that stepname.</remarks>
     Public Sub NextStep(Optional ByVal NextStepName As String = "") Implements IReport.NextStep
-        CurrentStepNumber += 1
+        CurrentStepNumber = Convert.ToByte(CurrentStepNumber + 1)
         If (String.IsNullOrEmpty(NextStepName)) Then
             CurrentStepName = "Step " & CurrentStepNumber
         Else
@@ -893,6 +893,10 @@ Public NotInheritable Class Report
             RecordEvent(TypeOfMessage, MainMessage, AdditionalDetails)
         End If
     End Sub
+
+    Public Overrides Function ToString() As String
+        Return LocalConnectionString
+    End Function
 
 #Region "Constructor"
     '#If CONFIG <> "Release" Then

@@ -1,4 +1,4 @@
-﻿Imports Microsoft.VisualStudio.TestTools.UnitTesting
+﻿Imports NUnit.Framework
 
 Imports UIControls
 
@@ -8,23 +8,9 @@ Imports UIControls
 '''This is a test class for ClipboardTest and is intended
 '''to contain all ClipboardTest Unit Tests
 '''</summary>
-<TestClass()> _
+<TestFixture()> _
 Public Class ClipboardTest
 
-    Private testContextInstance As TestContext
-
-    '''<summary>
-    '''Gets or sets the test context which provides
-    '''information about and functionality for the current test run.
-    '''</summary>
-    Public Property TestContext() As TestContext
-        Get
-            Return testContextInstance
-        End Get
-        Set(ByVal value As TestContext)
-            testContextInstance = Value
-        End Set
-    End Property
 
 #Region "Additional test attributes"
     '
@@ -32,7 +18,7 @@ Public Class ClipboardTest
     '
     'Use ClassInitialize to run code before running the first test in the class
     '<ClassInitialize()>  _
-    'Public Shared Sub MyClassInitialize(ByVal testContext As TestContext)
+    'Public Shared Sub MyClassInitialize()
     'End Sub
     '
     'Use ClassCleanup to run code after all tests in a class have run
@@ -56,35 +42,35 @@ Public Class ClipboardTest
     '''<summary>
     '''A test for Text
     '''</summary>
-    <TestMethod()> _
+    <Test(), RequiresSTA()> _
     Public Sub TextTest()
         Dim target As Clipboard = New Clipboard ' TODO: Initialize to an appropriate value
         Dim expected As String = "Hello World!" ' TODO: Initialize to an appropriate value
         Dim actual As String
         target.Text = expected
         actual = target.Text
-        Assert.AreEqual(expected, actual)
-        'Assert.Inconclusive("Verify the correctness of this test method.")
+        Verify.AreEqual(expected, actual)
+        'Verify.Inconclusive("Verify the correctness of this test method.")
     End Sub
 
     '''<summary>
     '''A test for Clear
     '''</summary>
-    <TestMethod()> _
+    <Test(), RequiresSTA()> _
     Public Sub ClearTest()
         Dim target As Clipboard = New Clipboard ' TODO: Initialize to an appropriate value
         Dim expected As String = String.Empty
         Dim actual As String = String.Empty
         target.Text = "Hello World!"
         target.Clear()
-        Assert.AreEqual(expected, actual)
-        'Assert.Inconclusive("A method that does not return a value cannot be verified.")
+        Verify.AreEqual(expected, actual)
+        'Verify.Inconclusive("A method that does not return a value cannot be verified.")
     End Sub
 
     '''<summary>
     '''A test for Clipboard Constructor
     '''</summary>
-    <TestMethod()> _
+    <Test()> _
     Public Sub ClipboardConstructorTest()
         Dim target As Clipboard = New Clipboard
     End Sub

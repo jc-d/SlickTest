@@ -2,22 +2,28 @@
 Imports System.Drawing
 Imports System.Windows.Forms
 
-Public Class RedHighlight
+Friend Class RedHighlight
     Inherits System.Windows.Forms.Form
 
-    Public PenColor As Color
-    Public PenWidth As Integer
+    Friend PenColor As Color
+    Friend PenWidth As Integer
     Protected SpyHandle As IntPtr
     Protected rec As Rectangle
     Protected Friend cachedRectangle As Rectangle
 
 #Region "Init"
-    Public Sub New(ByVal SpyHandle As IntPtr)
+    Friend Sub New(ByVal SpyHandle As IntPtr)
         InitHighlighter()
         Me.SpyHandle = SpyHandle
     End Sub
 
-    Public Sub New()
+    Friend Sub New(ByVal SpyHandle As IntPtr, ByVal rectangle As System.Drawing.Rectangle)
+        InitHighlighter()
+        Me.SpyHandle = SpyHandle
+        Me.rec = rectangle
+    End Sub
+
+    Friend Sub New()
         InitHighlighter()
     End Sub
 #End Region
@@ -25,7 +31,7 @@ Public Class RedHighlight
 #Region " API DECLARATIONS"
 
     <DllImport("user32", EntryPoint:="GetWindowRect")> _
-    Protected Shared Function GetWindowRect(ByVal hwnd As IntPtr, ByVal lpRect As RECT) As Integer
+    Private Shared Function GetWindowRect(ByVal hwnd As IntPtr, ByVal lpRect As RECT) As Integer
     End Function
     <DllImport("user32", EntryPoint:="SetForegroundWindow")> _
     Public Shared Function SetForegroundWindow(ByVal hwnd As IntPtr) As Boolean
@@ -36,13 +42,12 @@ Public Class RedHighlight
 
 #Region " STRUCTURE "
     <StructLayout(LayoutKind.Sequential)> _
-        Public Class RECT
+        Private Class RECT
         Public Left As Integer
         Public Top As Integer
         Public Right As Integer
         Public Bottom As Integer
     End Class
-
 #End Region
 
 #End Region
@@ -68,9 +73,12 @@ Public Class RedHighlight
     End Sub
 
     Protected Friend Overridable Sub DoDraw()
-        Me.SetPlacement(Me.GetRectangle(Me.SpyHandle))
+        If (Me.SpyHandle = IntPtr.Zero) Then
+            Me.SetPlacement(rec)
+        Else
+            Me.SetPlacement(Me.GetRectangle(Me.SpyHandle))
+        End If
     End Sub
-
 
     Private Sub InitHighlighter()
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None

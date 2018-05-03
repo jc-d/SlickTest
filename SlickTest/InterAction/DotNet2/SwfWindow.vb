@@ -1,7 +1,7 @@
 'Updated On: 8/23/08
 
 ''' <summary>
-''' A window is just a specialized SwfWinObject, and so it performs everything a 
+''' A window is just a specialized SwfWinObject, and it performs everything a 
 ''' SwfWinObject.
 ''' </summary>
 ''' <remarks></remarks>
@@ -170,7 +170,7 @@ Public Class SwfWindow
     Public Function GetWindowState() As System.Windows.Forms.FormWindowState
         Dim wp As New WinAPI.API.WINDOWPLACEMENT()
         wp.length = System.Runtime.InteropServices.Marshal.SizeOf(wp)
-        WinAPI.API.GetWindowPlacement(Me.Hwnd(), wp)
+        WinAPI.API.GetWindowPlacement(New IntPtr(Me.Hwnd()), wp)
         Select Case wp.showCmd Mod 4
             Case 2
                 Return Windows.Forms.FormWindowState.Minimized
@@ -199,7 +199,7 @@ Public Class SwfWindow
             Case Else
                 Throw New SlickTestUIException("Unable to set to state " & State.ToString())
         End Select
-        WinAPI.API.ShowWindow(Me.Hwnd(), Command)
+        WinAPI.API.ShowWindow(New IntPtr(Me.Hwnd()), Command)
     End Sub
 
     ''' <summary>
@@ -217,7 +217,7 @@ Public Class SwfWindow
     ''' <param name="Y">The Y location to move the window to.</param>
     ''' <remarks>This method will set the window to the normal state.</remarks>
     Public Sub Move(ByVal X As Integer, ByVal Y As Integer)
-        Dim HwndVal As IntPtr = Me.Hwnd()
+        Dim HwndVal As IntPtr = New IntPtr(Me.Hwnd())
         WinAPI.API.ShowWindow(HwndVal, 1) ' 1 = normal
         If (WinAPI.API.SetWindowPos(HwndVal, WinAPI.API.SetWindowPosZOrder.HWND_TOP, X, Y, 0, 0, WinAPI.API.SetWindowPosFlags.SWP_NOSIZE) = 0) Then
             Throw New SlickTestUIException("Unable to move window.")
@@ -231,7 +231,7 @@ Public Class SwfWindow
     ''' <param name="Height">The Height of the window.</param>
     ''' <remarks>This method will set the window to the normal state.</remarks>
     Public Sub SetSize(ByVal Width As Integer, ByVal Height As Integer)
-        Dim HwndVal As IntPtr = Me.Hwnd()
+        Dim HwndVal As IntPtr = New IntPtr(Me.Hwnd())
         WinAPI.API.ShowWindow(HwndVal, 1) ' 1 = normal
         If (WinAPI.API.SetWindowPos(HwndVal, WinAPI.API.SetWindowPosZOrder.HWND_TOP, 0, 0, Width, Height, WinAPI.API.SetWindowPosFlags.SWP_NOMOVE) = 0) Then
             Throw New SlickTestUIException("Unable to resize window.")
@@ -254,133 +254,153 @@ Public Class SwfWindow
     ''' <remarks>This method maybe take a while.</remarks>
     Public Function DumpWindowData() As String
         Dim window As New System.Text.StringBuilder(10000)
-        Dim itemCount As Integer = 1
-        Dim MainDesc As APIControls.Description = WindowsFunctions.CreateDescriptionFromHwnd(New IntPtr(Me.Hwnd))
-        window.AppendLine(BuildDescribingString(MainDesc, itemCount))
-        Dim ChildDescriptions As Description() = Me.GetChildDescriptions()
-        For Each desc As Description In ChildDescriptions
-            itemCount = itemCount + 1
-            window.AppendLine(BuildDescribingString(desc, itemCount))
-            Me.description.RemoveRange(1, Me.description.Count - 1)
-            'For i As Integer = 1 To Me.description.Count - 1 'We have to clear the caching so that it doesn't build up.
-            '    Me.description.RemoveAt(i)
-            '    i = 1
-            'Next
+        Dim items As System.Collections.Generic.Dictionary(Of String, System.Collections.Generic.Dictionary(Of String, String))
+        items = DumpWindowDataAsDictionary()
+
+        For Each item As String In items.Keys
+            window.AppendLine(item)
+            For Each description As String In items(item).Keys
+                window.AppendLine(vbTab & description & "='" & items(item)(description) & "'")
+            Next
         Next
         Return window.ToString()
     End Function
 
-    Private Function BuildDescribingString(ByVal desc As APIControls.Description, ByVal itemCount As Integer) As String
-        Dim valueToAddToList As New System.Text.StringBuilder(300)
-        valueToAddToList.AppendLine("Item # " & itemCount)
+    ''' <summary>
+    ''' Gets the entire data set for all objects found within the given WebElement.
+    ''' </summary>
+    ''' <returns></returns>
+    ''' <remarks>This method maybe take a while.</remarks>
+    Public Function DumpWindowDataAsDictionary() As System.Collections.Generic.Dictionary(Of String, System.Collections.Generic.Dictionary(Of String, String))
+        Dim itemCount As Integer = 1
+        Dim items As New System.Collections.Generic.Dictionary(Of String, System.Collections.Generic.Dictionary(Of String, String))
+        ExistsWithException()
+
+        Dim MainDesc As APIControls.Description = WindowsFunctions.CreateDescriptionFromHwnd(New IntPtr(Me.Hwnd))
+
+        items = BuildDescribingAsDictionary(items, MainDesc, itemCount)
+        Dim ChildDescriptions As Description() = Me.GetChildDescriptions()
+        If (ChildDescriptions Is Nothing) Then Return items 'window.ToString()
+
+        For Each desc As Description In ChildDescriptions
+            itemCount = itemCount + 1
+            items = BuildDescribingAsDictionary(items, desc, itemCount)
+            Me.description.RemoveRange(1, Me.description.Count - 1)
+        Next
+        Return items
+    End Function
+
+    Private Function BuildDescribingAsDictionary(ByRef internalDictionary As System.Collections.Generic.Dictionary(Of String, System.Collections.Generic.Dictionary(Of String, String)), ByVal desc As APIControls.Description, ByVal itemCount As Integer) As System.Collections.Generic.Dictionary(Of String, System.Collections.Generic.Dictionary(Of String, String))
+        Dim valueToAddToList As New System.Collections.Generic.Dictionary(Of String, String)
+        internalDictionary.Add("Item # " & itemCount, valueToAddToList)
 
         For Each item As APIControls.Description.DescriptionData In [Enum].GetValues(GetType(APIControls.Description.DescriptionData))
             If (desc.Contains(item)) Then
-                valueToAddToList.AppendLine(vbTab & desc.GetItemName(item) & "='" & desc.GetItemValue(item) & "'")
+                valueToAddToList.Add(desc.GetItemName(item), desc.GetItemValue(item))
             End If
         Next
 
-        valueToAddToList.AppendLine(vbTab & "Style='" & Me.GetStyle() & "'")
-        valueToAddToList.AppendLine(vbTab & "StyleEx='" & Me.GetStyleEx() & "'")
+        valueToAddToList.Add("Style", Me.GetStyle().ToString())
+        valueToAddToList.Add("StyleEx", Me.GetStyleEx().ToString())
         Dim hwndDescription As String = "hwnd:=""" & desc.Hwnd.ToString() & """"
         Select Case desc.WindowType().ToLowerInvariant()
             Case "listbox"
                 Dim LstBox As UIControls.SwfListBox = SwfListBox(hwndDescription)
-                If (LstBox Is Nothing) Then Return valueToAddToList.ToString()
-                valueToAddToList.AppendLine(vbTab & "ItemCount='" & LstBox.GetItemCount() & "'")
+                If (LstBox Is Nothing) Then Return internalDictionary
+                valueToAddToList.Add("ItemCount", LstBox.GetItemCount().ToString())
                 If (LstBox.GetItemCount() > 1) Then
-                    valueToAddToList.AppendLine(vbTab & "(Sample)Item(0)='" & LstBox.GetItemByIndex(0) & "'")
+                    valueToAddToList.Add("(Sample)Item(0)", LstBox.GetItemByIndex(0))
                 End If
-                valueToAddToList.AppendLine(vbTab & "SelectCount='" & LstBox.GetSelectCount() & "'")
-                valueToAddToList.AppendLine(vbTab & "SelectedItemNumber='" & LstBox.GetSelectedItemNumber() & "'")
-                valueToAddToList.AppendLine(vbTab & "IsEnabled='" & LstBox.IsEnabled() & "'")
+                valueToAddToList.Add("SelectCount", LstBox.GetSelectCount().ToString())
+                valueToAddToList.Add("SelectedItemNumber", LstBox.GetSelectedItemNumber().ToString())
+                valueToAddToList.Add("IsEnabled", LstBox.IsEnabled().ToString())
 
             Case "listview"
                 Dim LstView As UIControls.SwfListView = SwfListView(hwndDescription)
-                If (LstView Is Nothing) Then Return valueToAddToList.ToString()
-                valueToAddToList.AppendLine(vbTab & "ColumnCount='" & LstView.GetColumnCount() & "'")
+                If (LstView Is Nothing) Then Return internalDictionary
+                valueToAddToList.Add("ColumnCount", LstView.GetColumnCount().ToString())
                 If (LstView.GetColumnCount() >= 1) Then
-                    valueToAddToList.AppendLine(vbTab & "Values='" & LstView.GetAllFormatted() & "'")
+                    valueToAddToList.Add("Values", LstView.GetAllFormatted())
                 End If
-                valueToAddToList.AppendLine(vbTab & "RowCount='" & LstView.GetRowCount() & "'")
-                valueToAddToList.AppendLine(vbTab & "IsEnabled='" & LstView.IsEnabled() & "'")
+                valueToAddToList.Add("RowCount", LstView.GetRowCount().ToString())
+                valueToAddToList.Add("IsEnabled", LstView.IsEnabled().ToString())
 
             Case "combobox"
                 Dim CmbBox As UIControls.SwfComboBox = SwfComboBox(hwndDescription)
-                If (CmbBox Is Nothing) Then Return valueToAddToList.ToString()
-                valueToAddToList.AppendLine(vbTab & "ItemCount='" & CmbBox.GetItemCount() & "'")
-                valueToAddToList.AppendLine(vbTab & "SelectedItemNumber='" & CmbBox.GetSelectedItemNumber() & "'")
+                If (CmbBox Is Nothing) Then Return internalDictionary
+                valueToAddToList.Add("ItemCount", CmbBox.GetItemCount().ToString())
+                valueToAddToList.Add("SelectedItemNumber", CmbBox.GetSelectedItemNumber().ToString())
                 If (CmbBox.GetItemCount() > 1) Then
-                    valueToAddToList.AppendLine(vbTab & "(Sample)Item(0)='" & CmbBox.GetItemByIndex(0) & "'")
+                    valueToAddToList.Add("(Sample)Item(0)", CmbBox.GetItemByIndex(0))
                 End If
-                valueToAddToList.AppendLine(vbTab & "IsEnabled='" & CmbBox.IsEnabled() & "'")
+                valueToAddToList.Add("IsEnabled", CmbBox.IsEnabled().ToString())
 
             Case "textbox"
                 Dim TxtBox As UIControls.SwfTextBox = SwfTextBox(hwndDescription)
-                If (TxtBox Is Nothing) Then Return valueToAddToList.ToString()
-                valueToAddToList.AppendLine(vbTab & "CurrentLineNumber='" & TxtBox.GetCurrentLineNumber() & "'")
-                valueToAddToList.AppendLine(vbTab & "IndexFromCaret='" & TxtBox.GetIndexFromCaret() & "'")
-                valueToAddToList.AppendLine(vbTab & "LineCount='" & TxtBox.GetLineCount() & "'")
+                If (TxtBox Is Nothing) Then Return internalDictionary
+                valueToAddToList.Add("CurrentLineNumber", TxtBox.GetCurrentLineNumber().ToString())
+                valueToAddToList.Add("IndexFromCaret", TxtBox.GetIndexFromCaret().ToString())
+                valueToAddToList.Add("LineCount", TxtBox.GetLineCount().ToString())
                 If (TxtBox.GetLineCount() > 1) Then
-                    valueToAddToList.AppendLine(vbTab & "(Sample)LineText(0)='" & TxtBox.GetLineText(0) & "'")
+                    valueToAddToList.Add("(Sample)LineText(0)", TxtBox.GetLineText(0))
                 End If
-                valueToAddToList.AppendLine(vbTab & "IsEnabled='" & TxtBox.IsEnabled() & "'")
+                valueToAddToList.Add("IsEnabled", TxtBox.IsEnabled().ToString())
 
             Case "button"
                 'Nothing special
                 Dim Buton As UIControls.SwfButton = SwfButton(hwndDescription)
-                If (Buton Is Nothing) Then Return valueToAddToList.ToString()
-                valueToAddToList.AppendLine(vbTab & "IsEnabled='" & Buton.IsEnabled() & "'")
+                If (Buton Is Nothing) Then Return internalDictionary
+                valueToAddToList.Add("IsEnabled", Buton.IsEnabled().ToString())
             Case "staticlabel"
                 'Nothing special
                 Dim StcLabel As UIControls.SwfStaticLabel = SwfStaticLabel(hwndDescription)
-                If (StcLabel Is Nothing) Then Return valueToAddToList.ToString()
-                valueToAddToList.AppendLine(vbTab & "IsEnabled='" & StcLabel.IsEnabled() & "'")
+                If (StcLabel Is Nothing) Then Return internalDictionary
+                valueToAddToList.Add("IsEnabled", StcLabel.IsEnabled().ToString())
             Case "checkbox"
                 Dim ChkBox As UIControls.SwfCheckBox = SwfCheckBox(hwndDescription)
-                If (ChkBox Is Nothing) Then Return valueToAddToList.ToString()
-                valueToAddToList.AppendLine(vbTab & "Is3State='" & ChkBox.Is3State() & "'")
-                valueToAddToList.AppendLine(vbTab & "Is3StateAuto='" & ChkBox.Is3StateAuto() & "'")
-                'valueToAddToList.AppendLine(vbTab & "IsButton='" & ChkBox.IsButton() & "'")
-                'valueToAddToList.AppendLine(vbTab & "IsCheckBox='" & ChkBox.IsCheckBox() & "'")
-                valueToAddToList.AppendLine(vbTab & "IsEnabled='" & ChkBox.IsEnabled() & "'")
-                valueToAddToList.AppendLine(vbTab & "Checked='" & ChkBox.GetCheckedString() & "'")
+                If (ChkBox Is Nothing) Then Return internalDictionary
+                valueToAddToList.Add("Is3State", ChkBox.Is3State().ToString())
+                valueToAddToList.Add("Is3StateAuto", ChkBox.Is3StateAuto().ToString())
+                'valueToAddToList.Add("IsButton", ChkBox.IsButton())
+                'valueToAddToList.Add("IsCheckBox", ChkBox.IsCheckBox())
+                valueToAddToList.Add("IsEnabled", ChkBox.IsEnabled().ToString())
+                valueToAddToList.Add("Checked", ChkBox.GetCheckedString())
             Case "radiobutton"
                 Dim RadButton As UIControls.SwfRadioButton = SwfRadioButton(hwndDescription)
-                If (RadButton Is Nothing) Then Return valueToAddToList.ToString()
-                valueToAddToList.AppendLine(vbTab & "IsEnabled='" & RadButton.IsEnabled() & "'")
-                'valueToAddToList.AppendLine(vbTab & "IsButton='" & RadButton.IsButton() & "'")
-                'valueToAddToList.AppendLine(vbTab & "IsRadioButton='" & RadButton.IsRadioButton() & "'")
-                valueToAddToList.AppendLine(vbTab & "IsSelected='" & RadButton.GetSelected() & "'")
+                If (RadButton Is Nothing) Then Return internalDictionary
+                valueToAddToList.Add("IsEnabled", RadButton.IsEnabled().ToString())
+                'valueToAddToList.Add("IsButton", RadButton.IsButton())
+                'valueToAddToList.Add("IsRadioButton", RadButton.IsRadioButton())
+                valueToAddToList.Add("IsSelected", RadButton.GetSelected().ToString())
             Case "treeview"
                 Dim TreView As UIControls.SwfTreeView = SwfTreeView(hwndDescription)
-                If (TreView Is Nothing) Then Return valueToAddToList.ToString()
-                valueToAddToList.AppendLine(vbTab & "IsEnabled='" & TreView.IsEnabled() & "'")
-                valueToAddToList.AppendLine(vbTab & "SelectedText='" & TreView.GetSelectedText() & "'")
-                valueToAddToList.AppendLine(vbTab & "Count='" & TreView.GetItemCount() & "'")
+                If (TreView Is Nothing) Then Return internalDictionary
+                valueToAddToList.Add("IsEnabled", TreView.IsEnabled().ToString())
+                valueToAddToList.Add("SelectedText", TreView.GetSelectedText())
+                valueToAddToList.Add("Count", TreView.GetItemCount().ToString())
             Case "tabcontrol"
                 Dim TbCtrl As UIControls.SwfTabControl = SwfTabControl(hwndDescription)
-                If (TbCtrl Is Nothing) Then Return valueToAddToList.ToString()
-                valueToAddToList.AppendLine(vbTab & "IsEnabled='" & TbCtrl.IsEnabled() & "'")
-                valueToAddToList.AppendLine(vbTab & "SelectedTabIndex='" & TbCtrl.GetSelectedTab() & "'")
-                valueToAddToList.AppendLine(vbTab & "TabCount='" & TbCtrl.GetTabCount() & "'")
+                If (TbCtrl Is Nothing) Then Return internalDictionary
+                valueToAddToList.Add("IsEnabled", TbCtrl.IsEnabled().ToString())
+                valueToAddToList.Add("SelectedTabIndex", TbCtrl.GetSelectedTab().ToString())
+                valueToAddToList.Add("TabCount", TbCtrl.GetTabCount().ToString())
             Case "window"
                 Dim win As UIControls.SwfWindow = Me
-                valueToAddToList.AppendLine(vbTab & "HasBorder='" & win.HasBorder() & "'")
-                valueToAddToList.AppendLine(vbTab & "HasMaximizeButton='" & win.HasMaximizeButton() & "'")
-                valueToAddToList.AppendLine(vbTab & "HasMinimizeButton='" & win.HasMinimizeButton() & "'")
-                valueToAddToList.AppendLine(vbTab & "HasTitleBar='" & win.HasTitleBar() & "'")
-                'valueToAddToList.AppendLine(vbTab & "NumberOfSameWindows='" & win.GetObjectCount() & "'")
-                'valueToAddToList.AppendLine(vbTab & "HasMenu='" & win.Menu.ContainsMenu() & "'")
-                valueToAddToList.AppendLine(vbTab & "WindowState='" & win.GetWindowState().ToString() & "'")
+                valueToAddToList.Add("HasBorder", win.HasBorder().ToString())
+                valueToAddToList.Add("HasMaximizeButton", win.HasMaximizeButton().ToString())
+                valueToAddToList.Add("HasMinimizeButton", win.HasMinimizeButton().ToString())
+                valueToAddToList.Add("HasTitleBar", win.HasTitleBar().ToString())
+                'valueToAddToList.Add("NumberOfSameWindows", win.GetObjectCount())
+                'valueToAddToList.Add("HasMenu", win.Menu.ContainsMenu())
+                valueToAddToList.Add("WindowState", win.GetWindowState().ToString())
             Case Else
                 Dim WinObj As UIControls.SwfWinObject = SwfWinObject(hwndDescription)
-                If (WinObj Is Nothing) Then Return valueToAddToList.ToString()
-                valueToAddToList.AppendLine(vbTab & "IsEnabled='" & WinObj.IsEnabled() & "'")
+                If (WinObj Is Nothing) Then Return internalDictionary
+                valueToAddToList.Add("IsEnabled", WinObj.IsEnabled().ToString())
         End Select
 
-        valueToAddToList.AppendLine(vbTab & "ClientAreaRect='" & Me.GetClientAreaRect().ToString() & "'")
+        valueToAddToList.Add("ClientAreaRect", Me.GetClientAreaRect().ToString())
 
-        Return valueToAddToList.ToString()
+        Return internalDictionary
     End Function
 End Class

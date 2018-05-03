@@ -1,0 +1,766 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>XmlSettings</name>
+    </assembly>
+    <members>
+        <member name="T:XmlSettings.IniSection">
+            <summary>Class represents a section similar to an information file(INI) section.
+            </summary>
+            <remarks>Provides PropertyGrid support.</remarks>
+        </member>
+        <member name="M:XmlSettings.IniSection.#ctor(System.String,XmlSettings.AppSettings)">
+            <summary>Constructor requiring a name and a reference to the top object.</summary>
+        </member>
+        <member name="M:XmlSettings.IniSection.ToString">
+            <summary>Meaningful text representation</summary>
+        </member>
+        <member name="P:XmlSettings.IniSection.Settings">
+            <summary>
+            Settings collection property.
+            </summary>
+        </member>
+        <member name="P:XmlSettings.IniSection.Item(System.Int32)">
+            <summary>
+            Indexer access to the Setting by index.
+            </summary>
+            <value>The item number</value>
+        </member>
+        <member name="P:XmlSettings.IniSection.Item(System.String)">
+            <summary>
+            Indexer access to the Setting by name.
+            </summary>
+            <value>The item name</value>
+        </member>
+        <member name="P:XmlSettings.IniSection.Name">
+            <summary>
+            Section name
+            </summary>
+            <value>Section name</value>
+        </member>
+        <member name="P:XmlSettings.IniSection.Parent">
+            <summary>
+            Parent object is set with the Add method.
+            </summary>
+            <value>Section name</value>
+            <remarks>Could be a IniSection or IniSetting</remarks>
+        </member>
+        <member name="P:XmlSettings.IniSection.DisplayInPG">
+            <summary>
+            Can we see a section in the Property Grid or not.
+            </summary>
+        </member>
+        <member name="T:XmlSettings.IniSections">
+            <summary>Collection class of IniSections.</summary>
+            <remarks>Provides PropertyGrid support.</remarks>
+        </member>
+        <member name="M:XmlSettings.IniSections.#ctor(XmlSettings.AppSettings)">
+            <summary>Constructor requiring a reference to the top object</summary>
+        </member>
+        <member name="M:XmlSettings.IniSections.Remove(System.String)">
+            <summary>
+            Removes a single named item from the collection.
+            </summary>
+            <param name="itemName">The item name</param>
+        </member>
+        <member name="M:XmlSettings.IniSections.Remove(System.Int32)">
+            <summary>
+            Removes a single index item from the collection.
+            </summary>
+            <param name="itemNumber">The item number.</param>
+        </member>
+        <member name="M:XmlSettings.IniSections.Add(System.String)">
+            <summary>
+            Adds a named section to the collection.
+            </summary>
+            <param name="sectionName">The section name.</param>
+            <returns>The Section object reference.</returns>
+        </member>
+        <member name="M:XmlSettings.IniSections.ByName(System.String)">
+            <summary>Gets the index of a section by name.</summary>
+        </member>
+        <member name="M:XmlSettings.IniSections.GetProperties(System.Attribute[])">
+            <summary>Required for PropertyGrid.</summary>
+        </member>
+        <member name="M:XmlSettings.IniSections.GetClassName">
+            <summary>Required for PropertyGrid</summary>
+        </member>
+        <member name="M:XmlSettings.IniSections.GetAttributes">
+            <summary>Required for PropertyGrid</summary>
+        </member>
+        <member name="M:XmlSettings.IniSections.GetComponentName">
+            <summary>Required for PropertyGrid</summary>
+        </member>
+        <member name="M:XmlSettings.IniSections.GetConverter">
+            <summary>Required for PropertyGrid</summary>
+        </member>
+        <member name="M:XmlSettings.IniSections.GetDefaultEvent">
+            <summary>Required for PropertyGrid</summary>
+        </member>
+        <member name="M:XmlSettings.IniSections.GetDefaultProperty">
+            <summary>Required for PropertyGrid</summary>
+        </member>
+        <member name="M:XmlSettings.IniSections.GetEditor(System.Type)">
+            <summary>Required for PropertyGrid</summary>
+        </member>
+        <member name="M:XmlSettings.IniSections.GetEvents(System.Attribute[])">
+            <summary>Required for PropertyGrid</summary>
+        </member>
+        <member name="M:XmlSettings.IniSections.GetEvents">
+            <summary>Required for PropertyGrid</summary>
+        </member>
+        <member name="M:XmlSettings.IniSections.GetPropertyOwner(System.ComponentModel.PropertyDescriptor)">
+            <summary>Required for PropertyGrid</summary>
+        </member>
+        <member name="M:XmlSettings.IniSections.GetProperties">
+            <summary>Required for PropertyGrid</summary>
+        </member>
+        <member name="P:XmlSettings.IniSections.Item(System.Int32)">
+            <summary>
+            Indexer access to the Section by index.
+            </summary>
+            <value>The item number</value>
+        </member>
+        <member name="P:XmlSettings.IniSections.Item(System.String)">
+            <summary>
+            Indexer access to the Section by name.
+            </summary>
+            <value>The item name</value>
+        </member>
+        <member name="T:XmlSettings.SectionPd">
+            <summary>
+            Defines a custom type descriptor to be displayed in the property grid.
+            </summary>
+        </member>
+        <member name="T:XmlSettings.IniSettings">
+            <summary>Collection class of IniSettings.</summary>
+            <remarks>Provides PropertyGrid support.</remarks>
+        </member>
+        <member name="M:XmlSettings.IniSettings.#ctor(XmlSettings.AppSettings)">
+            <summary>
+            Constructor taking a reference to the top object.
+            </summary>
+        </member>
+        <member name="M:XmlSettings.IniSettings.ToString">
+            <summary>
+            A friendly description for the PropertyGrid.
+            </summary>
+            <returns>A friendly description.</returns>
+        </member>
+        <member name="M:XmlSettings.IniSettings.Remove(System.String)">
+            <summary>
+            Removes a single named item from the collection.
+            </summary>
+            <param name="itemName">Item name</param>
+        </member>
+        <member name="M:XmlSettings.IniSettings.Remove(System.Int32)">
+            <summary>
+            Removes a single indexed item from the collection.
+            </summary>
+            <param name="itemNumber">Item name</param>
+        </member>
+        <member name="M:XmlSettings.IniSettings.Add(System.String)">
+            <summary>
+            Add a new item and return a reference to it.
+            </summary>
+            <param name="settingName">Setting name</param>
+            <returns>The IniSetting object</returns>
+        </member>
+        <member name="M:XmlSettings.IniSettings.Add(System.String,System.Object)">
+            <summary>
+            Add a new item, set the value and return a reference to it.
+            </summary>
+            <param name="settingName">Setting name</param>
+            <param name="val">The setting value</param>
+            <returns>The IniSetting object</returns>
+        </member>
+        <member name="M:XmlSettings.IniSettings.Add(System.String,System.Object,System.String)">
+            <summary>
+            Add a new item, set the value and return a reference to it.
+            </summary>
+            <param name="settingName">Setting name</param>
+            <param name="val">The setting value</param>
+            <param name="tag">The extra tag string</param>
+            <returns>The IniSetting object</returns>
+        </member>
+        <member name="M:XmlSettings.IniSettings.ByName(System.String)">
+            <summary>Required for PropertyGrid</summary>
+        </member>
+        <member name="M:XmlSettings.IniSettings.GetProperties(System.Attribute[])">
+            <summary>Required for PropertyGrid.</summary>
+        </member>
+        <member name="M:XmlSettings.IniSettings.GetClassName">
+            <summary>Required for PropertyGrid.</summary>
+            System.ComponentModel.ICustomTypeDescriptor implementation
+        </member>
+        <member name="M:XmlSettings.IniSettings.GetAttributes">
+            <summary>Required for PropertyGrid.</summary>
+        </member>
+        <member name="M:XmlSettings.IniSettings.GetComponentName">
+            <summary>Required for PropertyGrid.</summary>
+        </member>
+        <member name="M:XmlSettings.IniSettings.GetConverter">
+            <summary>Required for PropertyGrid.</summary>
+        </member>
+        <member name="M:XmlSettings.IniSettings.GetDefaultEvent">
+            <summary>Required for PropertyGrid.</summary>
+        </member>
+        <member name="M:XmlSettings.IniSettings.GetDefaultProperty">
+            <summary>Required for PropertyGrid.</summary>
+        </member>
+        <member name="M:XmlSettings.IniSettings.GetEditor(System.Type)">
+            <summary>Required for PropertyGrid.</summary>
+        </member>
+        <member name="M:XmlSettings.IniSettings.GetEvents(System.Attribute[])">
+            <summary>Required for PropertyGrid.</summary>
+        </member>
+        <member name="M:XmlSettings.IniSettings.GetEvents">
+            <summary>Required for PropertyGrid.</summary>
+        </member>
+        <member name="M:XmlSettings.IniSettings.GetPropertyOwner(System.ComponentModel.PropertyDescriptor)">
+            <summary>Required for PropertyGrid.</summary>
+        </member>
+        <member name="M:XmlSettings.IniSettings.GetProperties">
+            <summary>Required for PropertyGrid.</summary>
+        </member>
+        <member name="P:XmlSettings.IniSettings.Item(System.Int32)">
+            <summary>
+            Indexer access to the Setting by index.
+            </summary>
+            <value>The item number</value>
+        </member>
+        <member name="P:XmlSettings.IniSettings.Item(System.String)">
+            <summary>
+            Indexer access to the Setting by name.
+            </summary>
+            <value>The item name</value>
+        </member>
+        <member name="T:XmlSettings.NullCollectionEditor">
+            <summary>Required for PropertyGrid.</summary>
+        </member>
+        <member name="M:XmlSettings.NullCollectionEditor.#ctor">
+            <summary>Required for PropertyGrid.</summary>
+        </member>
+        <member name="M:XmlSettings.NullCollectionEditor.GetEditStyle(System.ComponentModel.ITypeDescriptorContext)">
+            <summary>Required for PropertyGrid.</summary>
+        </member>
+        <member name="T:XmlSettings.Types">
+            <summary>
+            Supported data type string constants.
+            </summary>
+        </member>
+        <member name="T:XmlSettings.Tags">
+            <summary>
+            XML tag names.
+            </summary>
+        </member>
+        <member name="T:XmlSettings.AppSettings">
+            <summary>
+            Top-level class.
+            Provides a way to save application settings to xml file format.
+            </summary>
+            <remarks>
+            Used to replace the standard Windows INI file format.
+            Sections are named categories to hold collections of settings.
+            Settings are name-value pairs able to store many different data types.
+            </remarks>
+            <example>
+            Create an instance of the XMLSettings class.
+            <code>
+            MySettings = new XMLSettings("MySettings.xml")
+            MySettings = new XMLSettings("C:\\MySettings[.xml]")</code>
+            Load the file.
+            <code>
+            bool loaded = MySettings.Load([File]);</code>
+            Return a setting passing a default value.
+            If the value exists then the existing setting is returned.
+            <code>
+            BackColor = MySettings.GetVal("FormSettings","BackColor",BackColor);</code>
+            Set a value passing a section, name and value.
+            Value and section will be created if needed.
+            <code>
+            MySettings.SetVal("FormSettings","Left",Left);</code>
+            Return the same value with 2 different notations.
+            <code>
+            ret = MySettings.GetVal("FormSettings","Left");
+            ret = MySettings.Sections["FormSettings"]["Left"];</code>
+            Add a collection of Settings.
+            <code>
+            IniSettings SubSettings1 = new IniSettings(MySettings);			
+            SubSettings1.Add("S1","SubSettings1 test");
+            SubSettings1.Add("S2",1234);
+            SubSettings1.Add("S3",true);
+            MySettings.SetVal("Coll","SubSettings1",SubSettings1);</code>
+            Access a sub-setting in that section.
+            <code>
+            bret = MySettings.Sections["Coll"]["SubSettings1"]["S3"];</code>
+            Use as a Datasource.
+            <code>
+            list1.DisplayMember = "Name";
+            list1.DataSource = MySettings.Sections["Coll"]["SubSettings1"].ToDataSource();</code>
+            </example>
+        </member>
+        <member name="M:XmlSettings.AppSettings.#ctor">
+            <summary>Constructor with no file specified.</summary>
+        </member>
+        <member name="M:XmlSettings.AppSettings.#ctor(System.String)">
+            <summary>
+            Constructor with file name specified.
+            </summary>
+            <remarks> Passing only a file name without a path will result
+             in the file being saved in the same folder as this DLL.
+            </remarks>
+            <param name="fileName">Full path and file name.</param>
+            <exception cref="T:System.ApplicationException">Thrown when the specified
+            folder does not exist.</exception>/// 
+        </member>
+        <member name="M:XmlSettings.AppSettings.Remove(System.String,System.String)">
+            <summary>
+            Removes a Setting with a specific name.
+            </summary>
+            <param name="sectionName">Section name</param>
+            <param name="settingName">Setting name</param>
+            <exception cref="T:System.NullReferenceException">Thrown when the specified
+            section or setting does not exist.</exception>/// 
+        </member>
+        <member name="M:XmlSettings.AppSettings.Remove(System.String)">
+            <summary>
+            Removes a Section with a specific name.
+            </summary>
+            <param name="sectionName">The name of the section</param>
+            <exception cref="T:System.NullReferenceException">Thrown when the specified
+            section does not exist.</exception>/// 
+        </member>
+        <member name="M:XmlSettings.AppSettings.SetVal(System.String,System.String,System.Object)">
+            <summary>
+            Creates a section and setting as needed then assigns a value.
+            </summary>
+            <param name="sectionName">Section name</param>
+            <param name="settingName">Setting name</param>
+            <param name="oValue">Oject supporting many data types</param>
+            <returns>The setting object.</returns>
+        </member>
+        <member name="M:XmlSettings.AppSettings.SetVal(System.String,System.String,System.Object,System.String)">
+            <summary>
+            Creates a section and setting as needed then assigns a value.
+            </summary>
+            <param name="sectionName">Section name</param>
+            <param name="settingName">Setting name</param>
+            <param name="oValue">Oject supporting many data types</param>
+            <param name="description">A description of the setting</param>
+            <returns>The setting object.</returns>
+        </member>
+        <member name="M:XmlSettings.AppSettings.GetVal(System.String,System.String)">
+            <summary>
+            Gets the IniSetting object by name.
+            </summary>
+            <param name="sectionName">Section name</param>
+            <param name="settingName">Setting name</param>
+            <returns>The setting object.</returns>
+        </member>
+        <member name="M:XmlSettings.AppSettings.GetVal(System.String,System.String,System.Object)">
+            <summary>
+            Gets the IniSetting object by name passing a default.
+            </summary>
+            <remarks>Default value will only be assigned if the setting does not exist.</remarks>
+            <param name="sectionName">Section name</param>
+            <param name="settingName">Setting name</param>
+            <param name="oDefault">Default value</param>
+            <returns>The setting object.</returns>
+        </member>
+        <member name="M:XmlSettings.AppSettings.GetVal(System.String,System.String,System.Object,System.String)">
+            <summary>
+            Gets the IniSetting object by name passing a default.
+            </summary>
+            <remarks>Default value will only be assigned if the setting does not exist.</remarks>
+            <param name="sectionName">Section name</param>
+            <param name="settingName">Setting name</param>
+            <param name="oDefault">Default value</param>
+            <param name="description">A description of the setting</param>
+            <returns>The setting object.</returns>
+        </member>
+        <member name="M:XmlSettings.AppSettings.Save(System.String)">
+            <summary>
+            Save the settings to the specified path and file.
+            </summary>
+            <param name="pathAndFileName">Full path and file.</param>
+            <returns>True on success, False on failure.</returns>
+            <exception cref="T:System.ApplicationException">Thrown when the path specified is nat valid.</exception>
+        </member>
+        <member name="M:XmlSettings.AppSettings.Save">
+            <summary>
+            Save the settings to the specified path and file.
+            </summary>
+            <remarks>Using the file name specified during construction.</remarks>
+            <returns>void</returns>
+        </member>
+        <member name="M:XmlSettings.AppSettings.Load(System.String)">
+            <summary>
+            Loads the settings from the specified path and file.
+            </summary>
+            <param name="pathAndFileName">Full path and file.</param>
+            <returns>void</returns>
+        </member>
+        <member name="M:XmlSettings.AppSettings.Load">
+            <summary>
+            Loads the settings.
+            </summary>
+            <remarks>Using the file name specified during construction.</remarks>
+            <returns>void</returns>
+        </member>
+        <member name="M:XmlSettings.AppSettings.WriteXMLSettings(System.String)">
+            <summary>
+            Writes all sections and settings to the xml file.
+            </summary>
+        </member>
+        <member name="M:XmlSettings.AppSettings.WriteXMLSection(XmlSettings.IniSettings,System.Xml.XmlTextWriter@)">
+            <summary>Writes each sections settings.</summary>
+        </member>
+        <member name="M:XmlSettings.AppSettings.WriteArrayListItems(System.Collections.ArrayList,System.Xml.XmlTextWriter@)">
+            <summary>Writes array list to xml.</summary>
+        </member>
+        <member name="M:XmlSettings.AppSettings.ReadXMLSettings(System.String)">
+            <summary>Reads data into objects from xml.</summary>
+        </member>
+        <member name="M:XmlSettings.AppSettings.ReadEachSectionInSectons(XmlSettings.IniSetting,System.Xml.XmlTextReader@)">
+             <summary>
+             Creates each section object from xml.
+            </summary>
+        </member>
+        <member name="M:XmlSettings.AppSettings.ReadEachSettingInSubSetting(XmlSettings.IniSetting,System.Xml.XmlTextReader@)">
+             <summary>
+             Creates each sub-setting object from xml.
+            </summary>
+        </member>
+        <member name="M:XmlSettings.AppSettings.ReadEachArrayListItem(XmlSettings.IniSetting,System.Xml.XmlTextReader@)">
+             <summary>
+             Reads all the arraylist items
+            </summary>
+        </member>
+        <member name="M:XmlSettings.AppSettings.ReadEachSubSettingInSettings(XmlSettings.IniSettings,System.Xml.XmlTextReader@)">
+             <summary>
+             Creates each sub-setting object that has a setting parent.
+            </summary>
+        </member>
+        <member name="M:XmlSettings.AppSettings.ReadEachSettingInSection(XmlSettings.IniSection,System.Xml.XmlTextReader@)">
+             <summary>
+             Creates each setting object from xml.
+            </summary>
+        </member>
+        <member name="M:XmlSettings.AppSettings.ReadAllSettingData(XmlSettings.IniSetting,System.String,System.Xml.XmlTextReader@)">
+             <summary>
+             Reads all the possible data in a setting.
+             This is the smallest unit of data.
+            </summary>
+        </member>
+        <member name="M:XmlSettings.AppSettings.ReadSettingAndGetType(XmlSettings.IniSettings,System.Xml.XmlTextReader@)">
+            <summary>
+            Create setting and value from xml.
+            Cuold be a section or more settings.
+            </summary>
+        </member>
+        <member name="M:XmlSettings.AppSettings.ConvertFromXmlToType(System.String,System.String)">
+            <summary>
+            Convert from an XML string to the proper type of object
+            </summary>
+        </member>
+        <member name="P:XmlSettings.AppSettings.LastXmlError">
+            <summary>
+            Reurns a user description if there is one.
+            </summary>
+        </member>
+        <member name="P:XmlSettings.AppSettings.XmlComments">
+            <summary>
+            Reurns the comments at the top of the XML
+            after having read the file.
+            </summary>
+        </member>
+        <member name="P:XmlSettings.AppSettings.Dirty">
+            <summary>
+            Indicates when the settings have changed and need to saved or re-read.
+            </summary>
+        </member>
+        <member name="P:XmlSettings.AppSettings.Sections">
+            <summary>
+            Access to the collection of Sections.
+            </summary>
+        </member>
+        <member name="P:XmlSettings.AppSettings.PathToXmlFile">
+            <summary>
+            Sets or returns the folder the file will be stored in.
+            </summary>
+            <remarks>Once set, you can just provide the file name without the path. 
+            The value can be overridden by passing a fully dqualified path and file.</remarks>
+            <exception cref="T:System.ApplicationException">Thrown when the path is not valid.</exception>
+        </member>
+        <member name="P:XmlSettings.AppSettings.FileChanged">
+            <summary>
+            Has the xml file changed since the last read or write?
+            </summary>
+        </member>
+        <member name="T:XmlSettings.IniSetting">
+            <summary>Class represents a name-value pairs similar to an information file(INI).</summary>
+            <remarks>Provides PropertyGrid support and
+            support for sub-setings.</remarks>
+        </member>
+        <member name="M:XmlSettings.IniSetting.#ctor(System.String)">
+            <summary>
+            Constructor.
+            </summary>
+            <remarks>Every Setting object should have a name.</remarks>
+            <param name="settingName">The name of the setting.</param>
+        </member>
+        <member name="M:XmlSettings.IniSetting.#ctor">
+            <summary>
+            Constructor.
+            </summary>
+            <remarks>Default constructor is required for the propertyBrowser 
+            collection editor to add an item.</remarks>
+        </member>
+        <member name="M:XmlSettings.IniSetting.ToDataSource">
+            <summary>
+            Conversion to IniSettings collection.
+            A setting can act as a DataSource if it is a IniSettings collection.
+            </summary>
+        </member>
+        <member name="M:XmlSettings.IniSetting.op_Implicit(XmlSettings.IniSetting)~XmlSettings.IniSettings">
+            <summary>
+            Implicit conversion to IniSettings collection.
+            A setting can act as a section to contain a collection of more settings.
+            </summary>
+            <exception cref="T:System.ApplicationException">Thrown when something
+            unexpected happens.</exception>
+        </member>
+        <member name="M:XmlSettings.IniSetting.op_Implicit(XmlSettings.IniSetting)~XmlSettings.IniSection">
+            <summary>
+            Implicit conversion to IniSection.
+            A setting can be a sub-section to contain a collection of more settings.
+            </summary>
+            <exception cref="T:System.ApplicationException">Thrown when something
+            unexpected happens.</exception>
+        </member>
+        <member name="M:XmlSettings.IniSetting.op_Implicit(XmlSettings.IniSetting)~System.Boolean">
+            <summary>
+            Implicit conversion to bool.
+            Conversion to original type only.
+            </summary>
+            <remarks>To return an Object type use the Value property.</remarks>
+            <exception cref="T:System.Exception">Thrown when no conversion is possible.</exception>
+        </member>
+        <member name="M:XmlSettings.IniSetting.op_Implicit(XmlSettings.IniSetting)~System.Byte">
+            <summary>
+            Implicit conversion to byte.
+            Conversion to original type only.
+            </summary>
+            <remarks>To return an Object type use the Value property.</remarks>
+            <exception cref="T:System.Exception">Thrown when no conversion is possible.</exception>
+        </member>
+        <member name="M:XmlSettings.IniSetting.op_Implicit(XmlSettings.IniSetting)~System.Char">
+            <summary>
+            Implicit conversion to char.
+            Conversion to original type only.
+            </summary>
+            <remarks>To return an Object type use the Value property.</remarks>
+            <exception cref="T:System.Exception">Thrown when no conversion is possible.</exception>
+        </member>
+        <member name="M:XmlSettings.IniSetting.op_Implicit(XmlSettings.IniSetting)~System.DateTime">
+            <summary>
+            Implicit conversion to DateTime.
+            Conversion to original type only.
+            </summary>
+            <remarks>To return an Object type use the Value property.</remarks>
+            <exception cref="T:System.Exception">Thrown when no conversion is possible.</exception>
+        </member>
+        <member name="M:XmlSettings.IniSetting.op_Implicit(XmlSettings.IniSetting)~System.Decimal">
+            <summary>
+            Implicit conversion to Decimal.
+            Conversion to original type only.
+            </summary>
+            <remarks>To return an Object type use the Value property.</remarks>
+            <exception cref="T:System.Exception">Thrown when no conversion is possible.</exception>
+        </member>
+        <member name="M:XmlSettings.IniSetting.op_Implicit(XmlSettings.IniSetting)~System.Double">
+            <summary>
+            Implicit conversion to double.
+            Conversion to original type only.
+            </summary>
+            <remarks>To return an Object type use the Value property.</remarks>
+            <exception cref="T:System.Exception">Thrown when no conversion is possible.</exception>
+        </member>
+        <member name="M:XmlSettings.IniSetting.op_Implicit(XmlSettings.IniSetting)~System.Int16">
+            <summary>
+            Implicit conversion to Int16.
+            Conversion to original type only.
+            </summary>
+            <remarks>To return an Object type use the Value property.</remarks>
+            <exception cref="T:System.Exception">Thrown when no conversion is possible.</exception>
+        </member>
+        <member name="M:XmlSettings.IniSetting.op_Implicit(XmlSettings.IniSetting)~System.Int32">
+            <summary>
+            Implicit conversion to Int32.
+            Conversion to original type only.
+            </summary>
+            <remarks>To return an Object type use the Value property.</remarks>
+            <exception cref="T:System.Exception">Thrown when no conversion is possible.</exception>
+        </member>
+        <member name="M:XmlSettings.IniSetting.op_Implicit(XmlSettings.IniSetting)~System.Int64">
+            <summary>
+            Implicit conversion to Int64.
+            Conversion to original type only.
+            </summary>
+            <remarks>To return an Object type use the Value property.</remarks>
+            <exception cref="T:System.Exception">Thrown when no conversion is possible.</exception>
+        </member>
+        <member name="M:XmlSettings.IniSetting.op_Implicit(XmlSettings.IniSetting)~System.Single">
+            <summary>
+            Implicit conversion to Single.
+            Conversion to original type only.
+            </summary>
+            <remarks>To return an Object type use the Value property.</remarks>
+            <exception cref="T:System.Exception">Thrown when no conversion is possible.</exception>
+        </member>
+        <member name="M:XmlSettings.IniSetting.op_Implicit(XmlSettings.IniSetting)~System.UInt16">
+            <summary>
+            Implicit conversion to UInt16.
+            Conversion to original type only.
+            </summary>
+            <remarks>To return an Object type use the Value property.</remarks>
+            <exception cref="T:System.Exception">Thrown when no conversion is possible.</exception>
+        </member>
+        <member name="M:XmlSettings.IniSetting.op_Implicit(XmlSettings.IniSetting)~System.UInt32">
+            <summary>
+            Implicit conversion to UInt32.
+            Conversion to original type only.
+            </summary>
+            <remarks>To return an Object type use the Value property.</remarks>
+            <exception cref="T:System.Exception">Thrown when no conversion is possible.</exception>
+        </member>
+        <member name="M:XmlSettings.IniSetting.op_Implicit(XmlSettings.IniSetting)~System.UInt64">
+            <summary>
+            Implicit conversion to UInt64.
+            Conversion to original type only.
+            </summary>
+            <remarks>To return an Object type use the Value property.</remarks>
+            <exception cref="T:System.Exception">Thrown when no conversion is possible.</exception>
+        </member>
+        <member name="M:XmlSettings.IniSetting.op_Implicit(XmlSettings.IniSetting)~System.String">
+            <summary>
+            Implicit conversion to string.
+            </summary>
+            <remarks>To return an Object type use the Value property.</remarks>
+            <exception cref="T:System.Exception">Thrown when no conversion is possible.</exception>
+        </member>
+        <member name="M:XmlSettings.IniSetting.op_Implicit(XmlSettings.IniSetting)~System.Collections.ArrayList">
+            <summary>
+            Implicit conversion to ArrayList.
+            Conversion to original type only.
+            </summary>
+            <remarks>To return an Object type use the Value property.</remarks>
+            <exception cref="T:System.Exception">Thrown when no conversion is possible.</exception>
+        </member>
+        <member name="M:XmlSettings.IniSetting.op_Implicit(XmlSettings.IniSetting)~System.Drawing.Color">
+            <summary>
+            Implicit conversion to Color.
+            Conversion to original type only.
+            </summary>
+            <remarks>To return an Object type use the Value property.</remarks>
+            <exception cref="T:System.Exception">Thrown when no conversion is possible.</exception>
+        </member>
+        <member name="M:XmlSettings.IniSetting.op_Implicit(XmlSettings.IniSetting)~System.Drawing.Font">
+            <summary>
+            Implicit conversion to Font.
+            Conversion to original type only.
+            </summary>
+            <remarks>To return an Object type use the Value property.</remarks>
+            <exception cref="T:System.Exception">Thrown when no conversion is possible.</exception>
+        </member>
+        <member name="M:XmlSettings.IniSetting.op_Implicit(XmlSettings.IniSetting)~System.Drawing.Size">
+            <summary>
+            Implicit conversion to Size.
+            Conversion to original type only.
+            </summary>
+            <remarks>To return an Object type use the Value property.</remarks>
+            <exception cref="T:System.Exception">Thrown when no conversion is possible.</exception>
+        </member>
+        <member name="M:XmlSettings.IniSetting.op_Implicit(XmlSettings.IniSetting)~System.Drawing.Point">
+            <summary>
+            Implicit conversion to Point.
+            Conversion to original type only.
+            </summary>
+            <remarks>To return an Object type use the Value property.</remarks>
+            <exception cref="T:System.Exception">Thrown when no conversion is possible.</exception>
+        </member>
+        <member name="M:XmlSettings.IniSetting.op_Implicit(XmlSettings.IniSetting)~System.Windows.Forms.Keys">
+            <summary>
+            Implicit conversion to Keys.
+            Conversion to original type only.
+            </summary>
+            <remarks>To return an Object type use the Value property.</remarks>
+            <exception cref="T:System.Exception">Thrown when no conversion is possible.</exception>
+        </member>
+        <member name="P:XmlSettings.IniSetting.Parent">
+            <summary>
+            Parent object is set with the Add method.
+            </summary>
+            <value>Parent object</value>
+            <remarks>Could be a IniSection ,IniSetting or IniSettings</remarks>
+        </member>
+        <member name="P:XmlSettings.IniSetting.Value">
+            <summary>
+            Sets or returns the value of the setting
+            </summary>	
+            <remarks>The setting type is determined when the value is set. 
+            This should be the only way we set a value.</remarks>
+        </member>
+        <member name="P:XmlSettings.IniSetting.DisplayInPG">
+            <summary>
+            Can we change a setting in the Property Grid or not.
+            </summary>
+        </member>
+        <member name="P:XmlSettings.IniSetting.ReadonlyInPG">
+            <summary>
+            Can we change a setting in the Property Grid or not.
+            </summary>
+        </member>
+        <member name="P:XmlSettings.IniSetting.Name">
+            <summary>
+            The Setting name.
+            </summary>
+        </member>
+        <member name="P:XmlSettings.IniSetting.Tag">
+            <summary>
+            Extra string information associated with the setting.
+            </summary>
+            <remarks>Used internally to save controls tag data.</remarks>
+        </member>
+        <member name="P:XmlSettings.IniSetting.Description">
+            <summary>
+            An optional description of the setting.
+            </summary>
+            <remarks>Will be displayed in PropertyGrid.</remarks>
+        </member>
+        <member name="P:XmlSettings.IniSetting.TypeName">
+            <summary>Read-only. Returns a string type name.</summary>
+            <remarks>Used internally to track the object type.</remarks>
+        </member>
+        <member name="P:XmlSettings.IniSetting.OriginalType">
+            <summary>Read-only. Returns the value type.</summary>
+            <remarks>Used internally</remarks>
+        </member>
+        <member name="P:XmlSettings.IniSetting.Item(System.Int32)">
+            <summary>
+            Access to Setting in a sub-IniSettings by index.
+            </summary>
+        </member>
+        <member name="P:XmlSettings.IniSetting.Item(System.String)">
+            <summary>
+            Access to Setting in a sub-IniSettings by name.
+            </summary>
+        </member>
+        <member name="T:XmlSettings.SettingPd">
+            <summary>
+            Defines a custom type descriptor to be displayed in the property grid.
+            </summary>
+        </member>
+    </members>
+</doc>

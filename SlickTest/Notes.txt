@@ -1,6 +1,29 @@
 History:
 
 -----------------------------------------------------------------
+Slick Test Developer 1.75 CTP
+-----------------------------------------------------------------
+ - Added some form of web automation support (Limited?)
+ TODO to get this completed:
+	- Forms Support.
+	- Full upload support.
+	- Script support.
+	- Frame support (this may take a while).
+	- Better filtering of objects.
+	- Finish documentation.
+ - Began work on WPF applications
+	- Nothing will be visible to the user at this point.
+ - Introduce Slick Unit
+
+Future:
+ - Support embedded html controls.
+ - Provide actual support for WPF without causing major performance hits.
+
+Fixes:
+ - Allowed object spy to even see embedded html controls.
+ - 
+
+-----------------------------------------------------------------
 Slick Test Developer 1.15 (Release 1)
 -----------------------------------------------------------------
 Fixes:

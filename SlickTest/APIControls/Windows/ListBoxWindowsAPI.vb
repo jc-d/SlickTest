@@ -1,10 +1,5 @@
 Imports winAPI.API
-Imports winAPI.NativeFunctions
-Imports System.Runtime.InteropServices
-Imports System.Text
-Imports System.ComponentModel
 Imports System
-Imports System.Collections
 Imports System.Runtime.CompilerServices
 <Assembly: InternalsVisibleTo("InterAction"), Assembly: InternalsVisibleTo("SlickTestDeveloper")> 
 Friend Class ListBoxWindowsAPI
@@ -15,6 +10,9 @@ Friend Class ListBoxWindowsAPI
     End Sub
 
     Public Function IsListBox(ByVal hWnd As IntPtr) As Boolean
+        If (GenericMethodsUIAutomation.IsWPFOrCustom(hWnd) = True) Then
+            Return WindowsFunctions.WpfListBox.IsListBox(hWnd)
+        End If
         Dim lCount As Long
         'lCount = WinAPI.NativeFunctions.SendMessage(hWnd, LB_GETCOUNT, 0&, 0&)
         lCount = WinAPI.NativeFunctions.SendMessage(hWnd, LB_GETCOUNT, IntPtr.Zero, IntPtr.Zero)

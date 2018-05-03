@@ -14,6 +14,10 @@ Friend Class ListViewWindowsAPI
     End Sub
 
     Public Function IsListView(ByVal hWnd As IntPtr) As Boolean
+        If (GenericMethodsUIAutomation.IsWPFOrCustom(hWnd) = True) Then
+            Return WindowsFunctions.WpfListView.IsListView(hWnd)
+        End If
+
         If (GetItemCount(hWnd) > 0) Then
             Return True
         Else

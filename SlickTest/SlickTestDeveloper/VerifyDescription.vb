@@ -46,10 +46,7 @@
         SpecialAssemblies.Add(path & "WinAPI.dll")
         SpecialAssemblies.Add(path & "XmlSettings.dll")
         SpecialAssemblies.Add("System.Windows.Forms.dll")
-
-#If (IncludeWeb = 1) Then
-            SpecialAssemblies.Add(path & "Interop.SHDocVw.dll")
-#End If
+        SpecialAssemblies.Add(path & "Interop.SHDocVw.dll")
         AddHandler DescriptionText.ActiveTextAreaControl.TextArea.KeyDown, AddressOf DescriptionText_KeyDown
         AddHandler DescriptionText.Document.DocumentChanged, AddressOf DescriptionText_DocChanged
 
@@ -92,7 +89,7 @@
             e.SuppressKeyPress = True
             compiler.SourceCode.Clear()
             compiler.SourceCode.Add(GetTextToCompile())
-            If (compiler.Compile(True, "") = False) Then
+            If (compiler.Compile(True, "", "", "") = False) Then
                 Me.ToolStripStatusLabel1.Text = "Failed to build... "
             Else
                 Me.ToolStripStatusLabel1.Text = "Executing..."
@@ -101,6 +98,7 @@
     End Sub
 
     Private Sub DescriptionText_DocChanged(ByVal sender As Object, ByVal e As ICSharpCode.TextEditor.Document.DocumentEventArgs)
+        Me.ToolStripStatusLabel1.Text = "Ready."
 
         If (Me.DescriptionText.Text.Contains(vbCr) OrElse Me.DescriptionText.Text.Contains(vbLf)) Then
             EnterAsExecuteTimer.Start()

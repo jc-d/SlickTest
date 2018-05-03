@@ -10,13 +10,21 @@
 ''' "right" - The right edge of the object.<p/>
 ''' "width" - The width of the object.<p/>
 ''' "height" - The height of the object.<p/>
-''' "windowtype" - The type of window the object is.<p/>
+''' "controltype" - The type of window the object is.<p/>
 ''' "hwnd" - The window handle, a unique handle for every windows object.<p/>
 ''' "processname" - The name of the process containing the window.<p/>
 ''' "index" - A index of when a certain object is created in windows.<p/>
 ''' "nearbylabel" - The label closest to the windows object.<p/>
 ''' "controlid" - An ID set for any windows object, except the windows themselves.<p/>
 ''' "wildcard" - Allows you to enable or disable wild cards for the name and value descriptions.<p/>
+''' <b>Web Only:</b><p/>
+''' "webvalue" - The value set in the html.<p/>
+''' "webtext" - The text set in the html.<p/>
+''' "webtitle" - The title (sometimes a tool tip) set in the html.<p/>
+''' "webtag" - The actual html version of the type, such as A, INPUT, etc.<p/>
+''' "webid" - A unique id in the html.<p/>
+''' "webinnerhtml" - The html that represents the tag and anything inside it.<p/>
+''' "webouterhtml" - The parent's InnerHTML.<p/>
 ''' </remarks>
 Public Class Description ' Create just for autocomplete
     Inherits APIControls.Description
@@ -28,7 +36,7 @@ Public Class Description ' Create just for autocomplete
     ''' <remarks></remarks>
     Public Shadows Enum DescriptionData
         ''' <summary>The type of window the object is.</summary>
-        WindowType
+        ControlType
         ''' <summary>The height of the object.</summary>
         Height
         ''' <summary>The width of the object.</summary>
@@ -53,15 +61,20 @@ Public Class Description ' Create just for autocomplete
         NearByLabel
         ''' <summary>The control ID assigned by the developer.  In .NET this value is not used. </summary>
         ControlID
-#If (IncludeWeb = 1) Then
-            WebValue
-            WebText
-            WebTitle
-            WebType
-            WebID
-            WebInnerHTML
-            WebOuterHTML
-#End If
+        ''' <summary>The value set in the html.</summary>
+        WebValue
+        ''' <summary>The text set in the html.</summary>
+        WebText
+        ''' <summary>The title (sometimes a tool tip) set in the html.</summary>
+        WebTitle
+        ''' <summary>The actual html version of the type, such as A, INPUT, etc.</summary>
+        WebTag
+        ''' <summary>A unique id in the html.</summary>
+        WebID
+        ''' <summary>The html that represents the tag and anything inside it.</summary>
+        WebInnerHTML
+        ''' <summary>The parent's InnerHTML.</summary>
+        WebOuterHTML
         ''' <summary>The window handle, a unique handle for every windows object.</summary>
         Hwnd
         ''' <summary>Allows you to enable or disable wild cards for the name and value descriptions.</summary>

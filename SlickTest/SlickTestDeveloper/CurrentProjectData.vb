@@ -1,4 +1,3 @@
-#Const IncludeWeb = 2 'set to 1 to enable web
 Public Class CurrentProjectData
     Public ProjectLoadError As String
     Public ProjectLoadFailDueToDifferentVars As Boolean
@@ -399,7 +398,57 @@ Public Class CurrentProjectData
         End Set
     End Property
 
+    Private PreBuildCommand1 As String = String.Empty
+    Public Property PreBuildCommand() As String
+        Get
+            Return PreBuildCommand1
+        End Get
+        Set(ByVal value As String)
+            If (value <> PreBuildCommand1) Then
+                Dirty = True
+            End If
+            PreBuildCommand1 = value
+        End Set
+    End Property
 
+    Private PostBuildCommand1 As String = String.Empty
+    Public Property PostBuildCommand() As String
+        Get
+            Return PostBuildCommand1
+        End Get
+        Set(ByVal value As String)
+            If (value <> PostBuildCommand1) Then
+                Dirty = True
+            End If
+            PostBuildCommand1 = value
+        End Set
+    End Property
+
+    Private PreBuildCommand1_Args As String = String.Empty
+    Public Property PreBuildCommandArgs() As String
+        Get
+            Return PreBuildCommand1_Args
+        End Get
+        Set(ByVal value As String)
+            If (value <> PreBuildCommand1_Args) Then
+                Dirty = True
+            End If
+            PreBuildCommand1_Args = value
+        End Set
+    End Property
+
+    Private PostBuildCommand1_Args As String = String.Empty
+    Public Property PostBuildCommandArgs() As String
+        Get
+            Return PostBuildCommand1_Args
+        End Get
+        Set(ByVal value As String)
+            If (value <> PostBuildCommand1_Args) Then
+                Dirty = True
+            End If
+            PostBuildCommand1_Args = value
+        End Set
+    End Property
 
 #End Region
 
@@ -424,12 +473,12 @@ Public Class CurrentProjectData
 
     Public Sub New()
         Reset(True)
-        CurrentMaxProjectVersionNumber1 = 2
+        CurrentMaxProjectVersionNumber1 = 3
         Dirty = True
     End Sub
 
     Private Sub Reset(Optional ByVal IncludeAsms As Boolean = False)
-        ExternalReportDatabaseConnectionString = "" 'No connection string by default
+        ExternalReportDatabaseConnectionString = String.Empty 'No connection string by default
         IsOfficalRun1 = False
         ProjectLoadFailDueToDifferentVars = False
         LanguageExtension = ".vb"
@@ -463,7 +512,10 @@ Public Class CurrentProjectData
         If (path.EndsWith("\") = False) Then path += "\"
         ReportDatabasePath = path & "DB\STD.sdf"
         'IgnoreInternalExceptions = False
-
+        PostBuildCommand = String.Empty
+        PreBuildCommand = String.Empty
+        PostBuildCommandArgs = String.Empty
+        PreBuildCommandArgs = String.Empty
         If (IncludeAsms) Then
             If (DefAsms.Count <> 0) Then Assemblies.AddRange(DefAsms)
             SpecialAssemblies.Add(path & "InterAction.dll")
@@ -471,9 +523,8 @@ Public Class CurrentProjectData
             SpecialAssemblies.Add(path & "WindowsHookLib.dll")
             SpecialAssemblies.Add(path & "WinAPI.dll")
             SpecialAssemblies.Add(path & "XmlSettings.dll")
-#If (IncludeWeb = 1) Then
+
             SpecialAssemblies.Add(path & "Interop.SHDocVw.dll")
-#End If
 
         End If
         Dirty = True
@@ -562,6 +613,17 @@ Public Class CurrentProjectData
              "Take great care when modifying this value.  If you wish to work on web automation " & _
              "in a 64 bit system you must include /platform:x86")
 
+        MyIni.SetVal("ProjectSettings", "PostBuildCommand", PostBuildCommand, _
+             "Executed after a build is completed but before the tests are started.")
+
+        MyIni.SetVal("ProjectSettings", "PreBuildCommand", PreBuildCommand, _
+             "Executed before a build is started.")
+
+        MyIni.SetVal("ProjectSettings", "PostBuildCommandArgs", PostBuildCommandArgs, _
+     "Args for post build command.")
+
+        MyIni.SetVal("ProjectSettings", "PreBuildCommandArgs", PreBuildCommandArgs, _
+             "Args for pre build command.")
 
         ProjectVersionNumber = CurrentMaxProjectVersionNumber
 
@@ -609,6 +671,7 @@ Public Class CurrentProjectData
 
         End If
     End Function
+    Public Event ProjectLoaded(ByVal XmlFile As String)
 
     Public Function LoadProject(ByVal XmlFile As String) As Boolean
         Try
@@ -667,11 +730,17 @@ Public Class CurrentProjectData
 
             ExternalReportDatabaseConnectionString1 = MyIni.GetVal("ProjectSettings", "ExternalReportDatabaseConnectionString").Value.ToString()
 
-            ProjectType = System.Enum.Parse(GetType(ProjectTypes), MyIni.GetVal("ProjectSettings", "ProjectType").Value, True)
+            ProjectType = DirectCast(System.Enum.Parse(GetType(ProjectTypes), MyIni.GetVal("ProjectSettings", "ProjectType").Value.ToString(), True), ProjectTypes)
 
             LanguageExtension = MyIni.GetVal("InternalProjectSettings", "LanguageExtension").Value.ToString()
 
             AdditionalCompilerOptions = MyIni.GetVal("ProjectSettings", "AdditionalCompilerOptions").Value.ToString()
+
+            PostBuildCommand = MyIni.GetVal("ProjectSettings", "PostBuildCommand").Value.ToString()
+            PreBuildCommand = MyIni.GetVal("ProjectSettings", "PreBuildCommand").Value.ToString()
+
+            PostBuildCommandArgs = MyIni.GetVal("ProjectSettings", "PostBuildCommandArgs").Value.ToString()
+            PreBuildCommandArgs = MyIni.GetVal("ProjectSettings", "PreBuildCommandArgs").Value.ToString()
 
             LoadLocation = XmlFile
             Dirty = False
@@ -679,6 +748,7 @@ Public Class CurrentProjectData
             ProjectLoadError = ex.Message
             Return False
         End Try
+        RaiseEvent ProjectLoaded(XmlFile)
         Return True
     End Function
 

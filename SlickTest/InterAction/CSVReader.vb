@@ -154,7 +154,7 @@ Public Class CSVReader
                     Case ","c
                         ItemContents.Add(CurrentItem.ToString())
                         CurrentItem = New System.Text.StringBuilder(20)
-                    Case vbCr, vbLf
+                    Case vbCr(0), vbLf(0)
                         If (ItemContents.Count <> 0) Then
                             If (CurrentItem.Length <> 0) Then
                                 ItemContents.Add(CurrentItem.ToString())
@@ -236,7 +236,7 @@ Public Class CSVReader
     ''' Gets the column name from the column index.
     ''' </summary>
     ''' <param name="Index">The column index starts at 0.</param>
-    ''' <returns>returns a value between A and ZZ.</returns>
+    ''' <returns>Returns a value between A and ZZ.</returns>
     ''' <remarks></remarks>
     Public Shared Function GetColumnNameFromIndex(ByVal Index As Integer) As String
         If (Index < 0 OrElse 26 * 26 < Index) Then Throw New SlickTestAPIException("Invalid index.  Index given: " & Index)

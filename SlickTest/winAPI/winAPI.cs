@@ -141,20 +141,6 @@ namespace WinAPI
 
         public const int USE_SCREEN_HEIGHT = -1;
 
-        public const int MOUSEEVENTF_LEFTDOWN = 2;
-
-        public const int MOUSEEVENTF_LEFTUP = 4;
-
-        public const int MOUSEEVENTF_MIDDLEDOWN = 32;
-
-        public const int MOUSEEVENTF_MIDDLEUP = 64;
-
-        public const int MOUSEEVENTF_RIGHTDOWN = 8;
-
-        public const int MOUSEEVENTF_RIGHTUP = 16;
-
-        public const int MOUSEEVENTF_MOVE = 1;
-
         public const int BM_SETSTATE = 243;
 
         public const int BM_CLICK = 245;
@@ -2326,7 +2312,7 @@ namespace WinAPI
         public static extern int GetMenuItemInfo(IntPtr hMenu, int un, int b, [MarshalAs(UnmanagedType.Struct)] ref  MENUITEMINFO lpMenuItemInfo);
 
         [DllImport("user32.dll", CharSet = CharSet.Auto)]
-        public static extern int GetSubMenu(IntPtr hMenu, int nPos);
+        public static extern IntPtr GetSubMenu(IntPtr hMenu, int nPos);
 
         [DllImport("user32.dll", CharSet = CharSet.Auto)]
         public static extern int GetMenuString(IntPtr hMenu, int wIDItem, StringBuilder lpString, int nMaxCount, int wFlag);

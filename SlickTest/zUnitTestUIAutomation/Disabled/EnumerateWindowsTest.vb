@@ -1,6 +1,6 @@
 ﻿'Imports System
 
-'Imports Microsoft.VisualStudio.TestTools.UnitTesting
+'Imports NUnit.Framework
 
 'Imports APIControls
 
@@ -10,11 +10,11 @@
 ''''This is a test class for EnumerateWindowsTest and is intended
 ''''to contain all EnumerateWindowsTest Unit Tests
 ''''</summary>
-'<TestClass()> _
+'<TestFixture()>  _
 'Public Class EnumerateWindowsTest
 
 
-'    Private testContextInstance As TestContext
+'
 
 '    '''<summary>
 '    '''Gets or sets the test context which provides
@@ -35,7 +35,7 @@
 '    '
 '    'Use ClassInitialize to run code before running the first test in the class
 '    '<ClassInitialize()>  _
-'    'Public Shared Sub MyClassInitialize(ByVal testContext As TestContext)
+'    'Public Shared Sub MyClassInitialize()
 '    'End Sub
 '    '
 '    'Use ClassCleanup to run code after all tests in a class have run
@@ -59,17 +59,17 @@
 '    '''<summary>
 '    '''A test for Show
 '    '''</summary>
-'    <TestMethod()> _
+'    <Test()> _
 '    Public Sub ShowTest()
 '        Dim title As String = String.Empty ' TODO: Initialize to an appropriate value
 '        EnumerateWindows.Show(title)
-'        Assert.Inconclusive("A method that does not return a value cannot be verified.")
+'        Verify.Inconclusive("A method that does not return a value cannot be verified.")
 '    End Sub
 
 '    '''<summary>
 '    '''A test for SearchChildHandlesWild
 '    '''</summary>
-'    <TestMethod()> _
+'    <Test()> _
 '    Public Sub SearchChildHandlesWildTest()
 '        Dim handle As IntPtr = New IntPtr ' TODO: Initialize to an appropriate value
 '        Dim Name As String = String.Empty ' TODO: Initialize to an appropriate value
@@ -77,14 +77,14 @@
 '        Dim expected As IntPtr = New IntPtr ' TODO: Initialize to an appropriate value
 '        Dim actual As IntPtr
 '        actual = EnumerateWindows.SearchChildHandlesWild(handle, Name, Value)
-'        Assert.AreEqual(expected, actual)
-'        Assert.Inconclusive("Verify the correctness of this test method.")
+'        Verify.AreEqual(expected, actual)
+'        Verify.Inconclusive("Verify the correctness of this test method.")
 '    End Sub
 
 '    '''<summary>
 '    '''A test for SearchChildHandles
 '    '''</summary>
-'    <TestMethod()> _
+'    <Test()> _
 '    Public Sub SearchChildHandlesTest()
 '        Dim handle As IntPtr = New IntPtr ' TODO: Initialize to an appropriate value
 '        Dim Name As String = String.Empty ' TODO: Initialize to an appropriate value
@@ -92,38 +92,38 @@
 '        Dim expected As IntPtr = New IntPtr ' TODO: Initialize to an appropriate value
 '        Dim actual As IntPtr
 '        actual = EnumerateWindows.SearchChildHandles(handle, Name, Value)
-'        Assert.AreEqual(expected, actual)
-'        Assert.Inconclusive("Verify the correctness of this test method.")
+'        Verify.AreEqual(expected, actual)
+'        Verify.Inconclusive("Verify the correctness of this test method.")
 '    End Sub
 
 '    '''<summary>
 '    '''A test for isChildDirectlyConnectedToParent
 '    '''</summary>
-'    <TestMethod()> _
+'    <Test()> _
 '    Public Sub isChildDirectlyConnectedToParentTest()
 '        Dim parent As IntPtr = New IntPtr ' TODO: Initialize to an appropriate value
 '        Dim child As IntPtr = New IntPtr ' TODO: Initialize to an appropriate value
 '        Dim expected As Boolean = False ' TODO: Initialize to an appropriate value
 '        Dim actual As Boolean
 '        actual = EnumerateWindows.isChildDirectlyConnectedToParent(parent, child)
-'        Assert.AreEqual(expected, actual)
-'        Assert.Inconclusive("Verify the correctness of this test method.")
+'        Verify.AreEqual(expected, actual)
+'        Verify.Inconclusive("Verify the correctness of this test method.")
 '    End Sub
 
 '    '''<summary>
 '    '''A test for Hide
 '    '''</summary>
-'    <TestMethod()> _
+'    <Test()> _
 '    Public Sub HideTest()
 '        Dim title As String = String.Empty ' TODO: Initialize to an appropriate value
 '        EnumerateWindows.Hide(title)
-'        Assert.Inconclusive("A method that does not return a value cannot be verified.")
+'        Verify.Inconclusive("A method that does not return a value cannot be verified.")
 '    End Sub
 
 '    '''<summary>
 '    '''A test for HandleChildCallback
 '    '''</summary>
-'    <TestMethod(), _
+'    <Test(), _
 '     DeploymentItem("APIControls.dll")> _
 '    Public Sub HandleChildCallbackTest()
 '        Dim handle As IntPtr = New IntPtr ' TODO: Initialize to an appropriate value
@@ -131,78 +131,78 @@
 '        Dim expected As Boolean = False ' TODO: Initialize to an appropriate value
 '        Dim actual As Boolean
 '        actual = EnumerateWindows_Accessor.HandleChildCallback(handle, parameter)
-'        Assert.AreEqual(expected, actual)
-'        Assert.Inconclusive("Verify the correctness of this test method.")
+'        Verify.AreEqual(expected, actual)
+'        Verify.Inconclusive("Verify the correctness of this test method.")
 '    End Sub
 
 '    '''<summary>
 '    '''A test for GetTitle
 '    '''</summary>
-'    <TestMethod()> _
+'    <Test()> _
 '    Public Sub GetTitleTest()
 '        Dim hWnd As IntPtr = New IntPtr ' TODO: Initialize to an appropriate value
 '        Dim expected As String = String.Empty ' TODO: Initialize to an appropriate value
 '        Dim actual As String
 '        actual = EnumerateWindows.GetTitle(hWnd)
-'        Assert.AreEqual(expected, actual)
-'        Assert.Inconclusive("Verify the correctness of this test method.")
+'        Verify.AreEqual(expected, actual)
+'        Verify.Inconclusive("Verify the correctness of this test method.")
 '    End Sub
 
 '    '''<summary>
 '    '''A test for GetHandles
 '    '''</summary>
-'    <TestMethod()> _
+'    <Test()> _
 '    Public Sub GetHandlesTest()
 '        Dim expected() As IntPtr = Nothing ' TODO: Initialize to an appropriate value
 '        Dim actual() As IntPtr
 '        actual = EnumerateWindows.GetHandles
-'        Assert.AreEqual(expected, actual)
-'        Assert.Inconclusive("Verify the correctness of this test method.")
+'        Verify.AreEqual(expected, actual)
+'        Verify.Inconclusive("Verify the correctness of this test method.")
 '    End Sub
 
 '    '''<summary>
 '    '''A test for GetHandle
 '    '''</summary>
-'    <TestMethod()> _
+'    <Test()> _
 '    Public Sub GetHandleTest()
 '        Dim title As String = String.Empty ' TODO: Initialize to an appropriate value
 '        Dim expected As IntPtr = New IntPtr ' TODO: Initialize to an appropriate value
 '        Dim actual As IntPtr
 '        actual = EnumerateWindows.GetHandle(title)
-'        Assert.AreEqual(expected, actual)
-'        Assert.Inconclusive("Verify the correctness of this test method.")
+'        Verify.AreEqual(expected, actual)
+'        Verify.Inconclusive("Verify the correctness of this test method.")
 '    End Sub
 
 '    '''<summary>
 '    '''A test for GetChildText
 '    '''</summary>
-'    <TestMethod()> _
+'    <Test()> _
 '    Public Sub GetChildTextTest()
 '        Dim handle As IntPtr = New IntPtr ' TODO: Initialize to an appropriate value
 '        Dim expected As String = String.Empty ' TODO: Initialize to an appropriate value
 '        Dim actual As String
 '        actual = EnumerateWindows.GetChildText(handle)
-'        Assert.AreEqual(expected, actual)
-'        Assert.Inconclusive("Verify the correctness of this test method.")
+'        Verify.AreEqual(expected, actual)
+'        Verify.Inconclusive("Verify the correctness of this test method.")
 '    End Sub
 
 '    '''<summary>
 '    '''A test for GetChildHandles
 '    '''</summary>
-'    <TestMethod()> _
+'    <Test()> _
 '    Public Sub GetChildHandlesTest()
 '        Dim handle As IntPtr = New IntPtr ' TODO: Initialize to an appropriate value
 '        Dim expected() As IntPtr = Nothing ' TODO: Initialize to an appropriate value
 '        Dim actual() As IntPtr
 '        actual = EnumerateWindows.GetChildHandles(handle)
-'        Assert.AreEqual(expected, actual)
-'        Assert.Inconclusive("Verify the correctness of this test method.")
+'        Verify.AreEqual(expected, actual)
+'        Verify.Inconclusive("Verify the correctness of this test method.")
 '    End Sub
 
 '    '''<summary>
 '    '''A test for FindWindowWild
 '    '''</summary>
-'    <TestMethod()> _
+'    <Test()> _
 '    Public Sub FindWindowWildTest()
 '        Dim sWildName As String = String.Empty ' TODO: Initialize to an appropriate value
 '        Dim sWildValue As String = String.Empty ' TODO: Initialize to an appropriate value
@@ -210,28 +210,28 @@
 '        Dim expected As IntPtr = New IntPtr ' TODO: Initialize to an appropriate value
 '        Dim actual As IntPtr
 '        actual = EnumerateWindows.FindWindowWild(sWildName, sWildValue, bMatchCase)
-'        Assert.AreEqual(expected, actual)
-'        Assert.Inconclusive("Verify the correctness of this test method.")
+'        Verify.AreEqual(expected, actual)
+'        Verify.Inconclusive("Verify the correctness of this test method.")
 '    End Sub
 
 '    '''<summary>
 '    '''A test for Exists
 '    '''</summary>
-'    <TestMethod()> _
+'    <Test()> _
 '    Public Sub ExistsTest()
 '        Dim title As String = String.Empty ' TODO: Initialize to an appropriate value
 '        Dim text As String = String.Empty ' TODO: Initialize to an appropriate value
 '        Dim expected As Boolean = False ' TODO: Initialize to an appropriate value
 '        Dim actual As Boolean
 '        actual = EnumerateWindows.Exists(title, text)
-'        Assert.AreEqual(expected, actual)
-'        Assert.Inconclusive("Verify the correctness of this test method.")
+'        Verify.AreEqual(expected, actual)
+'        Verify.Inconclusive("Verify the correctness of this test method.")
 '    End Sub
 
 '    '''<summary>
 '    '''A test for EnumWinProc
 '    '''</summary>
-'    <TestMethod(), _
+'    <Test(), _
 '     DeploymentItem("APIControls.dll")> _
 '    Public Sub EnumWinProcTest()
 '        Dim hwnd As IntPtr = New IntPtr ' TODO: Initialize to an appropriate value
@@ -239,14 +239,14 @@
 '        Dim expected As Boolean = False ' TODO: Initialize to an appropriate value
 '        Dim actual As Boolean
 '        actual = EnumerateWindows_Accessor.EnumWinProc(hwnd, lParam)
-'        Assert.AreEqual(expected, actual)
-'        Assert.Inconclusive("Verify the correctness of this test method.")
+'        Verify.AreEqual(expected, actual)
+'        Verify.Inconclusive("Verify the correctness of this test method.")
 '    End Sub
 
 '    '''<summary>
 '    '''A test for EnumWindowsProc
 '    '''</summary>
-'    <TestMethod(), _
+'    <Test(), _
 '     DeploymentItem("APIControls.dll")> _
 '    Public Sub EnumWindowsProcTest()
 '        Dim handle As IntPtr = New IntPtr ' TODO: Initialize to an appropriate value
@@ -254,26 +254,26 @@
 '        Dim expected As Boolean = False ' TODO: Initialize to an appropriate value
 '        Dim actual As Boolean
 '        actual = EnumerateWindows_Accessor.EnumWindowsProc(handle, parameter)
-'        Assert.AreEqual(expected, actual)
-'        Assert.Inconclusive("Verify the correctness of this test method.")
+'        Verify.AreEqual(expected, actual)
+'        Verify.Inconclusive("Verify the correctness of this test method.")
 '    End Sub
 
 '    '''<summary>
 '    '''A test for Close
 '    '''</summary>
-'    <TestMethod()> _
+'    <Test()> _
 '    Public Sub CloseTest()
 '        Dim title As String = String.Empty ' TODO: Initialize to an appropriate value
 '        EnumerateWindows.Close(title)
-'        Assert.Inconclusive("A method that does not return a value cannot be verified.")
+'        Verify.Inconclusive("A method that does not return a value cannot be verified.")
 '    End Sub
 
 '    '''<summary>
 '    '''A test for EnumerateWindows Constructor
 '    '''</summary>
-'    <TestMethod()> _
+'    <Test()> _
 '    Public Sub EnumerateWindowsConstructorTest()
 '        Dim target As EnumerateWindows = New EnumerateWindows
-'        Assert.Inconclusive("TODO: Implement code to verify target")
+'        Verify.Inconclusive("TODO: Implement code to verify target")
 '    End Sub
 'End Class

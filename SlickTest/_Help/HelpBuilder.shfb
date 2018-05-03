@@ -2,6 +2,7 @@
     <assemblies>
         <assembly assemblyPath="..\APIControls\bin\Release\APIControls.dll" xmlCommentsPath="..\APIControls\bin\Release\APIControls.xml" commentsOnly="False" />
         <assembly assemblyPath="..\InterAction\bin\InterAction.dll" xmlCommentsPath="..\InterAction\bin\InterAction.xml" commentsOnly="False" />
+        <assembly assemblyPath="..\APIControls\bin\Debug\Interop.SHDocVw.dll" xmlCommentsPath="" commentsOnly="False" />
         <assembly assemblyPath="..\winAPI\bin\Release\winAPI.dll" xmlCommentsPath=".\Unknown.xml" commentsOnly="False" />
         <assembly assemblyPath="..\XmlSettingsDLL\bin\Release\XmlSettings.dll" xmlCommentsPath="..\XmlSettingsDLL\bin\Release\XmlSettings.xml" commentsOnly="False" />
     </assemblies>

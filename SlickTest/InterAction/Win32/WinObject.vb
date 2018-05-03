@@ -1,5 +1,5 @@
 ''' <summary>
-''' A winObject is a generic object that allows for some basic abilities you can perform on 
+''' A WinObject is a generic object that allows for some basic abilities you can perform on 
 ''' ANY object, be it a window or a button.
 ''' </summary>
 ''' <remarks>WinObjects only provide very basic functionality, but are designed to allow a use to
@@ -100,9 +100,9 @@ Public Class WinObject
     ''' Creates a window object.
     ''' </summary>
     ''' <param name="desc">A description of the inner window.</param>
-    ''' <returns>returns a window object</returns>
+    ''' <returns>Returns a window object</returns>
     ''' <remarks>This allows the automation to go down the object tree.  For example:
-    ''' InterAct.WinObject(MyWindow).Window(InnerWindow).Click</remarks>
+    ''' New UIControls.InterAct().Window(MyWindow).Window(InnerWindow).Click</remarks>
     Public Function Window(ByVal desc As APIControls.IDescription) As Window
         Return BuildWindow(desc)
     End Function
@@ -111,9 +111,9 @@ Public Class WinObject
     ''' Creates a WinObject object.
     ''' </summary>
     ''' <param name="desc">A description of the inner WinObject.</param>
-    ''' <returns>returns the WinObject.</returns>
+    ''' <returns>Returns the WinObject.</returns>
     ''' <remarks>This allows the automation to go down the object tree.  For example:
-    ''' InterAct.WinObject(MyWindow).WinObject(MyButton).Click()</remarks>
+    ''' New UIControls.InterAct().Window(MyWindow).WinObject(MyButton).Click()</remarks>
     Public Function WinObject(ByVal desc As APIControls.IDescription) As WinObject
         Return BuildWinObject(desc)
     End Function
@@ -122,9 +122,9 @@ Public Class WinObject
     ''' Creates a TextBox object.
     ''' </summary>
     ''' <param name="desc">A description of the inner TextBox.</param>
-    ''' <returns>returns the TextBox.</returns>
+    ''' <returns>Returns the TextBox.</returns>
     ''' <remarks>This allows the automation to go down the object tree.  For example:
-    ''' InterAct.WinObject(MyWindow).TextBox(MyText).Click()</remarks>
+    ''' New UIControls.InterAct().Window(MyWindow).TextBox(MyText).Click()</remarks>
     Public Function TextBox(ByVal desc As APIControls.IDescription) As TextBox
         Dim tmpwin As UIControls.Window = BuildWindow(desc)
         Return New TextBox(tmpwin)
@@ -134,9 +134,9 @@ Public Class WinObject
     ''' Creates a Button object.
     ''' </summary>
     ''' <param name="desc">A description of the inner Button.</param>
-    ''' <returns>returns the Button.</returns>
+    ''' <returns>Returns the Button.</returns>
     ''' <remarks>This allows the automation to go down the object tree.  For example:
-    ''' InterAct.WinObject(MyWindow).Button(myButton).Click()</remarks>
+    ''' New UIControls.InterAct().Window(MyWindow).Button(myButton).Click()</remarks>
     Public Function Button(ByVal desc As APIControls.IDescription) As Button
         Dim tmpwin As UIControls.Window = BuildWindow(desc)
         Return New Button(tmpwin)
@@ -146,9 +146,9 @@ Public Class WinObject
     ''' Creates a CheckBox object.
     ''' </summary>
     ''' <param name="desc">A description of the inner CheckBox.</param>
-    ''' <returns>returns the CheckBox.</returns>
+    ''' <returns>Returns the CheckBox.</returns>
     ''' <remarks>This allows the automation to go down the object tree.  For example:
-    ''' InterAct.WinObject(MyWindow).CheckBox(MyCheckBox).Click()</remarks>
+    ''' New UIControls.InterAct().Window(MyWindow).CheckBox(MyCheckBox).Click()</remarks>
     Public Function CheckBox(ByVal desc As APIControls.IDescription) As CheckBox
         Dim tmpwin As UIControls.Window = BuildWindow(desc)
         Return New CheckBox(tmpwin)
@@ -158,9 +158,9 @@ Public Class WinObject
     ''' Creates a RadioButton object.
     ''' </summary>
     ''' <param name="desc">A description of the inner RadioButton.</param>
-    ''' <returns>returns the RadioButton.</returns>
+    ''' <returns>Returns the RadioButton.</returns>
     ''' <remarks>This allows the automation to go down the object tree.  For example:
-    ''' InterAct.WinObject(MyWindow).RadioButton(MyRadioButton).Click()</remarks>
+    ''' New UIControls.InterAct().Window(MyWindow).RadioButton(MyRadioButton).Click()</remarks>
     Public Function RadioButton(ByVal desc As APIControls.IDescription) As RadioButton
         Dim tmpwin As UIControls.Window = BuildWindow(desc)
         Return New RadioButton(tmpwin)
@@ -170,9 +170,9 @@ Public Class WinObject
     ''' Creates a StaticLabel object.
     ''' </summary>
     ''' <param name="desc">A description of the inner StaticLabel.</param>
-    ''' <returns>returns the StaticLabel.</returns>
+    ''' <returns>Returns the StaticLabel.</returns>
     ''' <remarks>This allows the automation to go down the object tree.  For example:
-    ''' InterAct.WinObject(MyWindow).StaticLabel(MyStaticLabel).Click()</remarks>
+    ''' New UIControls.InterAct().Window(MyWindow).StaticLabel(MyStaticLabel).Click()</remarks>
     Public Function StaticLabel(ByVal desc As APIControls.IDescription) As StaticLabel
         Dim tmpwin As UIControls.Window = BuildWindow(desc)
         Return New StaticLabel(tmpwin)
@@ -182,9 +182,9 @@ Public Class WinObject
     ''' Creates a ListBox object.
     ''' </summary>
     ''' <param name="desc">A description of the ListBox object.</param>
-    ''' <returns>returns the ListBox.</returns>
+    ''' <returns>Returns the ListBox.</returns>
     ''' <remarks>This allows the automation to go down the object tree.  For example:
-    ''' InterAct.WinObject(MyWindow).ListBox(myListBox).Click()</remarks>
+    ''' New UIControls.InterAct().Window(MyWindow).ListBox(myListBox).Click()</remarks>
     Public Function ListBox(ByVal desc As APIControls.IDescription) As ListBox
         Dim tmpwin As UIControls.Window = BuildWindow(desc)
         Return New ListBox(tmpwin)
@@ -194,9 +194,9 @@ Public Class WinObject
     ''' Creates a ListView object.
     ''' </summary>
     ''' <param name="desc">A description of the ListView object.</param>
-    ''' <returns>returns the ListView.</returns>
+    ''' <returns>Returns the ListView.</returns>
     ''' <remarks>This allows the automation to go down the object tree.  For example:
-    ''' InterAct.WinObject(MyWindow).ListView(myListView).Click()</remarks>
+    ''' New UIControls.InterAct().Window(MyWindow).ListView(myListView).Click()</remarks>
     Public Function ListView(ByVal desc As APIControls.IDescription) As ListView
         Dim tmpwin As UIControls.Window = BuildWindow(desc)
         Return New ListView(tmpwin)
@@ -206,9 +206,9 @@ Public Class WinObject
     ''' Creates a TreeView object.
     ''' </summary>
     ''' <param name="desc">A description of the TreeView object.</param>
-    ''' <returns>returns the TreeView.</returns>
+    ''' <returns>Returns the TreeView.</returns>
     ''' <remarks>This allows the automation to go down the object tree.  For example:
-    ''' InterAct.WinObject(MyWindow).TreeView(myTreeView).Click()</remarks>
+    ''' New UIControls.InterAct().Window(MyWindow).TreeView(myTreeView).Click()</remarks>
     Public Function TreeView(ByVal desc As APIControls.IDescription) As TreeView
         Dim tmpwin As UIControls.Window = BuildWindow(desc)
         Return New TreeView(tmpwin)
@@ -218,9 +218,9 @@ Public Class WinObject
     ''' Creates a TabControl object.
     ''' </summary>
     ''' <param name="desc">A description of the TabControl object.</param>
-    ''' <returns>returns the TabControl.</returns>
+    ''' <returns>Returns the TabControl.</returns>
     ''' <remarks>This allows the automation to go down the object tree.  For example:
-    ''' InterAct.WinObject(MyWindow).TabControl(myTabControl).Click()</remarks>
+    ''' New UIControls.InterAct().Window(MyWindow).TabControl(myTabControl).Click()</remarks>
     Public Function TabControl(ByVal desc As APIControls.IDescription) As TabControl
         Dim tmpwin As UIControls.Window = BuildWindow(desc)
         Return New TabControl(tmpwin)
@@ -230,9 +230,9 @@ Public Class WinObject
     ''' Creates a ComboBox object.
     ''' </summary>
     ''' <param name="desc">A description of the ComboBox object.</param>
-    ''' <returns>returns the ComboBox.</returns>
+    ''' <returns>Returns the ComboBox.</returns>
     ''' <remarks>This allows the automation to go down the object tree.  For example:
-    ''' InterAct.WinObject(MyWindow).ComboBox(myComboBox).Click()</remarks>
+    ''' New UIControls.InterAct().Window(MyWindow).ComboBox(myComboBox).Click()</remarks>
     Public Function ComboBox(ByVal desc As APIControls.IDescription) As ComboBox
         Dim tmpwin As UIControls.Window = BuildWindow(desc)
         Return New ComboBox(tmpwin)
@@ -245,9 +245,9 @@ Public Class WinObject
     ''' Creates a window object.
     ''' </summary>
     ''' <param name="desc">A description of the inner window.</param>
-    ''' <returns>returns a window object</returns>
+    ''' <returns>Returns a window object</returns>
     ''' <remarks>This allows the automation to go down the object tree.  For example:
-    ''' InterAct.WinObject(MyWindow).Window(InnerWindow).Click</remarks>
+    ''' New UIControls.InterAct().Window(MyWindow).Window(InnerWindow).Click</remarks>
     Public Function Window(ByVal desc As String) As Window
         Return BuildWindow(desc)
     End Function
@@ -256,9 +256,9 @@ Public Class WinObject
     ''' Creates a WinObject object.
     ''' </summary>
     ''' <param name="desc">A description of the inner WinObject.</param>
-    ''' <returns>returns the WinObject.</returns>
+    ''' <returns>Returns the WinObject.</returns>
     ''' <remarks>This allows the automation to go down the object tree.  For example:
-    ''' InterAct.WinObject(MyWindow).WinObject(MyButton).Click()</remarks>
+    ''' New UIControls.InterAct().Window(MyWindow).WinObject(MyButton).Click()</remarks>
     Public Function WinObject(ByVal desc As String) As WinObject
         Return BuildWinObject(desc)
     End Function
@@ -267,9 +267,9 @@ Public Class WinObject
     ''' Creates a TextBox object.
     ''' </summary>
     ''' <param name="desc">A description of the inner TextBox.</param>
-    ''' <returns>returns the TextBox.</returns>
+    ''' <returns>Returns the TextBox.</returns>
     ''' <remarks>This allows the automation to go down the object tree.  For example:
-    ''' InterAct.WinObject(MyWindow).TextBox(MyText).Click()</remarks>
+    ''' New UIControls.InterAct().Window(MyWindow).TextBox(MyText).Click()</remarks>
     Public Function TextBox(ByVal desc As String) As TextBox
         Dim tmpwin As UIControls.Window = BuildWindow(desc)
         Return New TextBox(tmpwin)
@@ -279,9 +279,9 @@ Public Class WinObject
     ''' Creates a Button object.
     ''' </summary>
     ''' <param name="desc">A description of the inner Button.</param>
-    ''' <returns>returns the Button.</returns>
+    ''' <returns>Returns the Button.</returns>
     ''' <remarks>This allows the automation to go down the object tree.  For example:
-    ''' InterAct.WinObject(MyWindow).Button(myButton).Click()</remarks>
+    ''' New UIControls.InterAct().Window(MyWindow).Button(myButton).Click()</remarks>
     Public Function Button(ByVal desc As String) As Button
         Dim tmpwin As UIControls.Window = BuildWindow(desc)
         Return New Button(tmpwin)
@@ -291,9 +291,9 @@ Public Class WinObject
     ''' Creates a CheckBox object.
     ''' </summary>
     ''' <param name="desc">A description of the inner CheckBox.</param>
-    ''' <returns>returns the CheckBox.</returns>
+    ''' <returns>Returns the CheckBox.</returns>
     ''' <remarks>This allows the automation to go down the object tree.  For example:
-    ''' InterAct.WinObject(MyWindow).CheckBox(MyCheckBox).Click()</remarks>
+    ''' New UIControls.InterAct().Window(MyWindow).CheckBox(MyCheckBox).Click()</remarks>
     Public Function CheckBox(ByVal desc As String) As CheckBox
         Dim tmpwin As UIControls.Window = BuildWindow(desc)
         Return New CheckBox(tmpwin)
@@ -303,9 +303,9 @@ Public Class WinObject
     ''' Creates a RadioButton object.
     ''' </summary>
     ''' <param name="desc">A description of the inner RadioButton.</param>
-    ''' <returns>returns the RadioButton.</returns>
+    ''' <returns>Returns the RadioButton.</returns>
     ''' <remarks>This allows the automation to go down the object tree.  For example:
-    ''' InterAct.WinObject(MyWindow).RadioButton(MyRadioButton).Click()</remarks>
+    ''' New UIControls.InterAct().Window(MyWindow).RadioButton(MyRadioButton).Click()</remarks>
     Public Function RadioButton(ByVal desc As String) As RadioButton
         Dim tmpwin As UIControls.Window = BuildWindow(desc)
         Return New RadioButton(tmpwin)
@@ -315,9 +315,9 @@ Public Class WinObject
     ''' Creates a StaticLabel object.
     ''' </summary>
     ''' <param name="desc">A description of the inner StaticLabel.</param>
-    ''' <returns>returns the StaticLabel.</returns>
+    ''' <returns>Returns the StaticLabel.</returns>
     ''' <remarks>This allows the automation to go down the object tree.  For example:
-    ''' InterAct.WinObject(MyWindow).StaticLabel(MyStaticLabel).Click()</remarks>
+    ''' New UIControls.InterAct().Window(MyWindow).StaticLabel(MyStaticLabel).Click()</remarks>
     Public Function StaticLabel(ByVal desc As String) As StaticLabel
         Dim tmpwin As UIControls.Window = BuildWindow(desc)
         Return New StaticLabel(tmpwin)
@@ -327,9 +327,9 @@ Public Class WinObject
     ''' Creates a ListBox object.
     ''' </summary>
     ''' <param name="desc">A description of the ListBox object.</param>
-    ''' <returns>returns the ListBox.</returns>
+    ''' <returns>Returns the ListBox.</returns>
     ''' <remarks>This allows the automation to go down the object tree.  For example:
-    ''' InterAct.WinObject(MyWindow).ListBox(myListBox).Click()</remarks>
+    ''' New UIControls.InterAct().Window(MyWindow).ListBox(myListBox).Click()</remarks>
     Public Function ListBox(ByVal desc As String) As ListBox
         Dim tmpwin As UIControls.Window = BuildWindow(desc)
         Return New ListBox(tmpwin)
@@ -339,9 +339,9 @@ Public Class WinObject
     ''' Creates a ListView object.
     ''' </summary>
     ''' <param name="desc">A description of the ListView object.</param>
-    ''' <returns>returns the ListView.</returns>
+    ''' <returns>Returns the ListView.</returns>
     ''' <remarks>This allows the automation to go down the object tree.  For example:
-    ''' InterAct.WinObject(MyWindow).ListView(myListView).Click()</remarks>
+    ''' New UIControls.InterAct().Window(MyWindow).ListView(myListView).Click()</remarks>
     Public Function ListView(ByVal desc As String) As ListView
         Dim tmpwin As UIControls.Window = BuildWindow(desc)
         Return New ListView(tmpwin)
@@ -351,9 +351,9 @@ Public Class WinObject
     ''' Creates a TreeView object.
     ''' </summary>
     ''' <param name="desc">A description of the TreeView object.</param>
-    ''' <returns>returns the TreeView.</returns>
+    ''' <returns>Returns the TreeView.</returns>
     ''' <remarks>This allows the automation to go down the object tree.  For example:
-    ''' InterAct.WinObject(MyWindow).TreeView(myTreeView).Click()</remarks>
+    ''' New UIControls.InterAct().Window(MyWindow).TreeView(myTreeView).Click()</remarks>
     Public Function TreeView(ByVal desc As String) As TreeView
         Dim tmpwin As UIControls.Window = BuildWindow(desc)
         Return New TreeView(tmpwin)
@@ -363,9 +363,9 @@ Public Class WinObject
     ''' Creates a TabControl object.
     ''' </summary>
     ''' <param name="desc">A description of the TabControl object.</param>
-    ''' <returns>returns the TabControl.</returns>
+    ''' <returns>Returns the TabControl.</returns>
     ''' <remarks>This allows the automation to go down the object tree.  For example:
-    ''' InterAct.WinObject(MyWindow).TabControl(myTabControl).Click()</remarks>
+    ''' New UIControls.InterAct().Window(MyWindow).TabControl(myTabControl).Click()</remarks>
     Public Function TabControl(ByVal desc As String) As TabControl
         Dim tmpwin As UIControls.Window = BuildWindow(desc)
         Return New TabControl(tmpwin)
@@ -375,9 +375,9 @@ Public Class WinObject
     ''' Creates a ComboBox object.
     ''' </summary>
     ''' <param name="desc">A description of the ComboBox object.</param>
-    ''' <returns>returns the ComboBox.</returns>
+    ''' <returns>Returns the ComboBox.</returns>
     ''' <remarks>This allows the automation to go down the object tree.  For example:
-    ''' InterAct.WinObject(MyWindow).ComboBox(myComboBox).Click()</remarks>
+    ''' New UIControls.InterAct().Window(MyWindow).ComboBox(myComboBox).Click()</remarks>
     Public Function ComboBox(ByVal desc As String) As ComboBox
         Dim tmpwin As UIControls.Window = BuildWindow(desc)
         Return New ComboBox(tmpwin)
@@ -522,21 +522,22 @@ Public Class WinObject
     ''' </summary>
     ''' <returns>Returns an array of descriptions that are children of
     ''' the current window.</returns>
-    ''' <remarks>This converts the list into generic objects, rather than
-    ''' description objects for scripting related reasons.</remarks>
+    ''' <remarks></remarks>
     Public Function GetChildDescriptions() As UIControls.Description()
         Dim tmpDescs As New System.Collections.Generic.List(Of UIControls.Description)
         ExistsWithException()
         Try
             For Each handle As IntPtr In APIControls.EnumerateWindows.GetChildHandles(currentHwnd)
-                Dim Desc As APIControls.Description = WindowsFunctions.CreateDescriptionFromHwnd(handle)
+                If (handle = IntPtr.Zero) Then Continue For
+                Dim Desc As APIControls.Description = WindowsFunctions.CreateDescriptionFromHwnd(handle, True)
                 Dim Desc2 As UIControls.Description = UIControls.Description.ConvertApiToUiDescription(Desc)
                 Dim TmpDesc As UIControls.Description = UIControls.Description.Create()
                 For Each item As UIControls.Description.DescriptionData In [Enum].GetValues(GetType(UIControls.Description.DescriptionData))
                     If (Desc2.Contains(item) = True) Then
-                        TmpDesc.Add(Desc.GetItemName(item), Desc2.GetItemValue(item))
+                        TmpDesc.Add(Desc.GetItemName(DirectCast(item, APIControls.Description.DescriptionData)), Desc2.GetItemValue(item))
                     End If
                 Next
+                If (TmpDesc.Hwnd = IntPtr.Zero) Then Continue For
                 TmpDesc.WildCard = Desc.WildCard
                 tmpDescs.Add(TmpDesc)
             Next

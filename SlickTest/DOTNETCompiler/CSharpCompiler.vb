@@ -1,11 +1,9 @@
-﻿Imports System.CodeDom.Compiler
-
-Public Class CSharpCompiler
+﻿Public Class CSharpCompiler
     Inherits AbstractCompiler
 
     Private codeProvider As Microsoft.CSharp.CSharpCodeProvider
 
-    Public Overrides Function Compile(ByVal Execute As Boolean, ByVal Args As String) As Boolean
+    Public Overrides Function Compile(ByVal Execute As Boolean, ByVal Args As String, ByVal PostBuildCommand As String, ByVal PostBuildArgs As String) As Boolean
         codeProvider = New Microsoft.CSharp.CSharpCodeProvider()
 
         For Each asm As String In IncludedAssemblies
@@ -66,6 +64,7 @@ Public Class CSharpCompiler
             Next
             Return False
         Else
+            RunProcess(PostBuildCommand,PostBuildArgs,"postbuild")
             If Execute = True Then
                 StartDateTime = System.DateTime.Now
                 If ShowConsoleUI = True Then

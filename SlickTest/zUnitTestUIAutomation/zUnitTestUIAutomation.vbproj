@@ -43,6 +43,7 @@
     </Reference>
     <Reference Include="Microsoft.mshtml, Version=7.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
     <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework, Version=9.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
+    <Reference Include="nunit.framework, Version=2.5.3.9345, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL" />
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Data.SqlServerCe, Version=3.5.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL" />
@@ -73,8 +74,28 @@
     <Compile Include="DotNetTests.vb" />
     <Compile Include="DotNet\SwfTreeViewTest.vb" />
     <Compile Include="FindWindowsUsingDifferentDescriptions.vb" />
+    <Compile Include="Web\WebRadioButtonTest.vb" />
+    <Compile Include="Web\WebTextBoxTest.vb" />
+    <Compile Include="Web\WebButtonTest.vb" />
+    <Compile Include="Web\WebImageTest.vb" />
+    <Compile Include="Web\WebCheckboxTest.vb" />
+    <Compile Include="Web\WebGenericInputTest.vb" />
+    <Compile Include="Web\WebLinkTest.vb" />
+    <Compile Include="Web\WebListItemTest.vb" />
+    <Compile Include="Web\WebListTest.vb" />
+    <Compile Include="Web\WebSpanTest.vb" />
+    <Compile Include="Web\WebComboBoxTest.vb" />
+    <Compile Include="Web\WebDivTest.vb" />
+    <Compile Include="Web\WebStyleTest.vb" />
+    <Compile Include="Web\IEWebBrowserTest.vb" />
+    <Compile Include="ReportAssert.vb" />
+    <Compile Include="Web\WebTableCellTest.vb" />
+    <Compile Include="Web\WebTableTest.vb" />
+    <Compile Include="Web\WebTableRowTest.vb" />
+    <Compile Include="Web\WebElementTest.vb" />
+    <Compile Include="Web\WebTests.vb" />
     <Compile Include="Win32\AbstractWinObjectTest.vb" />
-    <Compile Include="AlertTest.vb" />
+    <Compile Include="Win32\AlertTest.vb" />
     <Compile Include="TODO\Alert_fMessageBoxTest.vb" />
     <Compile Include="Disabled\AutomationSettingsTest.vb" />
     <Compile Include="Disabled\AutomationSettings_CurrentProjectDataTest.vb" />
@@ -91,7 +112,7 @@
     <Compile Include="Disabled\ElementTest.vb" />
     <Compile Include="Disabled\EnumerateWindowsTest.vb" />
     <Compile Include="TODO\IndependentWindowsFunctionsv1Test.vb" />
-    <Compile Include="Disabled\InterActTest.vb" />
+    <Compile Include="InterActTest.vb" />
     <Compile Include="KeyboardTest.vb" />
     <Compile Include="Win32\ListBoxTest.vb" />
     <Compile Include="TODO\ListBoxWindowsAPITest.vb" />
@@ -124,14 +145,29 @@
     <Compile Include="TODO\TopWindowTest.vb" />
     <Compile Include="TODO\TreeViewTest.vb" />
     <Compile Include="TODO\TreeViewWindowsAPITest.vb" />
-    <Compile Include="Disabled\VElementTest.vb" />
     <Compile Include="Win32\WindowTest.vb" />
     <Compile Include="Win32\WindowWindowsAPITest.vb" />
     <Compile Include="Win32\WinObjectTest.vb" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="AuthoringTests.txt" />
-    <Content Include="DotNetTest.exe">
+    <Content Include="Programs\DotNetTest.exe">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Misc\SampleBuildScript.vbs" />
+    <Content Include="Programs\calc.exe" />
+    <Content Include="Programs\notepad.exe" />
+    <Content Include="Programs\wordpad.exe" />
+    <Content Include="WebPages\BackGround.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="WebPages\MiscSample.html">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="WebPages\InputSample.html">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="WebPages\TableSample.html">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
@@ -147,6 +183,10 @@
       <Project>{B02D1804-8CD8-49E0-8485-DB10E53955C9}</Project>
       <Name>InterAction</Name>
     </ProjectReference>
+    <ProjectReference Include="..\SlickUnit\SlickUnit.vbproj">
+      <Project>{BD218E7C-FB65-498E-8713-789447597A0A}</Project>
+      <Name>SlickUnit</Name>
+    </ProjectReference>
     <ProjectReference Include="..\winAPI\WinAPI.csproj">
       <Project>{6DC8C8E5-C050-424A-B8B2-CCBCFBA3CAFC}</Project>
       <Name>WinAPI</Name>
@@ -158,6 +198,16 @@
   </ItemGroup>
   <ItemGroup>
     <Shadow Include="Test References\APIControls.accessor" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Programs\en-US\calc.exe.mui" />
+    <None Include="Programs\en-US\notepad.exe.mui" />
+    <None Include="Programs\mswrd6.wpc" />
+    <None Include="Programs\mswrd8.wpc" />
+    <None Include="Programs\write.wpc" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.VisualBasic.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

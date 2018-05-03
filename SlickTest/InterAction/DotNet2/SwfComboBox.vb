@@ -1,6 +1,6 @@
 'Updated On: 8/23/08
 ''' <summary>
-''' A SwfComboBox is just a specialized SwfWinObject, and so it performs 
+''' A SwfComboBox is just a specialized SwfWinObject, and it performs 
 ''' everything a SwfWinObject does.
 ''' </summary>
 ''' <remarks></remarks>
@@ -60,7 +60,7 @@ Public Class SwfComboBox
     ''' <remarks></remarks>
     Public Function GetItemCount() As Long
         Try
-            Return WindowsFunctions.ComboBox.ComboBoxItemsCount(Me.Hwnd())
+            Return WindowsFunctions.ComboBox.ComboBoxItemsCount(New IntPtr(Me.Hwnd()))
         Catch ex As Exception
             Throw ex
         End Try
@@ -78,7 +78,7 @@ Public Class SwfComboBox
     Public Function GetAllItems() As String()
         Dim retVal As String() = {""}
         Try
-            Return WindowsFunctions.ComboBox.GetComboBoxItems(Me.Hwnd())
+            Return WindowsFunctions.ComboBox.GetComboBoxItems(New IntPtr(Me.Hwnd()))
         Catch ex As Exception
             Throw ex
         End Try
@@ -90,14 +90,14 @@ Public Class SwfComboBox
     ''' </summary>
     ''' <param name="itemNumber">The item to select.  This allows for all items
     ''' between 0 and count-1.</param>
-    ''' <returns>returns true if it is able to successfully select the item.  Returns false if it is
+    ''' <returns>Returns true if it is able to successfully select the item.  Returns false if it is
     ''' unable to select the item for any reason.</returns>
     ''' <exception cref="Exception">An exception maybe thrown if communication with the
     ''' ComboBox fails.</exception>
     ''' <remarks></remarks>
     Public Function SetSelectItem(ByVal ItemNumber As Integer) As Boolean
         Try
-            Dim i As Boolean = WindowsFunctions.ComboBox.SelectComboBoxItem(Me.Hwnd(), ItemNumber)
+            Dim i As Boolean = WindowsFunctions.ComboBox.SelectComboBoxItem(New IntPtr(Me.Hwnd()), ItemNumber)
             Return i
         Catch ex As Exception
             Throw ex
@@ -108,14 +108,14 @@ Public Class SwfComboBox
     ''' <summary>
     ''' Gets the index of the item currently selected in the ComboBox.
     ''' </summary>
-    ''' <returns>returns the index number of the currently selected item.  Returns -1 if it is
+    ''' <returns>Returns the index number of the currently selected item.  Returns -1 if it is
     ''' unable to get the selected the item for any reason.</returns>
     ''' <exception cref="Exception">An exception maybe thrown if communication with the
     ''' ComboBox fails.</exception>
     ''' <remarks></remarks>
     Public Function GetSelectedItemNumber() As Integer
         Try
-            Dim i As Integer = WindowsFunctions.ComboBox.GetComboBoxSelectedItem(Me.Hwnd())
+            Dim i As Integer = WindowsFunctions.ComboBox.GetComboBoxSelectedItem(New IntPtr(Me.Hwnd()))
             Return i
         Catch ex As Exception
             Throw ex
@@ -134,7 +134,7 @@ Public Class SwfComboBox
     ''' <remarks></remarks>
     Public Function GetItemByIndex(ByVal Index As Integer) As String
         Try
-            Dim AppHwnd As IntPtr = Me.Hwnd()
+            Dim AppHwnd As IntPtr = New IntPtr(Me.Hwnd())
             If (Index < 0 Or WindowsFunctions.ComboBox.ComboBoxItemsCount(AppHwnd) <= Index) Then
                 Throw New IndexOutOfRangeException("Index " & Index & " was outside the range of the ComboBox (" & Me.Name & ").")
             End If

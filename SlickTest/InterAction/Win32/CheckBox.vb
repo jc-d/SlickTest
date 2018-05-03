@@ -92,11 +92,7 @@ Public NotInheritable Class CheckBox
     ''' <remarks>-1 is returned if the framework is unable to get a state.</remarks>
     Public Function GetChecked() As Integer
         ExistsWithException()
-        Try
-            Return WindowsFunctions.GetCheckBoxState(New IntPtr(Hwnd))
-        Catch ex As Exception
-            Throw ex
-        End Try
+        Return WindowsFunctions.GetCheckBoxState(New IntPtr(Hwnd))
     End Function
 
     ''' <summary>
@@ -123,7 +119,6 @@ Public NotInheritable Class CheckBox
         Catch ex As Exception
         End Try
         Return "unknown"
-
     End Function
 
     ''' <summary>
@@ -140,7 +135,11 @@ Public NotInheritable Class CheckBox
         ExistsWithException()
         Select Case State
             Case UIControls.CheckBox.CHECKED, UIControls.CheckBox.UNCHECKED
-                WindowsFunctions.SetCheckBoxState(New IntPtr(Me.Hwnd), State)
+                Try
+                    WindowsFunctions.SetCheckBoxState(New IntPtr(Me.Hwnd), State)
+                Catch ex As Exception
+                    Throw ex
+                End Try
             Case UIControls.CheckBox.INDETERMINATE
                 If (BS.ContainsValue(AbstractWinObject.WindowsFunctions.GetWindowsStyle(New IntPtr(Me.Hwnd)), BS.BS_AUTO3STATE) = False) Then
                     If (BS.ContainsValue(AbstractWinObject.WindowsFunctions.GetWindowsStyle(New IntPtr(Me.Hwnd)), BS.BS_3STATE) = False) Then
@@ -193,6 +192,6 @@ Public NotInheritable Class CheckBox
     ''' <returns></returns>
     ''' <remarks></remarks>
     Public Function IsCheckBox() As Boolean
-        Return WindowsFunctions.Button.IsCheckBox(Me.Hwnd())
+        Return WindowsFunctions.Button.IsCheckBox(New IntPtr(Me.Hwnd()))
     End Function
 End Class

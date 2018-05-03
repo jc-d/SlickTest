@@ -56,12 +56,12 @@ Public Class ComboBoxStyle
     '    Dim RetVal As String = String.Empty
     '    Dim Name As String = String.Empty
     '    Dim temp As String
-    '    For Each item As ComboBoxStyles In [Enum].GetValues(GetType(ComboBoxStyles))
+    '    For Each item As Convert.ToInt32(ComboBoxStyles In [Enum].GetValues(GetType(Convert.ToInt32(ComboBoxStyles))
     '        temp = String.Empty
-    '        Name = [Enum].GetName(GetType(ComboBoxStyles), item)
+    '        Name = [Enum].GetName(GetType(Convert.ToInt32(ComboBoxStyles), item)
     '        temp = Property_txt & "" & Name.TrimStart("n"c).ToUpper() & "() As Integer" & vbNewLine & _
     '        "Get" & vbNewLine & _
-    '        "Return " & "ComboBoxStyles" & "." & Name.ToUpper() & vbNewLine & _
+    '        "Return " & "Convert.ToInt32(ComboBoxStyles" & "." & Name.ToUpper() & vbNewLine & _
     '        "End Get" & vbNewLine & _
     '        "End Property"
     '        RetVal += temp & vbNewLine & vbNewLine
@@ -79,7 +79,7 @@ Public Class ComboBoxStyle
     ''' <remarks></remarks>
     Public ReadOnly Property CBS_SIMPLE() As Integer
         Get
-            Return ComboBoxStyles.CBS_SIMPLE
+            Return Convert.ToInt32(ComboBoxStyles.CBS_SIMPLE)
         End Get
     End Property
 
@@ -92,7 +92,7 @@ Public Class ComboBoxStyle
     ''' <remarks></remarks>
     Public ReadOnly Property CBS_DROPDOWN() As Integer
         Get
-            Return ComboBoxStyles.CBS_DROPDOWN
+            Return Convert.ToInt32(ComboBoxStyles.CBS_DROPDOWN)
         End Get
     End Property
 
@@ -105,7 +105,7 @@ Public Class ComboBoxStyle
     ''' <remarks></remarks>
     Public ReadOnly Property CBS_DROPDOWNLIST() As Integer
         Get
-            Return ComboBoxStyles.CBS_DROPDOWNLIST
+            Return Convert.ToInt32(ComboBoxStyles.CBS_DROPDOWNLIST)
         End Get
     End Property
 
@@ -121,7 +121,7 @@ Public Class ComboBoxStyle
     ''' <remarks></remarks>
     Public ReadOnly Property CBS_OWNERDRAWFIXED() As Integer
         Get
-            Return ComboBoxStyles.CBS_OWNERDRAWFIXED
+            Return Convert.ToInt32(ComboBoxStyles.CBS_OWNERDRAWFIXED)
         End Get
     End Property
 
@@ -137,7 +137,7 @@ Public Class ComboBoxStyle
     ''' <remarks></remarks>
     Public ReadOnly Property CBS_OWNERDRAWVARIABLE() As Integer
         Get
-            Return ComboBoxStyles.CBS_OWNERDRAWVARIABLE
+            Return Convert.ToInt32(ComboBoxStyles.CBS_OWNERDRAWVARIABLE)
         End Get
     End Property
 
@@ -151,7 +151,7 @@ Public Class ComboBoxStyle
     ''' <remarks></remarks>
     Public ReadOnly Property CBS_AUTOHSCROLL() As Integer
         Get
-            Return ComboBoxStyles.CBS_AUTOHSCROLL
+            Return Convert.ToInt32(ComboBoxStyles.CBS_AUTOHSCROLL)
         End Get
     End Property
 
@@ -169,7 +169,7 @@ Public Class ComboBoxStyle
     ''' <remarks></remarks>
     Public ReadOnly Property CBS_OEMCONVERT() As Integer
         Get
-            Return ComboBoxStyles.CBS_OEMCONVERT
+            Return Convert.ToInt32(ComboBoxStyles.CBS_OEMCONVERT)
         End Get
     End Property
 
@@ -181,7 +181,7 @@ Public Class ComboBoxStyle
     ''' <remarks></remarks>
     Public ReadOnly Property CBS_SORT() As Integer
         Get
-            Return ComboBoxStyles.CBS_SORT
+            Return Convert.ToInt32(ComboBoxStyles.CBS_SORT)
         End Get
     End Property
 
@@ -196,7 +196,7 @@ Public Class ComboBoxStyle
     ''' <remarks></remarks>
     Public ReadOnly Property CBS_HASSTRINGS() As Integer
         Get
-            Return ComboBoxStyles.CBS_HASSTRINGS
+            Return Convert.ToInt32(ComboBoxStyles.CBS_HASSTRINGS)
         End Get
     End Property
 
@@ -210,7 +210,7 @@ Public Class ComboBoxStyle
     ''' <remarks></remarks>
     Public ReadOnly Property CBS_NOINTEGRALHEIGHT() As Integer
         Get
-            Return ComboBoxStyles.CBS_NOINTEGRALHEIGHT
+            Return Convert.ToInt32(ComboBoxStyles.CBS_NOINTEGRALHEIGHT)
         End Get
     End Property
 
@@ -224,7 +224,7 @@ Public Class ComboBoxStyle
     ''' <remarks></remarks>
     Public ReadOnly Property CBS_DISABLENOSCROLL() As Integer
         Get
-            Return ComboBoxStyles.CBS_DISABLENOSCROLL
+            Return Convert.ToInt32(ComboBoxStyles.CBS_DISABLENOSCROLL)
         End Get
     End Property
 
@@ -236,7 +236,7 @@ Public Class ComboBoxStyle
     ''' <remarks></remarks>
     Public ReadOnly Property CBS_UPPERCASE() As Integer
         Get
-            Return ComboBoxStyles.CBS_UPPERCASE
+            Return Convert.ToInt32(ComboBoxStyles.CBS_UPPERCASE)
         End Get
     End Property
 
@@ -248,7 +248,7 @@ Public Class ComboBoxStyle
     ''' <remarks></remarks>
     Public ReadOnly Property CBS_LOWERCASE() As Integer
         Get
-            Return ComboBoxStyles.CBS_LOWERCASE
+            Return Convert.ToInt32(ComboBoxStyles.CBS_LOWERCASE)
         End Get
     End Property
 End Class

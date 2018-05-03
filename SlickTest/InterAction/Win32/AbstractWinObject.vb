@@ -1,14 +1,13 @@
 Imports APIControls
 
 ''' <summary>
-''' The Abstract Window is the set of abilities all object types have.
+''' The Abstract Window is the set of abilities all Windows object types have.
 ''' </summary>
 ''' <remarks>The Abstract WinObject can't be created, but is the base
 ''' for all Slick Test Developer Windows Objects.</remarks>
 Public MustInherit Class AbstractWinObject
     Implements IAbstractWinObject
 #Const IsAbs = 2 'set to 1 for abs position values
-#Const IncludeWeb = 2 'set to 1 to enable web
 
     'Protected Friend useWildCards As Boolean
     Friend Shared TakePicturesBeforeClicks As Boolean = False
@@ -34,9 +33,8 @@ Public MustInherit Class AbstractWinObject
     Private Const FULL_SIZE As Integer = -1
     Private Const LEFTBUTTON As Integer = 0
     Private Shared Rand As System.Random = New Random()
-#If (IncludeWeb = 1) Then
+
     Friend Shared IE As New APIControls.InternetExplorer()
-#End If
 
 
 #Region "Private/Protected methods"
@@ -113,7 +111,7 @@ Public MustInherit Class AbstractWinObject
     ''' <returns></returns>
     ''' <remarks>Returns 0 if it is unable to retrieve the control ID.</remarks>
     Public Function GetControlID() As Integer
-        Return WindowsFunctions.GetControlID(Me.Hwnd)
+        Return WindowsFunctions.GetControlID(New IntPtr(Me.Hwnd()))
     End Function
 
     Private Function TestExists() As Boolean
@@ -317,7 +315,7 @@ Public MustInherit Class AbstractWinObject
             Me.AppActivate()
             Me.AppActivateByHwnd(Hwnd)
             System.Threading.Thread.Sleep(40)
-            x.CaptureControl(Path, WindowsFunctions.GetTopParent(New IntPtr(Hwnd())))
+            x.CaptureControl(Path, WindowsFunctions.GetTopParent(New IntPtr(Hwnd())).ToInt64())
         Catch ex As Exception
             If (Action = PICTUREAFTERCLICK) Then 'This could happen since window might be closed.
                 x.CaptureDesktop(Path)
@@ -350,7 +348,7 @@ Public MustInherit Class AbstractWinObject
         Return RemoveChars(s, "\/:?""<>|")
     End Function
 
-    Private Shared Function RemoveChars(ByVal s As String, ByVal RemoveCharsList As String)
+    Private Shared Function RemoveChars(ByVal s As String, ByVal RemoveCharsList As String) As String
         For Each c As Char In RemoveCharsList.ToCharArray
             s = s.Replace(c, "")
         Next
@@ -495,7 +493,7 @@ Public MustInherit Class AbstractWinObject
         '"name:=""blah"";;value:="blah"
     End Function
 
-    Protected Friend Sub Report(ByVal Type As Short, ByVal MajorMessage As String, ByVal MinorMessage As String)
+    Protected Friend Sub Report(ByVal Type As Byte, ByVal MajorMessage As String, ByVal MinorMessage As String)
         reporter.RecordEvent(Type, MajorMessage, MinorMessage)
     End Sub
 
@@ -1006,7 +1004,7 @@ Public MustInherit Class AbstractWinObject
     ''' <summary>
     ''' Returns the entire location in string format.
     ''' </summary>
-    ''' <returns>returns a string format of the location.</returns>
+    ''' <returns>Returns a string format of the location.</returns>
     ''' <remarks></remarks>
     Public Function GetLocation() As String Implements IAbstractWinObject.GetLocation
         ExistsWithException()
@@ -1027,7 +1025,7 @@ Public MustInherit Class AbstractWinObject
     ''' <summary>
     ''' Returns the entire location.
     ''' </summary>
-    ''' <returns>returns the rectangle of the object.</returns>
+    ''' <returns>Returns the rectangle of the object.</returns>
     ''' <remarks></remarks>
     Public Function GetLocationRect() As System.Drawing.Rectangle
         ExistsWithException()
@@ -1040,7 +1038,7 @@ Public MustInherit Class AbstractWinObject
     ''' <returns></returns>
     ''' <remarks></remarks>
     Public Function GetObjectType() As String
-        Return WindowsFunctions.GetObjectTypeAsString(Hwnd)
+        Return WindowsFunctions.GetObjectTypeAsString(New IntPtr(Me.Hwnd()))
     End Function
 
     ''' <summary>

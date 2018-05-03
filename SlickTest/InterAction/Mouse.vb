@@ -97,7 +97,7 @@ Public Class Mouse
     ''' Clicks on a Hwnd value, if the Hwnd value is greater than 0.
     ''' </summary>
     ''' <param name="Hwnd">the Windows Hwnd value.</param>
-    ''' <returns>returns true if successful.</returns>
+    ''' <returns>Returns true if successful.</returns>
     ''' <remarks>Some applications are known to not work well (such as winamp) with this
     ''' "smart" method of clicking.</remarks>
     Protected Friend Shared Function ClickByHwnd(ByVal Hwnd As IntPtr) As Boolean
@@ -139,9 +139,11 @@ Public Class Mouse
     ''' </summary>
     ''' <param name="X">The X location.</param>
     ''' <param name="Y">The Y location.</param>
+    ''' <param name="SlowMovement">Move the mouse slowly like a user. By default, 
+    ''' it will not move slowly.</param>
     ''' <remarks>This method excepts the X,Y coords are relative</remarks>
-    Public Shared Sub GotoXY(ByVal X As Integer, ByVal Y As Integer)
-        UIControls.InternalMouse.GotoXY(X, Y)
+    Public Shared Sub GotoXY(ByVal X As Integer, ByVal Y As Integer, Optional ByVal SlowMovement As Boolean = False)
+        UIControls.InternalMouse.GotoXY(X, Y, SlowMovement)
     End Sub
 
     ''' <summary>
@@ -149,9 +151,11 @@ Public Class Mouse
     ''' </summary>
     ''' <param name="StartPoint">The point where the mouse button is pressed down.</param>
     ''' <param name="EndPoint">The point where the mouse button is released.</param>
+    ''' <param name="SlowMovement">Move the mouse slowly like a user. By default, 
+    ''' it will not move slowly.</param>
     ''' <remarks></remarks>
-    Public Shared Sub LeftDragAndDrop(ByVal StartPoint As System.Drawing.Point, ByVal EndPoint As System.Drawing.Point)
-        UIControls.InternalMouse.DragAndDrop(StartPoint, EndPoint)
+    Public Shared Sub LeftDragAndDrop(ByVal StartPoint As System.Drawing.Point, ByVal EndPoint As System.Drawing.Point, Optional ByVal SlowMovement As Boolean = False)
+        UIControls.InternalMouse.DragAndDrop(StartPoint, EndPoint, SlowMovement)
     End Sub
 
     ''' <summary>
@@ -159,9 +163,11 @@ Public Class Mouse
     ''' </summary>
     ''' <param name="StartPoint">The point where the mouse button is pressed down.</param>
     ''' <param name="EndPoint">The point where the mouse button is released.</param>
+    ''' <param name="SlowMovement">Move the mouse slowly like a user. By default, 
+    ''' it will not move slowly.</param>
     ''' <remarks></remarks>
-    Public Shared Sub RightDragAndDrop(ByVal StartPoint As System.Drawing.Point, ByVal EndPoint As System.Drawing.Point)
-        UIControls.InternalMouse.DragAndDropRight(StartPoint, EndPoint)
+    Public Shared Sub RightDragAndDrop(ByVal StartPoint As System.Drawing.Point, ByVal EndPoint As System.Drawing.Point, Optional ByVal SlowMovement As Boolean = False)
+        UIControls.InternalMouse.DragAndDropRight(StartPoint, EndPoint, SlowMovement)
     End Sub
 
     ''' <summary>
@@ -169,9 +175,11 @@ Public Class Mouse
     ''' </summary>
     ''' <param name="StartPoint">The point where the mouse button is pressed down.</param>
     ''' <param name="EndPoint">The point where the mouse button is released.</param>
+    ''' <param name="SlowMovement">Move the mouse slowly like a user. By default, 
+    ''' it will not move slowly.</param>
     ''' <remarks></remarks>
-    Public Shared Sub MiddleDragAndDrop(ByVal StartPoint As System.Drawing.Point, ByVal EndPoint As System.Drawing.Point)
-        UIControls.InternalMouse.DragAndDropMiddle(StartPoint, EndPoint)
+    Public Shared Sub MiddleDragAndDrop(ByVal StartPoint As System.Drawing.Point, ByVal EndPoint As System.Drawing.Point, Optional ByVal SlowMovement As Boolean = False)
+        UIControls.InternalMouse.DragAndDropMiddle(StartPoint, EndPoint, SlowMovement)
     End Sub
 
     Protected Friend Sub New()

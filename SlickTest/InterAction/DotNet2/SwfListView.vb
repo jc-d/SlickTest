@@ -1,7 +1,7 @@
 'Updated On: 10/18/09
 
 ''' <summary>
-''' A SwfListView is just a specialized SwfWinObject, and so it performs everything a SwfWinObject does.
+''' A SwfListView is just a specialized SwfWinObject, and it performs everything a SwfWinObject does.
 ''' </summary>
 ''' <remarks></remarks>
 Public NotInheritable Class SwfListView
@@ -32,7 +32,7 @@ Public NotInheritable Class SwfListView
     ''' <returns></returns>
     ''' <remarks></remarks>
     Public Function GetRowCount() As Integer
-        Return WindowsFunctions.ListView.GetItemCount(Me.Hwnd())
+        Return WindowsFunctions.ListView.GetItemCount(New IntPtr(Me.Hwnd()))
     End Function
 
     ''' <summary>
@@ -41,7 +41,7 @@ Public NotInheritable Class SwfListView
     ''' <returns></returns>
     ''' <remarks></remarks>
     Public Function IsListView() As Boolean
-        Return WindowsFunctions.ListView.IsListView(Me.Hwnd())
+        Return WindowsFunctions.ListView.IsListView(New IntPtr(Me.Hwnd()))
     End Function
 
     ''' <summary>
@@ -50,7 +50,7 @@ Public NotInheritable Class SwfListView
     ''' <returns></returns>
     ''' <remarks></remarks>
     Public Function GetColumnCount() As Integer
-        Return WindowsFunctions.ListView.GetColumnCount(Me.Hwnd())
+        Return WindowsFunctions.ListView.GetColumnCount(New IntPtr(Me.Hwnd()))
     End Function
 
     ''' <summary>
@@ -61,7 +61,7 @@ Public NotInheritable Class SwfListView
     ''' <returns>The width of a column.</returns>
     ''' <remarks></remarks>
     Public Function GetColumnWidth(ByVal ColumnText As String) As Integer
-        Dim TempHwnd As IntPtr = Me.Hwnd()
+        Dim TempHwnd As IntPtr = New IntPtr(Me.Hwnd())
         Return WindowsFunctions.ListView.GetColumnWidth(TempHwnd, WindowsFunctions.ListView.FindColumnNumber(TempHwnd, ColumnText))
     End Function
 
@@ -72,7 +72,7 @@ Public NotInheritable Class SwfListView
     ''' <returns>The width of a column.</returns>
     ''' <remarks></remarks>
     Public Function GetColumnWidth(ByVal ColumnNumber As Integer) As Integer
-        Dim TempHwnd As IntPtr = Me.Hwnd()
+        Dim TempHwnd As IntPtr = New IntPtr(Me.Hwnd())
         Return WindowsFunctions.ListView.GetColumnWidth(TempHwnd, ColumnNumber)
     End Function
 
@@ -83,7 +83,7 @@ Public NotInheritable Class SwfListView
     ''' <returns>The array will include each column within the row.</returns>
     ''' <remarks></remarks>
     Public Function GetRow(ByVal Row As Integer) As String()
-        Return WindowsFunctions.ListView.GetRow(Me.Hwnd(), Row)
+        Return WindowsFunctions.ListView.GetRow(New IntPtr(Me.Hwnd()), Row)
     End Function
 
     ''' <summary>
@@ -97,7 +97,7 @@ Public NotInheritable Class SwfListView
     ''' System.Windows.Forms.MessageBox.Show(str(iRow,iCol))'prints out the second row, third column into a messagebox.
     ''' </remarks>
     Public Function GetAll() As String(,)
-        Return WindowsFunctions.ListView.GetEntireList(Me.Hwnd())
+        Return WindowsFunctions.ListView.GetEntireList(New IntPtr(Me.Hwnd()))
     End Function
 
     ''' <summary>
@@ -108,7 +108,7 @@ Public NotInheritable Class SwfListView
     ''' <returns></returns>
     ''' <remarks></remarks>
     Public Function GetColumnHeaderText(ByVal ColumnNumber As Integer) As String
-        Return WindowsFunctions.ListView.GetColumnName(Me.Hwnd(), ColumnNumber)
+        Return WindowsFunctions.ListView.GetColumnName(New IntPtr(Me.Hwnd()), ColumnNumber)
     End Function
 
     ''' <summary>
@@ -120,7 +120,7 @@ Public NotInheritable Class SwfListView
     ''' Row 2: rowitem1, rowitem2, rowitem3</returns>
     ''' <remarks></remarks>
     Public Function GetAllFormatted() As String
-        Return WindowsFunctions.ListView.GetEntireListForPrinting(Me.Hwnd())
+        Return WindowsFunctions.ListView.GetEntireListForPrinting(New IntPtr(Me.Hwnd()))
     End Function
 
     ''' <summary>
@@ -130,7 +130,7 @@ Public NotInheritable Class SwfListView
     ''' <param name="SizeInPixels">The width of the column in pixels.</param>
     ''' <remarks></remarks>
     Public Sub SetColumnWidth(ByVal ColumnNumber As Integer, ByVal SizeInPixels As Integer)
-        WindowsFunctions.ListView.SetColumnWidth(Me.Hwnd(), ColumnNumber, SizeInPixels)
+        WindowsFunctions.ListView.SetColumnWidth(New IntPtr(Me.Hwnd()), ColumnNumber, SizeInPixels)
     End Sub
 
     ''' <summary>
@@ -141,7 +141,7 @@ Public NotInheritable Class SwfListView
     ''' <param name="SizeInPixels">The width of the column in pixels.</param>
     ''' <remarks></remarks>
     Public Sub SetColumnWidth(ByVal ColumnText As String, ByVal SizeInPixels As Integer)
-        Dim TempHwnd As IntPtr = Me.Hwnd()
+        Dim TempHwnd As IntPtr = New IntPtr(Me.Hwnd())
         WindowsFunctions.ListView.SetColumnWidth(TempHwnd, WindowsFunctions.ListView.FindColumnNumber(TempHwnd, ColumnText), SizeInPixels)
     End Sub
 
@@ -151,7 +151,7 @@ Public NotInheritable Class SwfListView
     ''' <returns>An array of all the column's text in the listview.</returns>
     ''' <remarks></remarks>
     Public Function GetAllColumnsHeaderText() As String()
-        Return WindowsFunctions.ListView.GetColumns(Me.Hwnd())
+        Return WindowsFunctions.ListView.GetColumns(New IntPtr(Me.Hwnd()))
     End Function
 
     ''' <summary>
@@ -162,7 +162,7 @@ Public NotInheritable Class SwfListView
     ''' <returns>The text for the row/column, if any exists.</returns>
     ''' <remarks>Index for both row and column starts at 0</remarks>
     Public Function GetRowText(ByVal RowNumber As Integer, ByVal ColumnNumber As Integer) As String
-        Return APIControls.ListViewWindowsAPI.ReadListViewItem(Me.Hwnd(), RowNumber, ColumnNumber)
+        Return APIControls.ListViewWindowsAPI.ReadListViewItem(New IntPtr(Me.Hwnd()), RowNumber, ColumnNumber)
     End Function
 
     ''' <summary>
@@ -175,7 +175,7 @@ Public NotInheritable Class SwfListView
     ''' <exception cref="Exception">If no column text matches the columns in the WinObject, this will throw an exception.</exception>
     ''' <remarks></remarks>
     Public Function GetRowText(ByVal RowNumber As Integer, ByVal ColumnText As String) As String
-        Dim TempHwnd As IntPtr = Me.Hwnd()
+        Dim TempHwnd As IntPtr = New IntPtr(Me.Hwnd())
         Return APIControls.ListViewWindowsAPI.ReadListViewItem(TempHwnd, RowNumber, WindowsFunctions.ListView.FindColumnNumber(TempHwnd, ColumnText))
     End Function
 
@@ -195,7 +195,7 @@ Public NotInheritable Class SwfListView
     ''' <returns></returns>
     ''' <remarks></remarks>
     Public Function GetSelectedRowNumbers() As Integer()
-        Return WindowsFunctions.ListView.GetSelectedItems(Me.Hwnd())
+        Return WindowsFunctions.ListView.GetSelectedItems(New IntPtr(Me.Hwnd()))
     End Function
 
     ''' <summary>
@@ -205,7 +205,7 @@ Public NotInheritable Class SwfListView
     ''' <remarks></remarks>
     Public Function GetSelectedRowsText() As String()
         Dim Rows As New System.Collections.Generic.List(Of String)()
-        For Each row As Integer In WindowsFunctions.ListView.GetSelectedItems(Me.Hwnd())
+        For Each row As Integer In WindowsFunctions.ListView.GetSelectedItems(New IntPtr(Me.Hwnd()))
             Rows.Add(Me.GetRowText(row))
         Next
         Return Rows.ToArray()
@@ -228,7 +228,7 @@ Public NotInheritable Class SwfListView
     ''' <param name="SelectItem">Set the item to a selected or unselected state</param>
     ''' <remarks></remarks>
     Public Sub SetSelectState(ByVal Index As Integer, ByVal SelectItem As Boolean)
-        APIControls.ListViewWindowsAPI.SetSelectedItem(Me.Hwnd, Index, SelectItem)
+        APIControls.ListViewWindowsAPI.SetSelectedItem(New IntPtr(Me.Hwnd()), Index, SelectItem)
     End Sub
 
     ''' <summary>
@@ -238,7 +238,7 @@ Public NotInheritable Class SwfListView
     ''' <remarks></remarks>
     Public Sub SelectItems(ByVal ItemIndexes() As Integer)
         UnselectAll()
-        WindowsFunctions.ListView.SetSelectedItems(Me.Hwnd, ItemIndexes)
+        WindowsFunctions.ListView.SetSelectedItems(New IntPtr(Me.Hwnd()), ItemIndexes)
     End Sub
 
     ''' <summary>
@@ -249,12 +249,12 @@ Public NotInheritable Class SwfListView
     ''' <remarks>No rows will be selected if exception occurs while finding text.</remarks>
     Public Sub SetSelectedRows(ByVal RowsText() As String)
         UnselectAll()
-        Dim TempHwnd As IntPtr = Me.Hwnd()
+        Dim TempHwnd As IntPtr = New IntPtr(Me.Hwnd())
         Dim RowNumbers As New System.Collections.Generic.List(Of Integer)()
         For Each Row As String In RowsText
             RowNumbers.Add(WindowsFunctions.ListView.FindRowNumber(TempHwnd, Row))
         Next
-        WindowsFunctions.ListView.SetSelectedItems(Me.Hwnd(), RowNumbers.ToArray())
+        WindowsFunctions.ListView.SetSelectedItems(New IntPtr(Me.Hwnd()), RowNumbers.ToArray())
     End Sub
 
     ''' <summary>
@@ -262,7 +262,7 @@ Public NotInheritable Class SwfListView
     ''' </summary>
     ''' <remarks></remarks>
     Public Sub SelectAll()
-        WindowsFunctions.ListView.SelectAll(Me.Hwnd())
+        WindowsFunctions.ListView.SelectAll(New IntPtr(Me.Hwnd()))
     End Sub
 
     ''' <summary>
@@ -270,6 +270,6 @@ Public NotInheritable Class SwfListView
     ''' </summary>
     ''' <remarks></remarks>
     Public Sub UnselectAll()
-        WindowsFunctions.ListView.UnselectAll(Me.Hwnd())
+        WindowsFunctions.ListView.UnselectAll(New IntPtr(Me.Hwnd()))
     End Sub
 End Class

@@ -14,4 +14,7 @@
     ReadOnly Property Title() As String
     ReadOnly Property TagName() As String
     ReadOnly Property Enabled() As Boolean
+    ReadOnly Property Name() As String
+    ReadOnly Property Value() As String
+    ReadOnly Property Index() As Integer
 End Interface

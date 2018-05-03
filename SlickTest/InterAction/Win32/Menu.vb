@@ -34,13 +34,13 @@ Public NotInheritable Class Menu 'User can't create their own menu object.
         Return WinAPI.API.GetMenuItemCount(Hwnd)
     End Function
 
-    Private Function CreateMenuStructure(ByVal Hwnd As Integer) As System.Collections.Generic.List(Of MenuStructure)
+    Private Function CreateMenuStructure(ByVal Hwnd As IntPtr) As System.Collections.Generic.List(Of MenuStructure)
         Dim sc As New System.Collections.Generic.List(Of MenuStructure)
         InternalCreateMenuStructure(Hwnd, 0, sc, "")
         Return sc
     End Function
 
-    Private Sub InternalCreateMenuStructure(ByVal Hwnd As Integer, ByVal MenuLevel As Integer, ByRef Menus As System.Collections.Generic.List(Of MenuStructure), ByVal ParentMenu As String)
+    Private Sub InternalCreateMenuStructure(ByVal Hwnd As IntPtr, ByVal MenuLevel As Integer, ByRef Menus As System.Collections.Generic.List(Of MenuStructure), ByVal ParentMenu As String)
         If (Hwnd <> IntPtr.Zero) Then
             For i As Integer = 0 To MenuCount(Hwnd)
                 Menus.Add(New MenuStructure(GetMenuText(Hwnd, i), i, MenuLevel, Hwnd, ParentMenu))
@@ -57,7 +57,7 @@ Public NotInheritable Class Menu 'User can't create their own menu object.
         End If
     End Sub
 
-    Private Function GetMenuText(ByVal Hwnd As Integer, ByVal Index As Integer) As String
+    Private Function GetMenuText(ByVal Hwnd As IntPtr, ByVal Index As Integer) As String
         Dim str As New System.Text.StringBuilder(256)
         WinAPI.API.GetMenuString(Hwnd, Index, str, 255, WinAPI.API.MF_BYPOSITION)
         Return str.ToString()
@@ -67,7 +67,7 @@ Public NotInheritable Class Menu 'User can't create their own menu object.
         Public ReadOnly Property MenuText() As String
             Get
                 If (FullMenuText.Contains(vbTab)) Then
-                    Return FullMenuText.Split(vbTab)(0)
+                    Return FullMenuText.Split(vbTab(0))(0)
                 Else
                     Return FullMenuText
                 End If
@@ -76,7 +76,7 @@ Public NotInheritable Class Menu 'User can't create their own menu object.
         Public ReadOnly Property ShortCutText() As String
             Get
                 If (FullMenuText.Contains(vbTab)) Then
-                    Return FullMenuText.Split(vbTab)(1)
+                    Return FullMenuText.Split(vbTab(0))(1)
                 End If
                 Return ""
             End Get
@@ -113,7 +113,7 @@ Public NotInheritable Class Menu 'User can't create their own menu object.
     End Sub
 
     Private Function PerformCommand(ByVal MenuLocation() As String) As Integer
-        Dim SelectMenuHwnd As IntPtr = Me.Hwnd()
+        Dim SelectMenuHwnd As IntPtr = New IntPtr(Me.Hwnd())
         Dim SplitMenus() As String = MenuLocation 'GetMenuLocationSplit(MenuLocation, SplitChar)
         Dim sc As System.Collections.Generic.List(Of MenuStructure) = CreateMenuStructure(SelectMenuHwnd)
         Dim WorkOnSubLevel As Integer = 0
@@ -144,7 +144,7 @@ Public NotInheritable Class Menu 'User can't create their own menu object.
         mif.dwTypeData = New String(Chr(0), 256) 'New String(Chr(0), (mif.cch + 1))
         mif.fType = 0
         mif.cch = 255
-        WinAPI.API.GetMenuItemInfo(MenuItem.Handle, MenuItem.MenuNumber, True, mif)
+        WinAPI.API.GetMenuItemInfo(MenuItem.Handle, MenuItem.MenuNumber, 1, mif)
         Return mif.fState
     End Function
 
@@ -160,7 +160,7 @@ Public NotInheritable Class Menu 'User can't create their own menu object.
     ''' <remarks>The exact menu text.</remarks>
     Private Function GetMenuText(ByVal Index As Integer) As String
         Dim str As New System.Text.StringBuilder(256)
-        WinAPI.API.GetMenuString(Hwnd(), Index, str, 255, WinAPI.API.MF_BYPOSITION)
+        WinAPI.API.GetMenuString(New IntPtr(Me.Hwnd()), Index, str, 255, WinAPI.API.MF_BYPOSITION)
         Return str.ToString()
     End Function
 
@@ -183,7 +183,7 @@ Public NotInheritable Class Menu 'User can't create their own menu object.
     ''' '&amp;' character.
     ''' '</remarks>
     Public Function GetMenuTextBelow(ByVal Text As String) As System.Collections.Generic.List(Of String)
-        Dim CurrentMenuStructure As System.Collections.Generic.List(Of MenuStructure) = CreateMenuStructure(Me.Hwnd)
+        Dim CurrentMenuStructure As System.Collections.Generic.List(Of MenuStructure) = CreateMenuStructure(New IntPtr(Me.Hwnd()))
         Dim menuText As New System.Collections.Generic.List(Of String)
         Dim menuItemAdded As Boolean
         Do
@@ -224,7 +224,7 @@ Public NotInheritable Class Menu 'User can't create their own menu object.
     ''' <returns></returns>
     ''' <remarks></remarks>
     Public Function GetTopLevelMenuCount() As Integer
-        Return MenuCount(Me.Hwnd())
+        Return MenuCount(New IntPtr(Me.Hwnd()))
     End Function
 
     ''' <summary>
@@ -233,7 +233,7 @@ Public NotInheritable Class Menu 'User can't create their own menu object.
     ''' <returns></returns>
     ''' <remarks></remarks>
     Public Function GetMenuCount() As Integer
-        Return CreateMenuStructure(Me.Hwnd).Count
+        Return CreateMenuStructure(New IntPtr(Me.Hwnd())).Count
     End Function
 
     ''' <summary>
@@ -257,7 +257,7 @@ Public NotInheritable Class Menu 'User can't create their own menu object.
     ''' <returns></returns>
     ''' <remarks></remarks>
     Public Shadows Function GetText() As String
-        Dim CurrentMenuStructure As System.Collections.Generic.List(Of MenuStructure) = CreateMenuStructure(Me.Hwnd)
+        Dim CurrentMenuStructure As System.Collections.Generic.List(Of MenuStructure) = CreateMenuStructure(New IntPtr(Me.Hwnd()))
         Dim text As New System.Text.StringBuilder(CurrentMenuStructure.Count * 10 + 1)
 
         For Each Menu As MenuStructure In CurrentMenuStructure
@@ -285,7 +285,7 @@ Public NotInheritable Class Menu 'User can't create their own menu object.
     Public Shadows Function Hwnd() As Int64
         Dim MainHwnd As IntPtr = New IntPtr(MyBase.Hwnd())
         If (WinAPI.API.IsMenu(MainHwnd) <> 0) Then Return MainHwnd.ToInt64()
-        Dim MenuHwnd As Int64 = WinAPI.API.GetMenu(MainHwnd)
+        Dim MenuHwnd As Int64 = WinAPI.API.GetMenu(MainHwnd).ToInt64()
         If (New IntPtr(MenuHwnd) = IntPtr.Zero) Then
             Throw New SlickTestUIException("No menu could be found for the parent of this object.")
         End If
@@ -301,7 +301,7 @@ Public NotInheritable Class Menu 'User can't create their own menu object.
     Public Function ContainsMenu() As Boolean
         Dim MainHwnd As IntPtr = New IntPtr(MyBase.Hwnd())
         If (WinAPI.API.IsMenu(MainHwnd) <> 0) Then Return True
-        Dim MenuHwnd As Int64 = WinAPI.API.GetMenu(MainHwnd)
+        Dim MenuHwnd As Int64 = WinAPI.API.GetMenu(MainHwnd).ToInt64()
         If (New IntPtr(MenuHwnd) = IntPtr.Zero) Then
             Return False
         End If
@@ -315,7 +315,7 @@ Public NotInheritable Class Menu 'User can't create their own menu object.
     ''' <remarks>This uses wild card string matching in order to find the 
     ''' name of the menu item.  Ignores the '&amp;' character.</remarks>
     Public Function ContainsMenuItem(ByVal ItemText As String) As Boolean
-        Dim sc As System.Collections.Generic.List(Of MenuStructure) = CreateMenuStructure(Me.Hwnd())
+        Dim sc As System.Collections.Generic.List(Of MenuStructure) = CreateMenuStructure(New IntPtr(Me.Hwnd()))
         For Each ms As MenuStructure In sc
             If (ms.FullMenuText.Replace("&", "") Like ItemText.Replace("&", "")) Then
                 Return True
@@ -335,7 +335,7 @@ Public NotInheritable Class Menu 'User can't create their own menu object.
     ''' the menu item.  If no menu item is found, an exception is thrown. 
     ''' Ignores the '&amp;' character.</remarks>
     Public Shadows Function GetText(ByVal ItemText As String) As String
-        Dim sc As System.Collections.Generic.List(Of MenuStructure) = CreateMenuStructure(Me.Hwnd())
+        Dim sc As System.Collections.Generic.List(Of MenuStructure) = CreateMenuStructure(New IntPtr(Me.Hwnd()))
         For Each ms As MenuStructure In sc
             If (ms.FullMenuText.Replace("&", "") Like ItemText.Replace("&", "")) Then
                 Return ms.FullMenuText
@@ -354,13 +354,13 @@ Public NotInheritable Class Menu 'User can't create their own menu object.
     ''' By default, the left button is used.</param>
     ''' <remarks>This will attempt to select both enabled and disabled menu items.</remarks>
     Public Sub SelectMenuItem(ByVal MenuLocation() As String, Optional ByVal MouseButtonToOpenMenu As System.Windows.Forms.MouseButtons = Windows.Forms.MouseButtons.Left)
-        Dim SelectMenuHwnd As IntPtr = Me.Hwnd()
+        Dim SelectMenuHwnd As IntPtr = New IntPtr(Me.Hwnd())
         Dim SplitMenus() As String = MenuLocation 'GetMenuLocationSplit(MenuLocation, SplitChar)
         Dim sc As System.Collections.Generic.List(Of MenuStructure) = CreateMenuStructure(SelectMenuHwnd)
         Dim WorkOnSubLevel As Integer = 0
         Dim CenterX As Integer = 0
         Dim CenterY As Integer = 0
-        Dim MyBaseHwnd As Integer = MyBase.Hwnd
+        Dim MyBaseHwnd As Int64 = MyBase.Hwnd
         Dim rec As New WinAPI.API.RECT
         Dim IsFirstItemInListSelected As Boolean = False
         Dim LastSuccessfulMenuItem As String = SplitMenus(0)
@@ -372,9 +372,9 @@ Public NotInheritable Class Menu 'User can't create their own menu object.
                 End If
                 If (sc.Item(i).MenuText.Replace("&", "") Like SplitMenus(WorkOnSubLevel).Replace("&", "")) Then
                     If (WorkOnSubLevel = 0) Then 'Click first
-                        WinAPI.API.GetMenuItemRect(MyBaseHwnd, sc(i).Handle, sc(i).MenuNumber, rec)
-                        CenterX = rec.left + ((rec.right - rec.left) / 2)
-                        CenterY = rec.top + ((rec.bottom - rec.top) / 2)
+                        WinAPI.API.GetMenuItemRect(New IntPtr(MyBaseHwnd), sc(i).Handle, sc(i).MenuNumber, rec)
+                        CenterX = Convert.ToInt32(rec.left + ((rec.right - rec.left) / 2))
+                        CenterY = Convert.ToInt32(rec.top + ((rec.bottom - rec.top) / 2))
                         UIControls.Mouse.GotoXY(CenterX, CenterY)
                         System.Threading.Thread.Sleep(10)
                         'Console.WriteLine("CenterX: " & CenterX & " CenterY: " & CenterY & " left = " & rec.left & "; top = " & rec.top & "; bottom = " & rec.bottom & "; right = " & rec.right)

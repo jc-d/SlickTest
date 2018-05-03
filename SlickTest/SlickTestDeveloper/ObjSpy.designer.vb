@@ -41,8 +41,10 @@ Partial Class ObjSpy
         Me.TreeViewContextMenuStrip = New System.Windows.Forms.ContextMenuStrip(Me.components)
         Me.HighlightToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.UnhighlightToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
-        Me.DumpWindowToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.ToolStripSeparator1 = New System.Windows.Forms.ToolStripSeparator
+        Me.DumpWindowToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
+        Me.TextToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
+        Me.XmlToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         CType(Me.SpyDataViewer, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.TreeViewContextMenuStrip.SuspendLayout()
         Me.SuspendLayout()
@@ -202,16 +204,29 @@ Partial Class ObjSpy
         Me.UnhighlightToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
         Me.UnhighlightToolStripMenuItem.Text = "Unhighlight"
         '
-        'DumpWindowToolStripMenuItem
-        '
-        Me.DumpWindowToolStripMenuItem.Name = "DumpWindowToolStripMenuItem"
-        Me.DumpWindowToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
-        Me.DumpWindowToolStripMenuItem.Text = "Dump Window"
-        '
         'ToolStripSeparator1
         '
         Me.ToolStripSeparator1.Name = "ToolStripSeparator1"
         Me.ToolStripSeparator1.Size = New System.Drawing.Size(149, 6)
+        '
+        'DumpWindowToolStripMenuItem
+        '
+        Me.DumpWindowToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.TextToolStripMenuItem, Me.XmlToolStripMenuItem})
+        Me.DumpWindowToolStripMenuItem.Name = "DumpWindowToolStripMenuItem"
+        Me.DumpWindowToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
+        Me.DumpWindowToolStripMenuItem.Text = "Dump Window"
+        '
+        'TextToolStripMenuItem
+        '
+        Me.TextToolStripMenuItem.Name = "TextToolStripMenuItem"
+        Me.TextToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
+        Me.TextToolStripMenuItem.Text = "Text"
+        '
+        'XmlToolStripMenuItem
+        '
+        Me.XmlToolStripMenuItem.Name = "XmlToolStripMenuItem"
+        Me.XmlToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
+        Me.XmlToolStripMenuItem.Text = "Xml"
         '
         'ObjSpy
         '
@@ -259,4 +274,6 @@ Partial Class ObjSpy
     Friend WithEvents DumpWindowToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents UnhighlightToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents ToolStripSeparator1 As System.Windows.Forms.ToolStripSeparator
+    Friend WithEvents TextToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents XmlToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
 End Class

@@ -1,0 +1,99 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="en"><!-- The class name "test" is currently not defined.-->
+    <head>
+        <title>Slick Test - Table Sample</title>
+        
+        <style type="text/css">
+            table
+            {
+            height:20px;
+            
+            }
+        </style>
+    </head>
+    <body>
+        <span id="SpanTest" title="test"></span>
+<!-- TODO http://htmlhelp.com/reference/html40/tables/table.html COL, COLGROUP -->
+
+            <table border="1" id="WithId" style="background-color:#b0c4de;background-image:url('background.png');background-repeat:repeat-x;background-position:center;background-attachment:fixed;font-size:medium;font-style:normal;font-weight:bold;text-align:center;overflow:auto;visibility:visible;padding:inherit;margin:inherit;display:table;border:inherit;border-color:Black;position:absolute;z-index:auto;vertical-align:bottom;border:inherit">
+              <caption id="caption">This is a caption for a table</caption>
+                <tr>
+                    <td>row 1, cell 1</td>
+                    <td>row 1, cell 2</td>
+                    <td>row 1, cell 3</td>
+                </tr>
+                <tr>
+                    <td>row 2, cell 1</td>
+                    <td>row 2, cell 2</td>
+                    <td>row 2, cell 3; This is a very long TableData...  It should be over 70 chars</td>
+                </tr>
+            </table>
+         <br /><br /><br /><br /> 
+        <table border="2" id="TableHeader">
+            <thead>
+                <tr id ="HeadRow">
+                    <th align="left">Header 1</th>
+                    <th>Header 2</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>body row 1, cell 1</td>
+                    <td>body row 1, cell 2</td>
+                </tr>
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td>Foot 1</td>
+                    <td>Foot 2</td>
+                </tr>
+            </tfoot>
+        </table>
+        <div id="DivTest" align="center">
+            <table border="3" id="OuterTable">
+              <colgroup span="2" align="left"></colgroup>
+              <colgroup align="right"></colgroup>
+                <tbody>
+                    <tr id="tr1">
+                        <td>
+                            <table border="1" id="InnerTable">
+                                <tbody>
+                                    <tr>
+                                        <td>Inner row 1, cell 1</td>
+                                        <td>Inner row 1, cell 2</td>
+                                    </tr>
+                                </tbody>
+                            </table>                            
+                        </td>
+                        <td>
+                            <br />
+                            <input type="text" title="Test Title" class="test" name="input" value="body row 1, cell 2" customattribute="test"/><br />
+                       </td>
+                       <td>
+                            <input type="radio" id="RadioButton1" /><br />
+
+                            <input type="checkbox" id="CheckBox1" checked="checked" />
+
+                       </td>
+                    </tr>
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td>Foot 1</td>
+                        <td><select name="MySelect" size="2" >
+                        <option value="One" selected>1</option>
+                        <option value="Two" id="SelectOption2">2</option>
+                        </select>
+                        <select name="NoSelectedItem" size="2" multiple="multiple" >
+                        <option value="One">1</option>
+                        <option value="Two" id="SelectOption2_NoItemSelected">2</option>
+                        </select>
+                        </td>
+                        <td><ul id="ListTest"><li value="2">Item 1</li><li>Item 2</li></ul></td>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>        
+        <a href="http://www.google.com" id="GoogleLink">Google</a>
+    </body>
+</html>

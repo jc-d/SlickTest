@@ -1,4 +1,4 @@
-﻿'Imports Microsoft.VisualStudio.TestTools.UnitTesting
+﻿'Imports NUnit.Framework
 
 'Imports UIControls
 
@@ -8,11 +8,11 @@
 ''''This is a test class for ListViewTest and is intended
 ''''to contain all ListViewTest Unit Tests
 ''''</summary>
-'<TestClass()> _
+'<TestFixture()>  _
 'Public Class ListViewTest
 
 
-'    Private testContextInstance As TestContext
+'
 
 '    '''<summary>
 '    '''Gets or sets the test context which provides
@@ -33,7 +33,7 @@
 '    '
 '    'Use ClassInitialize to run code before running the first test in the class
 '    '<ClassInitialize()>  _
-'    'Public Shared Sub MyClassInitialize(ByVal testContext As TestContext)
+'    'Public Shared Sub MyClassInitialize()
 '    'End Sub
 '    '
 '    'Use ClassCleanup to run code after all tests in a class have run
@@ -57,119 +57,119 @@
 '    '''<summary>
 '    '''A test for SetSelectedRows
 '    '''</summary>
-'    <TestMethod(), _
+'    <Test(), _
 '     DeploymentItem("InterAction.dll")> _
 '    Public Sub SetSelectedRowsTest1()
 '        Dim target As ListView_Accessor = New ListView_Accessor ' TODO: Initialize to an appropriate value
 '        Dim Rows() As Integer = Nothing ' TODO: Initialize to an appropriate value
 '        target.SetSelectedRows(Rows)
-'        Assert.Inconclusive("A method that does not return a value cannot be verified.")
+'        Verify.Inconclusive("A method that does not return a value cannot be verified.")
 '    End Sub
 
 '    '''<summary>
 '    '''A test for SetSelectedRows
 '    '''</summary>
-'    <TestMethod(), _
+'    <Test(), _
 '     DeploymentItem("InterAction.dll")> _
 '    Public Sub SetSelectedRowsTest()
 '        Dim target As ListView_Accessor = New ListView_Accessor ' TODO: Initialize to an appropriate value
 '        Dim RowsText() As String = Nothing ' TODO: Initialize to an appropriate value
 '        target.SetSelectedRows(RowsText)
-'        Assert.Inconclusive("A method that does not return a value cannot be verified.")
+'        Verify.Inconclusive("A method that does not return a value cannot be verified.")
 '    End Sub
 
 '    '''<summary>
 '    '''A test for SetColumnWidth
 '    '''</summary>
-'    <TestMethod()> _
+'    <Test()> _
 '    Public Sub SetColumnWidthTest1()
 '        Dim target As ListView = New ListView ' TODO: Initialize to an appropriate value
 '        Dim ColumnNumber As Integer = 0 ' TODO: Initialize to an appropriate value
 '        Dim SizeInPixels As Integer = 0 ' TODO: Initialize to an appropriate value
 '        target.SetColumnWidth(ColumnNumber, SizeInPixels)
-'        Assert.Inconclusive("A method that does not return a value cannot be verified.")
+'        Verify.Inconclusive("A method that does not return a value cannot be verified.")
 '    End Sub
 
 '    '''<summary>
 '    '''A test for SetColumnWidth
 '    '''</summary>
-'    <TestMethod()> _
+'    <Test()> _
 '    Public Sub SetColumnWidthTest()
 '        Dim target As ListView = New ListView ' TODO: Initialize to an appropriate value
 '        Dim ColumnText As String = String.Empty ' TODO: Initialize to an appropriate value
 '        Dim SizeInPixels As Integer = 0 ' TODO: Initialize to an appropriate value
 '        target.SetColumnWidth(ColumnText, SizeInPixels)
-'        Assert.Inconclusive("A method that does not return a value cannot be verified.")
+'        Verify.Inconclusive("A method that does not return a value cannot be verified.")
 '    End Sub
 
 '    '''<summary>
 '    '''A test for SelectAll
 '    '''</summary>
-'    <TestMethod(), _
+'    <Test(), _
 '     DeploymentItem("InterAction.dll")> _
 '    Public Sub SelectAllTest()
 '        Dim target As ListView_Accessor = New ListView_Accessor ' TODO: Initialize to an appropriate value
 '        target.SelectAll()
-'        Assert.Inconclusive("A method that does not return a value cannot be verified.")
+'        Verify.Inconclusive("A method that does not return a value cannot be verified.")
 '    End Sub
 
 '    '''<summary>
 '    '''A test for IsListView
 '    '''</summary>
-'    <TestMethod()> _
+'    <Test()> _
 '    Public Sub IsListViewTest()
 '        Dim target As ListView = New ListView ' TODO: Initialize to an appropriate value
 '        Dim expected As Boolean = False ' TODO: Initialize to an appropriate value
 '        Dim actual As Boolean
 '        actual = target.IsListView
-'        Assert.AreEqual(expected, actual)
-'        Assert.Inconclusive("Verify the correctness of this test method.")
+'        Verify.AreEqual(expected, actual)
+'        Verify.Inconclusive("Verify the correctness of this test method.")
 '    End Sub
 
 '    '''<summary>
 '    '''A test for GetSelectedRowsText
 '    '''</summary>
-'    <TestMethod()> _
+'    <Test()> _
 '    Public Sub GetSelectedRowsTextTest()
 '        Dim target As ListView = New ListView ' TODO: Initialize to an appropriate value
 '        Dim expected() As String = Nothing ' TODO: Initialize to an appropriate value
 '        Dim actual() As String
 '        actual = target.GetSelectedRowsText
-'        Assert.AreEqual(expected, actual)
-'        Assert.Inconclusive("Verify the correctness of this test method.")
+'        Verify.AreEqual(expected, actual)
+'        Verify.Inconclusive("Verify the correctness of this test method.")
 '    End Sub
 
 '    '''<summary>
 '    '''A test for GetSelectedRowNumbers
 '    '''</summary>
-'    <TestMethod()> _
+'    <Test()> _
 '    Public Sub GetSelectedRowNumbersTest()
 '        Dim target As ListView = New ListView ' TODO: Initialize to an appropriate value
 '        Dim expected() As Integer = Nothing ' TODO: Initialize to an appropriate value
 '        Dim actual() As Integer
 '        actual = target.GetSelectedRowNumbers
-'        Assert.AreEqual(expected, actual)
-'        Assert.Inconclusive("Verify the correctness of this test method.")
+'        Verify.AreEqual(expected, actual)
+'        Verify.Inconclusive("Verify the correctness of this test method.")
 '    End Sub
 
 '    '''<summary>
 '    '''A test for GetRowText
 '    '''</summary>
-'    <TestMethod()> _
+'    <Test()> _
 '    Public Sub GetRowTextTest2()
 '        Dim target As ListView = New ListView ' TODO: Initialize to an appropriate value
 '        Dim RowNumber As Integer = 0 ' TODO: Initialize to an appropriate value
 '        Dim expected As String = String.Empty ' TODO: Initialize to an appropriate value
 '        Dim actual As String
 '        actual = target.GetRowText(RowNumber)
-'        Assert.AreEqual(expected, actual)
-'        Assert.Inconclusive("Verify the correctness of this test method.")
+'        Verify.AreEqual(expected, actual)
+'        Verify.Inconclusive("Verify the correctness of this test method.")
 '    End Sub
 
 '    '''<summary>
 '    '''A test for GetRowText
 '    '''</summary>
-'    <TestMethod()> _
+'    <Test()> _
 '    Public Sub GetRowTextTest1()
 '        Dim target As ListView = New ListView ' TODO: Initialize to an appropriate value
 '        Dim RowNumber As Integer = 0 ' TODO: Initialize to an appropriate value
@@ -177,14 +177,14 @@
 '        Dim expected As String = String.Empty ' TODO: Initialize to an appropriate value
 '        Dim actual As String
 '        actual = target.GetRowText(RowNumber, ColumnNumber)
-'        Assert.AreEqual(expected, actual)
-'        Assert.Inconclusive("Verify the correctness of this test method.")
+'        Verify.AreEqual(expected, actual)
+'        Verify.Inconclusive("Verify the correctness of this test method.")
 '    End Sub
 
 '    '''<summary>
 '    '''A test for GetRowText
 '    '''</summary>
-'    <TestMethod()> _
+'    <Test()> _
 '    Public Sub GetRowTextTest()
 '        Dim target As ListView = New ListView ' TODO: Initialize to an appropriate value
 '        Dim RowNumber As Integer = 0 ' TODO: Initialize to an appropriate value
@@ -192,147 +192,147 @@
 '        Dim expected As String = String.Empty ' TODO: Initialize to an appropriate value
 '        Dim actual As String
 '        actual = target.GetRowText(RowNumber, ColumnText)
-'        Assert.AreEqual(expected, actual)
-'        Assert.Inconclusive("Verify the correctness of this test method.")
+'        Verify.AreEqual(expected, actual)
+'        Verify.Inconclusive("Verify the correctness of this test method.")
 '    End Sub
 
 '    '''<summary>
 '    '''A test for GetRowCount
 '    '''</summary>
-'    <TestMethod()> _
+'    <Test()> _
 '    Public Sub GetRowCountTest()
 '        Dim target As ListView = New ListView ' TODO: Initialize to an appropriate value
 '        Dim expected As Integer = 0 ' TODO: Initialize to an appropriate value
 '        Dim actual As Integer
 '        actual = target.GetRowCount
-'        Assert.AreEqual(expected, actual)
-'        Assert.Inconclusive("Verify the correctness of this test method.")
+'        Verify.AreEqual(expected, actual)
+'        Verify.Inconclusive("Verify the correctness of this test method.")
 '    End Sub
 
 '    '''<summary>
 '    '''A test for GetRow
 '    '''</summary>
-'    <TestMethod()> _
+'    <Test()> _
 '    Public Sub GetRowTest()
 '        Dim target As ListView = New ListView ' TODO: Initialize to an appropriate value
 '        Dim Row As Integer = 0 ' TODO: Initialize to an appropriate value
 '        Dim expected() As String = Nothing ' TODO: Initialize to an appropriate value
 '        Dim actual() As String
 '        actual = target.GetRow(Row)
-'        Assert.AreEqual(expected, actual)
-'        Assert.Inconclusive("Verify the correctness of this test method.")
+'        Verify.AreEqual(expected, actual)
+'        Verify.Inconclusive("Verify the correctness of this test method.")
 '    End Sub
 
 '    '''<summary>
 '    '''A test for GetColumnWidth
 '    '''</summary>
-'    <TestMethod()> _
+'    <Test()> _
 '    Public Sub GetColumnWidthTest1()
 '        Dim target As ListView = New ListView ' TODO: Initialize to an appropriate value
 '        Dim ColumnText As String = String.Empty ' TODO: Initialize to an appropriate value
 '        Dim expected As Integer = 0 ' TODO: Initialize to an appropriate value
 '        Dim actual As Integer
 '        actual = target.GetColumnWidth(ColumnText)
-'        Assert.AreEqual(expected, actual)
-'        Assert.Inconclusive("Verify the correctness of this test method.")
+'        Verify.AreEqual(expected, actual)
+'        Verify.Inconclusive("Verify the correctness of this test method.")
 '    End Sub
 
 '    '''<summary>
 '    '''A test for GetColumnWidth
 '    '''</summary>
-'    <TestMethod()> _
+'    <Test()> _
 '    Public Sub GetColumnWidthTest()
 '        Dim target As ListView = New ListView ' TODO: Initialize to an appropriate value
 '        Dim ColumnNumber As Integer = 0 ' TODO: Initialize to an appropriate value
 '        Dim expected As Integer = 0 ' TODO: Initialize to an appropriate value
 '        Dim actual As Integer
 '        actual = target.GetColumnWidth(ColumnNumber)
-'        Assert.AreEqual(expected, actual)
-'        Assert.Inconclusive("Verify the correctness of this test method.")
+'        Verify.AreEqual(expected, actual)
+'        Verify.Inconclusive("Verify the correctness of this test method.")
 '    End Sub
 
 '    '''<summary>
 '    '''A test for GetColumnHeaderText
 '    '''</summary>
-'    <TestMethod()> _
+'    <Test()> _
 '    Public Sub GetColumnHeaderTextTest()
 '        Dim target As ListView = New ListView ' TODO: Initialize to an appropriate value
 '        Dim ColumnNumber As Integer = 0 ' TODO: Initialize to an appropriate value
 '        Dim expected As String = String.Empty ' TODO: Initialize to an appropriate value
 '        Dim actual As String
 '        actual = target.GetColumnHeaderText(ColumnNumber)
-'        Assert.AreEqual(expected, actual)
-'        Assert.Inconclusive("Verify the correctness of this test method.")
+'        Verify.AreEqual(expected, actual)
+'        Verify.Inconclusive("Verify the correctness of this test method.")
 '    End Sub
 
 '    '''<summary>
 '    '''A test for GetColumnCount
 '    '''</summary>
-'    <TestMethod()> _
+'    <Test()> _
 '    Public Sub GetColumnCountTest()
 '        Dim target As ListView = New ListView ' TODO: Initialize to an appropriate value
 '        Dim expected As Integer = 0 ' TODO: Initialize to an appropriate value
 '        Dim actual As Integer
 '        actual = target.GetColumnCount
-'        Assert.AreEqual(expected, actual)
-'        Assert.Inconclusive("Verify the correctness of this test method.")
+'        Verify.AreEqual(expected, actual)
+'        Verify.Inconclusive("Verify the correctness of this test method.")
 '    End Sub
 
 '    '''<summary>
 '    '''A test for GetAllFormatted
 '    '''</summary>
-'    <TestMethod()> _
+'    <Test()> _
 '    Public Sub GetAllFormattedTest()
 '        Dim target As ListView = New ListView ' TODO: Initialize to an appropriate value
 '        Dim expected As String = String.Empty ' TODO: Initialize to an appropriate value
 '        Dim actual As String
 '        actual = target.GetAllFormatted
-'        Assert.AreEqual(expected, actual)
-'        Assert.Inconclusive("Verify the correctness of this test method.")
+'        Verify.AreEqual(expected, actual)
+'        Verify.Inconclusive("Verify the correctness of this test method.")
 '    End Sub
 
 '    '''<summary>
 '    '''A test for GetAllColumnsHeaderText
 '    '''</summary>
-'    <TestMethod()> _
+'    <Test()> _
 '    Public Sub GetAllColumnsHeaderTextTest()
 '        Dim target As ListView = New ListView ' TODO: Initialize to an appropriate value
 '        Dim expected() As String = Nothing ' TODO: Initialize to an appropriate value
 '        Dim actual() As String
 '        actual = target.GetAllColumnsHeaderText
-'        Assert.AreEqual(expected, actual)
-'        Assert.Inconclusive("Verify the correctness of this test method.")
+'        Verify.AreEqual(expected, actual)
+'        Verify.Inconclusive("Verify the correctness of this test method.")
 '    End Sub
 
 '    '''<summary>
 '    '''A test for GetAll
 '    '''</summary>
-'    <TestMethod()> _
+'    <Test()> _
 '    Public Sub GetAllTest()
 '        Dim target As ListView = New ListView ' TODO: Initialize to an appropriate value
 '        Dim expected(,) As String = Nothing ' TODO: Initialize to an appropriate value
 '        Dim actual(,) As String
 '        actual = target.GetAll
-'        Assert.AreEqual(expected, actual)
-'        Assert.Inconclusive("Verify the correctness of this test method.")
+'        Verify.AreEqual(expected, actual)
+'        Verify.Inconclusive("Verify the correctness of this test method.")
 '    End Sub
 
 '    '''<summary>
 '    '''A test for ListView Constructor
 '    '''</summary>
-'    <TestMethod()> _
+'    <Test()> _
 '    Public Sub ListViewConstructorTest1()
 '        Dim target As ListView = New ListView
-'        Assert.Inconclusive("TODO: Implement code to verify target")
+'        Verify.Inconclusive("TODO: Implement code to verify target")
 '    End Sub
 
 '    '''<summary>
 '    '''A test for ListView Constructor
 '    '''</summary>
-'    <TestMethod()> _
+'    <Test()> _
 '    Public Sub ListViewConstructorTest()
 '        Dim win As Window = Nothing ' TODO: Initialize to an appropriate value
 '        Dim target As ListView = New ListView(win)
-'        Assert.Inconclusive("TODO: Implement code to verify target")
+'        Verify.Inconclusive("TODO: Implement code to verify target")
 '    End Sub
 'End Class

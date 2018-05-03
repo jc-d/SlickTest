@@ -1,28 +1,13 @@
 ﻿Imports System.Drawing
-Imports Microsoft.VisualStudio.TestTools.UnitTesting
+Imports NUnit.Framework
 Imports UIControls
 
 '''<summary>
 '''This is a test class for TabControlTest and is intended
 '''to contain all TabControlTest Unit Tests
 '''</summary>
-<TestClass()> _
+<TestFixture()> _
 Public Class TabControlTest
-
-    Private testContextInstance As TestContext
-
-    '''<summary>
-    '''Gets or sets the test context which provides
-    '''information about and functionality for the current test run.
-    '''</summary>
-    Public Property TestContext() As TestContext
-        Get
-            Return testContextInstance
-        End Get
-        Set(ByVal value As TestContext)
-            testContextInstance = Value
-        End Set
-    End Property
 
 #Region "Additional test attributes"
     Private Shared p As System.Diagnostics.Process
@@ -37,20 +22,20 @@ Public Class TabControlTest
     'You can use the following additional attributes as you write your tests:
     '
     'Use ClassInitialize to run code before running the first test in the class
-    <ClassInitialize()> _
-    Public Shared Sub MyClassInitialize(ByVal testContext As TestContext)
+    <TestFixtureSetUp()> _
+    Public Shared Sub MyClassInitialize()
     End Sub
 
     'Use ClassCleanup to run code after all tests in a class have run
-    <ClassCleanup()> _
+    <TestFixtureTearDown()> _
     Public Shared Sub MyClassCleanup()
     End Sub
 
     'Use TestInitialize to run code before running each test
-    <TestInitialize()> _
+    <SetUp()> _
     Public Sub MyTestInitialize()
         Kill()
-        p = Diagnostics.Process.Start("Wordpad.exe")
+        p = Diagnostics.Process.Start(System.IO.Path.GetFullPath("..\..\..\zUnitTestUIAutomation\Programs\Wordpad.exe"))
         System.Threading.Thread.Sleep(2000)
 
         Dim a As UIControls.InterAct = New UIControls.InterAct()
@@ -64,7 +49,7 @@ Public Class TabControlTest
     End Sub
 
     'Use TestCleanup to run code after each test has run
-    <TestCleanup()> _
+    <TearDown()> _
     Public Sub MyTestCleanup()
         Kill()
     End Sub
@@ -75,56 +60,56 @@ Public Class TabControlTest
     '''<summary>
     '''A test for SelectTab
     '''</summary>
-    <TestMethod()> _
+    <Test()> _
     Public Sub SelectTabTest()
         Dim index As Integer = 0
         target.SelectTab(index)
-        Assert.AreEqual(index, target.GetSelectedTab())
+        Verify.AreEqual(index, target.GetSelectedTab())
     End Sub
 
     '''<summary>
     '''A test for IsTabControl
     '''</summary>
-    <TestMethod()> _
+    <Test()> _
     Public Sub IsTabControl()
         Dim expected As Boolean = True
-        Assert.AreEqual(expected, target.IsTabControl())
+        Verify.AreEqual(expected, target.IsTabControl())
     End Sub
 
     'Currently not functioning.
     ''''<summary>
     ''''A test for GetTabRectangle
     ''''</summary>
-    '<TestMethod()> _
+    '<Test()> _
     'Public Sub GetTabRectangleTest()
     '    Dim index As Integer = 0
     '    Dim expected As Rectangle = Rectangle.Empty
     '    Dim actual As Rectangle
     '    actual = target.GetTabRectangle(index)
-    '    Assert.AreNotEqual(expected, actual)
+    '    Verify.AreNotEqual(expected, actual)
     'End Sub
 
     '''<summary>
     '''A test for GetTabCount
     '''</summary>
-    <TestMethod()> _
+    <Test()> _
     Public Sub GetTabCountTest()
-        Dim expected As Integer = 4
+        Dim expected As Integer = 6
         Dim actual As Integer
         actual = target.GetTabCount
-        Assert.AreEqual(expected, actual)
+        Verify.AreEqual(expected, actual)
     End Sub
 
     '''<summary>
     '''A test for GetSelectedTab
     '''</summary>
-    <TestMethod()> _
+    <Test()> _
     Public Sub GetSelectedTabTest()
         Dim expected As Integer = 2 ' TODO: Initialize to an appropriate value
         Dim actual As Integer
         target.SelectTab(expected)
         actual = target.GetSelectedTab()
-        Assert.AreEqual(expected, actual)
+        Verify.AreEqual(expected, actual)
     End Sub
 
 End Class

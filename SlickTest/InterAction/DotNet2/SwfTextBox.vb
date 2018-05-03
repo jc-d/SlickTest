@@ -223,7 +223,7 @@ Public Class SwfTextBox
             ElseIf (Not TypeOf textAttribute Is Double) Then
                 Throw New SlickTestUIException("FontSize attribute does not appear to be supported for this object.")
             Else
-                Return textAttribute.ToString()
+                Return Convert.ToDouble(textAttribute)
             End If
         End Get
     End Property

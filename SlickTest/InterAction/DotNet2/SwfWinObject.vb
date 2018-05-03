@@ -88,7 +88,7 @@ Public Class SwfWinObject
     ''' Creates a SwfWindow object.
     ''' </summary>
     ''' <param name="desc">A description of the inner SwfWindow.</param>
-    ''' <returns>returns a SwfWindow object</returns>
+    ''' <returns>Returns a SwfWindow object</returns>
     ''' <remarks>This allows the automation to go down the object tree.  For example:
     ''' InterAct.SwfWindow(MyWindow).SwfWindow(InnerWindow).Click</remarks>
     Public Function SwfWindow(ByVal desc As APIControls.IDescription) As SwfWindow
@@ -99,7 +99,7 @@ Public Class SwfWinObject
     ''' Creates a SwfWinObject object.
     ''' </summary>
     ''' <param name="desc">A description of the inner SwfWinObject.</param>
-    ''' <returns>returns the SwfWinObject.</returns>
+    ''' <returns>Returns the SwfWinObject.</returns>
     ''' <remarks>This allows the automation to go down the object tree.  For example:
     ''' InterAct.SwfWindow(MyWindow).SwfWinObject(MyButton).Click()</remarks>
     Public Function SwfWinObject(ByVal desc As APIControls.IDescription) As SwfWinObject
@@ -110,7 +110,7 @@ Public Class SwfWinObject
     ''' Creates a SwfTextBox object.
     ''' </summary>
     ''' <param name="desc">A description of the inner SwfTextBox.</param>
-    ''' <returns>returns the SwfTextBox.</returns>
+    ''' <returns>Returns the SwfTextBox.</returns>
     ''' <remarks>This allows the automation to go down the object tree.  For example:
     ''' InterAct.SwfWindow(MyWindow).SwfTextBox(MyText).Click()</remarks>
     Public Function SwfTextBox(ByVal desc As APIControls.IDescription) As SwfTextBox
@@ -122,7 +122,7 @@ Public Class SwfWinObject
     ''' Creates a SwfButton object.
     ''' </summary>
     ''' <param name="desc">A description of the inner SwfButton.</param>
-    ''' <returns>returns the SwfButton.</returns>
+    ''' <returns>Returns the SwfButton.</returns>
     ''' <remarks>This allows the automation to go down the object tree.  For example:
     ''' InterAct.SwfWindow(MyWindow).SwfButton(myButton).Click()</remarks>
     Public Function SwfButton(ByVal desc As APIControls.IDescription) As SwfButton
@@ -134,7 +134,7 @@ Public Class SwfWinObject
     ''' Creates a SwfCheckBox object.
     ''' </summary>
     ''' <param name="desc">A description of the inner SwfCheckBox.</param>
-    ''' <returns>returns the SwfCheckBox.</returns>
+    ''' <returns>Returns the SwfCheckBox.</returns>
     ''' <remarks>This allows the automation to go down the object tree.  For example:
     ''' InterAct.SwfWindow(MyWindow).SwfCheckBox(MyCheckBox).Click()</remarks>
     Public Function SwfCheckBox(ByVal desc As APIControls.IDescription) As SwfCheckBox
@@ -146,7 +146,7 @@ Public Class SwfWinObject
     ''' Creates a SwfRadioButton object.
     ''' </summary>
     ''' <param name="desc">A description of the inner SwfRadioButton.</param>
-    ''' <returns>returns the SwfRadioButton.</returns>
+    ''' <returns>Returns the SwfRadioButton.</returns>
     ''' <remarks>This allows the automation to go down the object tree.  For example:
     ''' InterAct.SwfWindow(MyWindow).SwfRadioButton(MyRadioButton).Click()</remarks>
     Public Function SwfRadioButton(ByVal desc As APIControls.IDescription) As SwfRadioButton
@@ -158,7 +158,7 @@ Public Class SwfWinObject
     ''' Creates a SwfStaticLabel object.
     ''' </summary>
     ''' <param name="desc">A description of the inner SwfStaticLabel.</param>
-    ''' <returns>returns the SwfStaticLabel.</returns>
+    ''' <returns>Returns the SwfStaticLabel.</returns>
     ''' <remarks>This allows the automation to go down the object tree.  For example:
     ''' InterAct.SwfWindow(MyWindow).SwfStaticLabel(MyStaticLabel).Click()</remarks>
     Public Function SwfStaticLabel(ByVal desc As APIControls.IDescription) As SwfStaticLabel
@@ -170,7 +170,7 @@ Public Class SwfWinObject
     ''' Creates a SwfListBox object.
     ''' </summary>
     ''' <param name="desc">A description of the SwfListBox object.</param>
-    ''' <returns>returns the SwfListBox.</returns>
+    ''' <returns>Returns the SwfListBox.</returns>
     ''' <remarks>This allows the automation to go down the object tree.  For example:
     ''' InterAct.SwfWindow(MyWindow).SwfListBox(myListBox).Click()</remarks>
     Public Function SwfListBox(ByVal desc As APIControls.IDescription) As SwfListBox
@@ -182,7 +182,7 @@ Public Class SwfWinObject
     ''' Creates a SwfListView object.
     ''' </summary>
     ''' <param name="desc">A description of the SwfListView object.</param>
-    ''' <returns>returns the SwfListView.</returns>
+    ''' <returns>Returns the SwfListView.</returns>
     ''' <remarks>This allows the automation to go down the object tree.  For example:
     ''' InterAct.SwfWindow(MyWindow).SwfListView(myListView).Click()</remarks>
     Public Function SwfListView(ByVal desc As APIControls.IDescription) As SwfListView
@@ -194,7 +194,7 @@ Public Class SwfWinObject
     ''' Creates a SwfTreeView object.
     ''' </summary>
     ''' <param name="desc">A description of the SwfTreeView object.</param>
-    ''' <returns>returns the SwfTreeView.</returns>
+    ''' <returns>Returns the SwfTreeView.</returns>
     ''' <remarks>This allows the automation to go down the object tree.  For example:
     ''' InterAct.SwfWindow(MyWindow).SwfTreeView(myTreeView).Click()</remarks>
     Public Function SwfTreeView(ByVal desc As APIControls.IDescription) As SwfTreeView
@@ -206,7 +206,7 @@ Public Class SwfWinObject
     ''' Creates a SwfTabControl object.
     ''' </summary>
     ''' <param name="desc">A description of the SwfTabControl object.</param>
-    ''' <returns>returns the SwfTabControl.</returns>
+    ''' <returns>Returns the SwfTabControl.</returns>
     ''' <remarks>This allows the automation to go down the object tree.  For example:
     ''' InterAct.SwfWindow(MyWindow).SwfTabControl(myTabControl).Click()</remarks>
     Public Function SwfTabControl(ByVal desc As APIControls.IDescription) As SwfTabControl
@@ -218,7 +218,7 @@ Public Class SwfWinObject
     ''' Creates a SwfComboBox object.
     ''' </summary>
     ''' <param name="desc">A description of the SwfComboBox object.</param>
-    ''' <returns>returns the SwfComboBox.</returns>
+    ''' <returns>Returns the SwfComboBox.</returns>
     ''' <remarks>This allows the automation to go down the object tree.  For example:
     ''' InterAct.SwfWindow(MyWindow).SwfComboBox(myComboBox).Click()</remarks>
     Public Function SwfComboBox(ByVal desc As APIControls.IDescription) As SwfComboBox
@@ -231,7 +231,7 @@ Public Class SwfWinObject
     ''' Creates a SwfWindow object.
     ''' </summary>
     ''' <param name="desc">A description of the inner SwfWindow.</param>
-    ''' <returns>returns a SwfWindow object</returns>
+    ''' <returns>Returns a SwfWindow object</returns>
     ''' <remarks>This allows the automation to go down the object tree.  For example:
     ''' InterAct.SwfWindow(MyWindow).SwfWindow(InnerWindow).Click</remarks>
     Public Function SwfWindow(ByVal desc As String) As SwfWindow
@@ -243,7 +243,7 @@ Public Class SwfWinObject
     ''' Creates a SwfWinObject object.
     ''' </summary>
     ''' <param name="desc">A description of the inner SwfWinObject.</param>
-    ''' <returns>returns the SwfWinObject.</returns>
+    ''' <returns>Returns the SwfWinObject.</returns>
     ''' <remarks>This allows the automation to go down the object tree.  For example:
     ''' InterAct.SwfWindow(MyWindow).SwfWinObject(MyButton).Click()</remarks>
     Public Function SwfWinObject(ByVal desc As String) As SwfWinObject
@@ -254,7 +254,7 @@ Public Class SwfWinObject
     ''' Creates a SwfTextBox object.
     ''' </summary>
     ''' <param name="desc">A description of the inner SwfTextBox.</param>
-    ''' <returns>returns the SwfTextBox.</returns>
+    ''' <returns>Returns the SwfTextBox.</returns>
     ''' <remarks>This allows the automation to go down the object tree.  For example:
     ''' InterAct.SwfWindow(MyWindow).SwfTextBox(MyText).Click()</remarks>
     Public Function SwfTextBox(ByVal desc As String) As SwfTextBox
@@ -266,7 +266,7 @@ Public Class SwfWinObject
     ''' Creates a SwfButton object.
     ''' </summary>
     ''' <param name="desc">A description of the inner SwfButton.</param>
-    ''' <returns>returns the SwfButton.</returns>
+    ''' <returns>Returns the SwfButton.</returns>
     ''' <remarks>This allows the automation to go down the object tree.  For example:
     ''' InterAct.SwfWindow(MyWindow).SwfButton(myButton).Click()</remarks>
     Public Function SwfButton(ByVal desc As String) As SwfButton
@@ -278,7 +278,7 @@ Public Class SwfWinObject
     ''' Creates a SwfCheckBox object.
     ''' </summary>
     ''' <param name="desc">A description of the inner SwfCheckBox.</param>
-    ''' <returns>returns the SwfCheckBox.</returns>
+    ''' <returns>Returns the SwfCheckBox.</returns>
     ''' <remarks>This allows the automation to go down the object tree.  For example:
     ''' InterAct.SwfWindow(MyWindow).SwfCheckBox(MyCheckBox).Click()</remarks>
     Public Function SwfCheckBox(ByVal desc As String) As SwfCheckBox
@@ -290,7 +290,7 @@ Public Class SwfWinObject
     ''' Creates a SwfRadioButton object.
     ''' </summary>
     ''' <param name="desc">A description of the inner SwfRadioButton.</param>
-    ''' <returns>returns the SwfRadioButton.</returns>
+    ''' <returns>Returns the SwfRadioButton.</returns>
     ''' <remarks>This allows the automation to go down the object tree.  For example:
     ''' InterAct.SwfWindow(MyWindow).SwfRadioButton(MyRadioButton).Click()</remarks>
     Public Function SwfRadioButton(ByVal desc As String) As SwfRadioButton
@@ -302,7 +302,7 @@ Public Class SwfWinObject
     ''' Creates a SwfStaticLabel object.
     ''' </summary>
     ''' <param name="desc">A description of the inner SwfStaticLabel.</param>
-    ''' <returns>returns the SwfStaticLabel.</returns>
+    ''' <returns>Returns the SwfStaticLabel.</returns>
     ''' <remarks>This allows the automation to go down the object tree.  For example:
     ''' InterAct.SwfWindow(MyWindow).SwfStaticLabel(MyStaticLabel).Click()</remarks>
     Public Function SwfStaticLabel(ByVal desc As String) As SwfStaticLabel
@@ -314,7 +314,7 @@ Public Class SwfWinObject
     ''' Creates a SwfListBox object.
     ''' </summary>
     ''' <param name="desc">A description of the SwfListBox object.</param>
-    ''' <returns>returns the SwfListBox.</returns>
+    ''' <returns>Returns the SwfListBox.</returns>
     ''' <remarks>This allows the automation to go down the object tree.  For example:
     ''' InterAct.SwfWindow(MyWindow).SwfListBox(myListBox).Click()</remarks>
     Public Function SwfListBox(ByVal desc As String) As SwfListBox
@@ -326,7 +326,7 @@ Public Class SwfWinObject
     ''' Creates a SwfListView object.
     ''' </summary>
     ''' <param name="desc">A description of the SwfListView object.</param>
-    ''' <returns>returns the SwfListView.</returns>
+    ''' <returns>Returns the SwfListView.</returns>
     ''' <remarks>This allows the automation to go down the object tree.  For example:
     ''' InterAct.SwfWindow(MyWindow).SwfListView(myListView).Click()</remarks>
     Public Function SwfListView(ByVal desc As String) As SwfListView
@@ -338,7 +338,7 @@ Public Class SwfWinObject
     ''' Creates a SwfTreeView object.
     ''' </summary>
     ''' <param name="desc">A description of the SwfTreeView object.</param>
-    ''' <returns>returns the SwfTreeView.</returns>
+    ''' <returns>Returns the SwfTreeView.</returns>
     ''' <remarks>This allows the automation to go down the object tree.  For example:
     ''' InterAct.SwfWindow(MyWindow).SwfTreeView(myTreeView).Click()</remarks>
     Public Function SwfTreeView(ByVal desc As String) As SwfTreeView
@@ -350,7 +350,7 @@ Public Class SwfWinObject
     ''' Creates a SwfTabControl object.
     ''' </summary>
     ''' <param name="desc">A description of the SwfTabControl object.</param>
-    ''' <returns>returns the SwfTabControl.</returns>
+    ''' <returns>Returns the SwfTabControl.</returns>
     ''' <remarks>This allows the automation to go down the object tree.  For example:
     ''' InterAct.SwfWindow(MyWindow).SwfTabControl(myTabControl).Click()</remarks>
     Public Function SwfTabControl(ByVal desc As String) As SwfTabControl
@@ -362,7 +362,7 @@ Public Class SwfWinObject
     ''' Creates a SwfComboBox object.
     ''' </summary>
     ''' <param name="desc">A description of the SwfComboBox object.</param>
-    ''' <returns>returns the SwfComboBox.</returns>
+    ''' <returns>Returns the SwfComboBox.</returns>
     ''' <remarks>This allows the automation to go down the object tree.  For example:
     ''' InterAct.SwfWindow(MyWindow).SwfComboBox(myComboBox).Click()</remarks>
     Public Function SwfComboBox(ByVal desc As String) As SwfComboBox
@@ -521,8 +521,7 @@ Public Class SwfWinObject
     ''' </summary>
     ''' <returns>Returns an array of descriptions that are children of
     ''' the current window.</returns>
-    ''' <remarks>This converts the list into generic objects, rather than
-    ''' description objects for scripting related reasons.</remarks>
+    ''' <remarks></remarks>
     Public Function GetChildDescriptions() As UIControls.Description()
         Dim tmpDescs As New System.Collections.Generic.List(Of UIControls.Description)
         ExistsWithException()
@@ -533,7 +532,7 @@ Public Class SwfWinObject
                 Dim TmpDesc As UIControls.Description = UIControls.Description.Create()
                 For Each item As UIControls.Description.DescriptionData In [Enum].GetValues(GetType(UIControls.Description.DescriptionData))
                     If (Desc2.Contains(item) = True) Then
-                        TmpDesc.Add(Desc.GetItemName(item), Desc2.GetItemValue(item))
+                        TmpDesc.Add(Desc.GetItemName(DirectCast(item, APIControls.Description.DescriptionData)), Desc2.GetItemValue(item))
                     End If
                 Next
                 TmpDesc.WildCard = Desc.WildCard

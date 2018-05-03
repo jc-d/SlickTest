@@ -1,10 +1,5 @@
 ﻿Imports System
-Imports System.Collections.Generic
-Imports System.Text
-Imports System.CodeDom
 Imports System.CodeDom.Compiler
-Imports Microsoft.VisualBasic
-Imports System.Diagnostics
 
 Public Interface ICompiler
     Event ExecutionComplete(ByVal ExitCode As Integer, ByVal StartDateTime As DateTime)
@@ -29,7 +24,8 @@ Public Interface ICompiler
     ReadOnly Property ExecutableFilePath() As String
     Function KillProcess() As Boolean
     Sub Reset()
-    Function Compile(ByVal Execute As Boolean, ByVal Args As String) As Boolean
+    Function Compile(ByVal Execute As Boolean, ByVal Args As String, ByVal PostBuildCommand As String, ByVal PostBuildArgs As String) As Boolean
+    Sub RunProcess(ByVal Command As String, ByVal Args As String, ByVal RunType As String)
 End Interface
 
 Public Enum CompileType As Integer

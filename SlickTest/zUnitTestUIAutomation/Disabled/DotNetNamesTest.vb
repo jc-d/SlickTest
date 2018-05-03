@@ -1,6 +1,6 @@
 ﻿'Imports System
 
-'Imports Microsoft.VisualStudio.TestTools.UnitTesting
+'Imports NUnit.Framework
 
 'Imports APIControls
 
@@ -10,11 +10,11 @@
 ''''This is a test class for DotNetNamesTest and is intended
 ''''to contain all DotNetNamesTest Unit Tests
 ''''</summary>
-'<TestClass()> _
+'<TestFixture()>  _
 'Public Class DotNetNamesTest
 
 
-'    Private testContextInstance As TestContext
+'
 
 '    '''<summary>
 '    '''Gets or sets the test context which provides
@@ -35,7 +35,7 @@
 '    '
 '    'Use ClassInitialize to run code before running the first test in the class
 '    '<ClassInitialize()>  _
-'    'Public Shared Sub MyClassInitialize(ByVal testContext As TestContext)
+'    'Public Shared Sub MyClassInitialize()
 '    'End Sub
 '    '
 '    'Use ClassCleanup to run code after all tests in a class have run
@@ -59,7 +59,7 @@
 '    '''<summary>
 '    '''A test for XProcGetControlName
 '    '''</summary>
-'    <TestMethod(), _
+'    <Test(), _
 '     DeploymentItem("APIControls.dll")> _
 '    Public Sub XProcGetControlNameTest()
 '        Dim hwnd As IntPtr = New IntPtr ' TODO: Initialize to an appropriate value
@@ -67,57 +67,57 @@
 '        Dim expected As String = String.Empty ' TODO: Initialize to an appropriate value
 '        Dim actual As String
 '        actual = DotNetNames_Accessor.XProcGetControlName(hwnd, msg)
-'        Assert.AreEqual(expected, actual)
-'        Assert.Inconclusive("Verify the correctness of this test method.")
+'        Verify.AreEqual(expected, actual)
+'        Verify.Inconclusive("Verify the correctness of this test method.")
 '    End Sub
 
 '    '''<summary>
 '    '''A test for GetWinFormsId
 '    '''</summary>
-'    <TestMethod()> _
+'    <Test()> _
 '    Public Sub GetWinFormsIdTest()
 '        Dim hWnd As IntPtr = New IntPtr ' TODO: Initialize to an appropriate value
 '        Dim expected As String = String.Empty ' TODO: Initialize to an appropriate value
 '        Dim actual As String
 '        actual = DotNetNames.GetWinFormsId(hWnd)
-'        Assert.AreEqual(expected, actual)
-'        Assert.Inconclusive("Verify the correctness of this test method.")
+'        Verify.AreEqual(expected, actual)
+'        Verify.Inconclusive("Verify the correctness of this test method.")
 '    End Sub
 
 '    '''<summary>
 '    '''A test for GetProcessIdFromHWnd
 '    '''</summary>
-'    <TestMethod(), _
+'    <Test(), _
 '     DeploymentItem("APIControls.dll")> _
 '    Public Sub GetProcessIdFromHWndTest()
 '        Dim hwnd As IntPtr = New IntPtr ' TODO: Initialize to an appropriate value
 '        Dim expected As Integer = 0 ' TODO: Initialize to an appropriate value
 '        Dim actual As Integer
 '        actual = DotNetNames_Accessor.GetProcessIdFromHWnd(hwnd)
-'        Assert.AreEqual(expected, actual)
-'        Assert.Inconclusive("Verify the correctness of this test method.")
+'        Verify.AreEqual(expected, actual)
+'        Verify.Inconclusive("Verify the correctness of this test method.")
 '    End Sub
 
 '    '''<summary>
 '    '''A test for ByteArrayToString
 '    '''</summary>
-'    <TestMethod(), _
+'    <Test(), _
 '     DeploymentItem("APIControls.dll")> _
 '    Public Sub ByteArrayToStringTest()
 '        Dim bytes() As Byte = Nothing ' TODO: Initialize to an appropriate value
 '        Dim expected As String = String.Empty ' TODO: Initialize to an appropriate value
 '        Dim actual As String
 '        actual = DotNetNames_Accessor.ByteArrayToString(bytes)
-'        Assert.AreEqual(expected, actual)
-'        Assert.Inconclusive("Verify the correctness of this test method.")
+'        Verify.AreEqual(expected, actual)
+'        Verify.Inconclusive("Verify the correctness of this test method.")
 '    End Sub
 
 '    '''<summary>
 '    '''A test for DotNetNames Constructor
 '    '''</summary>
-'    <TestMethod()> _
+'    <Test()> _
 '    Public Sub DotNetNamesConstructorTest()
 '        Dim target As DotNetNames = New DotNetNames
-'        Assert.Inconclusive("TODO: Implement code to verify target")
+'        Verify.Inconclusive("TODO: Implement code to verify target")
 '    End Sub
 'End Class

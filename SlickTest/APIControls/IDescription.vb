@@ -114,7 +114,7 @@ Public Interface IDescription
 
 
 #Region "Web"
-#If (IncludeWeb = 1) Then
+
     ''' <summary>
     ''' The web ID provided by the user.
     ''' </summary>
@@ -167,13 +167,20 @@ Public Interface IDescription
     ReadOnly Property WebTitle() As String
 
     ''' <summary>
-    ''' The WebType for the object, if this value is already set.
+    ''' The ControlType for the object, if this value is already set.
     ''' </summary>
     ''' <value></value>
     ''' <returns></returns>
     ''' <remarks></remarks>
-    ReadOnly Property WebType() As String
-#End If
+    ReadOnly Property ControlType() As String
+
+    ''' <summary>
+    ''' The WebTag for the object, if this value is already set.
+    ''' </summary>
+    ''' <value></value>
+    ''' <returns></returns>
+    ''' <remarks></remarks>
+    ReadOnly Property WebTag() As String
 #End Region
 
     ''' <summary>
@@ -284,7 +291,7 @@ Public Interface IDescription
     ReadOnly Property Width() As Integer
 
     ''' <summary>
-    ''' The WindowType for the object, if this value is already set.
+    ''' The ControlType for the object, if this value is already set.
     ''' </summary>
     ''' <value></value>
     ''' <returns>Returns unknown if no value is set.</returns>

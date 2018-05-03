@@ -18,7 +18,7 @@ Public NotInheritable Class SwfTabControl
     ''' <returns></returns>
     ''' <remarks>Currently failing.</remarks>
     Private Function GetTabRectangle(ByVal index As Integer) As System.Drawing.Rectangle
-        Return WindowsFunctions.TabControl.GetRECT(Me.Hwnd(), index)
+        Return WindowsFunctions.TabControl.GetRECT(New IntPtr(Me.Hwnd()), index)
     End Function
 
 
@@ -45,7 +45,7 @@ Public NotInheritable Class SwfTabControl
     ''' <param name="index">The tab to select.</param>
     ''' <remarks></remarks>
     Sub SelectTab(ByVal index As Integer)
-        WindowsFunctions.TabControl.SelectTab(Me.Hwnd(), index)
+        WindowsFunctions.TabControl.SelectTab(New IntPtr(Me.Hwnd()), index)
     End Sub
 
     ''' <summary>
@@ -54,7 +54,7 @@ Public NotInheritable Class SwfTabControl
     ''' <returns></returns>
     ''' <remarks></remarks>
     Function GetTabCount() As Integer
-        Return WindowsFunctions.TabControl.GetTabCount(Me.Hwnd())
+        Return WindowsFunctions.TabControl.GetTabCount(New IntPtr(Me.Hwnd()))
     End Function
 
     ''' <summary>
@@ -63,7 +63,7 @@ Public NotInheritable Class SwfTabControl
     ''' <returns></returns>
     ''' <remarks></remarks>
     Function GetSelectedTab() As Integer
-        Return WindowsFunctions.TabControl.GetSelectedTab(Me.Hwnd())
+        Return WindowsFunctions.TabControl.GetSelectedTab(New IntPtr(Me.Hwnd()))
     End Function
 
 

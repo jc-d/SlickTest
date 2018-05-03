@@ -14,6 +14,7 @@ Assembly: InternalsVisibleTo("SlickTestDeveloper"), _
 Assembly: InternalsVisibleTo("HandleInput")> 
 <Assembly: CLSCompliantAttribute(True)> 
 Friend Class IndependentWindowsFunctionsv1
+    Inherits IndependentUIAutomation
 
     Friend Sub New()
     End Sub
@@ -46,74 +47,57 @@ Friend Class IndependentWindowsFunctionsv1
     Public Window As New WindowWindowsAPI(Me)
     Public TreeView As New TreeViewWindowsAPI(Me)
 
-    'Public General As New GeneralWindowsAPI(Me)
-#Const isAbs = 2 'Set to 1 if you want to use absolute values
-#Const IncludeWeb = 2 'set to 1 to enable web
+    Public WpfTextBox As New TextBoxUIAutomation()
+    Public WpfListBox As New ListBoxUIAutomation()
+    Public WpfListView As New ListViewUIAutomation()
+    Public WpfTabControl As New TabControlUIAutomation()
+    Public WpfComboBox As New ComboBoxUIAutomation()
+    Public WpfButton As New ButtonUIAutomation()
+    Public WpfStaticLabel As New StaticLabelUIAutomation()
+    Public WpfWindow As New WindowUIAutomation()
+    Public WpfTreeView As New TreeViewUIAutomation()
 
+#Const isAbs = 2 'Set to 1 if you want to use absolute values
     Public HandlesList() As IntPtr
     Private MessageID As Integer = 0
     Private possibleHandles As System.Collections.Generic.List(Of IntPtr)
     Public HandleCount As Integer = 0
-    'Private Shared WindowsFunctions As New APIControls.IndependentWindowsFunctionsv1()
 
     Public Sub CloseWindow(ByVal hWnd As IntPtr)
         WinAPI.NativeFunctions.PostMessage(hWnd, WinAPI.API.WM.CLOSE, IntPtr.Zero, IntPtr.Zero)
     End Sub
 
+    Public Sub CloseWindow(ByVal element As AutomationElement)
+        System.Diagnostics.Process.GetProcessById(element.Current.ProcessId).CloseMainWindow() 'Close?  Kill?
+    End Sub
+
     Public Function GetRadioButtonState(ByVal Hwnd As IntPtr) As Integer
-        If (IsDotNet(Hwnd)) Then
-
-            Dim SelectionItemPattern As Windows.Automation.SelectionItemPattern = _
-         DirectCast(Windows.Automation.AutomationElement.FromHandle(Hwnd). _
-         GetCurrentPattern(Windows.Automation.SelectionItemPattern.Pattern),  _
-         Windows.Automation.SelectionItemPattern)
-
-            If (SelectionItemPattern.Current.IsSelected) Then Return WinAPI.API.BST_CHECKED
-            Return WinAPI.API.BST_UNCHECKED
+        If (IsDotNet(Hwnd) OrElse IsCustom(Hwnd)) Then
+            Return Button.GetRadioButtonState(Hwnd)
         Else
             Return WinAPI.NativeFunctions.SendMessage(Hwnd, WinAPI.API.BM.BM_GETCHECK, IntPtr.Zero, IntPtr.Zero)
         End If
+    End Function
+
+    Public Function GetRadioButtonState(ByVal element As AutomationElement) As Integer
+        Return WpfButton.GetRadioButtonState(element)
     End Function
 
     Public Function GetCheckBoxState(ByVal Hwnd As IntPtr) As Integer
-        If (IsDotNet(Hwnd)) Then
-            If (Button.IsCheckBox(Hwnd)) Then
-                Dim TogglePattern As Windows.Automation.TogglePattern = _
-                DirectCast(Windows.Automation.AutomationElement.FromHandle(Hwnd). _
-                GetCurrentPattern(Windows.Automation.TogglePattern.Pattern),  _
-                Windows.Automation.TogglePattern)
-
-                Dim state As Windows.Automation.ToggleState = TogglePattern.Current.ToggleState
-                Return state
+        Dim Custom As Boolean = IsCustom(Hwnd)
+        If (IsDotNet(Hwnd) OrElse Custom) Then
+            If (Button.IsCheckBox(Hwnd) OrElse _
+                Custom AndAlso WpfButton.IsCheckbox(Hwnd)) Then
+                Return Button.GetCheckBoxState(Hwnd)
             End If
         Else
             Return WinAPI.NativeFunctions.SendMessage(Hwnd, WinAPI.API.BM.BM_GETCHECK, IntPtr.Zero, IntPtr.Zero)
         End If
     End Function
 
-
-    Private Function SetCheckBoxState_DotNetCheckBoxOnly(ByVal Hwnd As IntPtr, ByVal state As Integer) As Integer
-        Dim stateChangeCount As Integer = 0
-
-        Dim TogglePattern As Windows.Automation.TogglePattern = _
-              DirectCast(Windows.Automation.AutomationElement.FromHandle(Hwnd). _
-              GetCurrentPattern(Windows.Automation.TogglePattern.Pattern),  _
-              Windows.Automation.TogglePattern)
-
-        While (state <> TogglePattern.Current.ToggleState)
-            TogglePattern.Toggle()
-            stateChangeCount += 1
-            If (stateChangeCount = 6) Then
-                Exit While 'Throw New SlickTestAPIException("Unable to set checkbox state to " & state)
-            End If
-        End While
-        If (stateChangeCount <> 6) Then Return GetCheckBoxState(Hwnd)
-        Throw New SlickTestAPIException("Not a checkbox")
-    End Function
-
     Public Function SetCheckBoxState(ByVal Hwnd As IntPtr, ByVal state As Integer) As Integer
-        If (IsDotNet(Hwnd)) Then
-            SetCheckBoxState_DotNetCheckBoxOnly(Hwnd, state)
+        If (IsDotNet(Hwnd) OrElse IsWPFOrCustom(Hwnd)) Then
+            Return Button.SetCheckBoxState(Hwnd, state)
         Else
             Return WinAPI.NativeFunctions.SendMessage(Hwnd, WinAPI.API.BM.BM_SETCHECK, New IntPtr(state), IntPtr.Zero)
         End If
@@ -145,6 +129,16 @@ Friend Class IndependentWindowsFunctionsv1
         Return GetWindowLongAsInt64(hwnd, WinAPI.API.GWL.ID)
     End Function
 
+    Public Function GetProcessName(ByVal element As AutomationElement) As String
+        Dim PID As Integer = element.Current.ProcessId
+        For Each p As System.Diagnostics.Process In System.Diagnostics.Process.GetProcesses()
+            If (p.Id = PID) Then
+                Return p.ProcessName
+            End If
+        Next
+        Return ""
+    End Function
+
     Public Function GetProcessName(ByVal handle As System.IntPtr) As String
         Dim PID As Integer = GetProcessID(handle)
         For Each p As System.Diagnostics.Process In System.Diagnostics.Process.GetProcesses()
@@ -167,6 +161,16 @@ Friend Class IndependentWindowsFunctionsv1
         End Try
     End Function
 
+    Public Function GetNearByLabel(ByVal element As AutomationElement) As String
+        Try
+            TmpUIAutoElement = element.Current.LabeledBy
+            If (TmpUIAutoElement Is Nothing) Then Return String.Empty
+            Return TmpUIAutoElement.Current.Name
+        Catch ex As Exception
+            Return String.Empty
+        End Try
+    End Function
+
     ''' <summary>
     ''' Creates description from a hwnd value.
     ''' </summary>
@@ -174,23 +178,22 @@ Friend Class IndependentWindowsFunctionsv1
     ''' <returns>A description object with all values prefilled.</returns>
     ''' <remarks>This is helpful for dynamically creating descriptions.
     ''' This will not work for web sites as they do not use hwnds.</remarks>
-    Public Function CreateDescriptionFromHwnd(ByVal hwnd As IntPtr) As APIControls.Description
+    Public Function CreateDescriptionFromHwnd(ByVal hwnd As IntPtr, Optional ByVal OverrideWebHtml As Boolean = False) As APIControls.Description
         Dim desc As New APIControls.Description()
-#If IncludeWeb = 1 Then
-        If (IsWebPartIEHTML(hwnd) = False) Then
-#End If
-        Try
-            desc.Add("hwnd", hwnd.ToString())
-            desc.Add("value", Me.GetAllWindowText(hwnd))
-            desc.Add("value", Me.GetAllWindowText(hwnd))
-            desc.Add("name", Me.GetClassName(hwnd))
-            desc.Add("nearbylabel", Me.GetNearByLabel(hwnd))
+
+        If (OverrideWebHtml = True OrElse IsWebPartIEHTML(hwnd) = False) Then
+            Try
+                desc.Add("hwnd", hwnd.ToString())
+                desc.Add("value", Me.GetAllWindowText(hwnd))
+                desc.Add("value", Me.GetAllWindowText(hwnd))
+                desc.Add("name", Me.GetClassName(hwnd))
+                desc.Add("nearbylabel", Me.GetNearByLabel(hwnd))
 
 
-            desc.Add("processname", Me.GetProcessName(hwnd))
-            Dim parent As IntPtr = Me.GetTopParent(hwnd)
-            If (parent <> hwnd) Then desc.Add("index", Me.FindIndex(parent, hwnd).ToString())
-            Dim rect As System.Drawing.Rectangle = Me.GetLocation(hwnd)
+                desc.Add("processname", Me.GetProcessName(hwnd))
+                Dim parent As IntPtr = Me.GetTopParent(hwnd)
+                If (parent <> hwnd) Then desc.Add("index", Me.FindIndex(parent, hwnd).ToString())
+                Dim rect As System.Drawing.Rectangle = Me.GetLocation(hwnd)
 #If isAbs = 1 Then
                 desc.Add("top", Mouse.RelativeToAbsCoordY(rect.Top))
                 desc.Add("left", Mouse.RelativeToAbsCoordX(rect.Left))
@@ -199,21 +202,20 @@ Friend Class IndependentWindowsFunctionsv1
                 desc.Add("height", Mouse.RelativeToAbsCoordY(rect.Height))
                 desc.Add("width", Mouse.RelativeToAbsCoordX(rect.Width))
 #Else
-            desc.Add("top", rect.Top.ToString())
-            desc.Add("left", rect.Left.ToString())
-            desc.Add("right", rect.Right.ToString())
-            desc.Add("bottom", rect.Bottom.ToString())
-            desc.Add("height", rect.Height.ToString())
-            desc.Add("width", rect.Width.ToString())
+                desc.Add("top", rect.Top.ToString())
+                desc.Add("left", rect.Left.ToString())
+                desc.Add("right", rect.Right.ToString())
+                desc.Add("bottom", rect.Bottom.ToString())
+                desc.Add("height", rect.Height.ToString())
+                desc.Add("width", rect.Width.ToString())
 #End If
-            desc.Add("windowtype", Me.GetObjectTypeAsString(hwnd).ToLower())
-            desc.Add("controlid", Me.GetControlID(hwnd).ToString())
-        Catch ex As Exception
-            Return desc
-        End Try
-#If IncludeWeb = 1 Then
+                desc.Add("ControlType", Me.GetObjectTypeAsString(hwnd).ToLower())
+                desc.Add("controlid", Me.GetControlID(hwnd).ToString())
+            Catch ex As Exception
+                Return desc
+            End Try
+
         End If
-#End If
         Return desc
     End Function
 
@@ -224,7 +226,19 @@ Friend Class IndependentWindowsFunctionsv1
         Return PID
     End Function
 
+    Public Function GetProcessID(ByVal element As AutomationElement) As Integer
+        Return element.Current.ProcessId
+    End Function
+
+    Public Function GetClassNameNoDotNet(ByVal element As AutomationElement) As String
+        Return element.Current.ClassName
+    End Function
+
     Public Function GetClassNameNoDotNet(ByVal hWnd As IntPtr) As String
+        Return GetClassNameGlobal(hWnd)
+    End Function
+
+    Protected Friend Shared Function GetClassNameGlobal(ByVal hWnd As IntPtr) As String
         Dim pClsName As System.Text.StringBuilder = New System.Text.StringBuilder(256)
         Try
             WinAPI.API.GetClassName(hWnd, pClsName, pClsName.Capacity)
@@ -233,7 +247,6 @@ Friend Class IndependentWindowsFunctionsv1
             Return ""
         End Try
     End Function
-
 
     Public Sub SetText(ByVal text As String, ByVal hwnd As IntPtr)
         If (IsDotNet(hwnd) = True) Then
@@ -245,7 +258,6 @@ Friend Class IndependentWindowsFunctionsv1
             WinAPI.API.SendMessageStr(hwnd, WM_SETTEXT, 0&, text)
         End If
     End Sub
-
 
     Private Function IsAParent(ByVal child As IntPtr, ByVal parent As IntPtr) As Boolean
         Dim tmp As IntPtr = GetParent(child)
@@ -263,7 +275,6 @@ Friend Class IndependentWindowsFunctionsv1
     ''' </summary>
     ''' <param name="text">The additional text to append to the end of the current text.</param>
     ''' <remarks>Currently a test function.  This may not remain in the final version</remarks>
-
     Public Sub AppendText(ByVal text As String, ByVal hwnd As IntPtr)
         Dim SelectionStart As Integer, SelectionEnd As Integer
         WinAPI.API.SendMessageTimeoutInt(hwnd, EM_GETSEL, SelectionStart, SelectionEnd)
@@ -282,6 +293,10 @@ Friend Class IndependentWindowsFunctionsv1
 
     Public Function GetParent(ByVal hwnd As IntPtr) As IntPtr
         Return WinAPI.API.GetParent(hwnd)
+    End Function
+
+    Public Function GetParent(ByVal element As AutomationElement) As AutomationElement
+        Return GenericMethodsUIAutomation.GetParentElement(element)
     End Function
 
     ''' <summary>
@@ -311,26 +326,22 @@ Friend Class IndependentWindowsFunctionsv1
 
         Return sbText.ToString
     End Function
-    'Private Shared regex As New System.Text.RegularExpressions.Regex("[^!#$%&'()*+,-./:;<=>?@[\]^_`{|}~A-Za-z0-9\s\t\-'\\""]")
-    'Private Shared regex As New System.Text.RegularExpressions.Regex("[@#$%&*()+-A-Za-z0-9\s\t]")
 
-    'Private Function IsUsefulStr(ByVal str As String) As Boolean
-    '    Dim c As Char
-    '    Dim count As Integer = 0
-    '    For Each c In str.ToCharArray()
-    '        If (regex.Match(c.ToString()) IsNot System.Text.RegularExpressions.Match.Empty) Then
-    '            count += 1
-    '        End If
-    '    Next
-    '    System.Console.WriteLine("Count = " & count & " str.Length = " & str.Length)
-    '    If (Convert.ToInt32(str.Length / 2) <= count) Then
-    '        Return True
-    '    End If
-    '    Return False
-    'End Function
+    Public Function GetAllWindowText(ByVal element As AutomationElement) As String
+        Return WpfGetText(element)
+    End Function
+
 
     Public Function GetAllWindowTextSmart(ByVal WindowHandle As IntPtr) As String
         Return GetAllText(WindowHandle)
+    End Function
+
+    Public Function GetAllWindowTextSmart(ByVal element As AutomationElement) As String
+        Return WpfGetText(element)
+    End Function
+
+    Public Function GetAllText(ByVal element As AutomationElement) As String
+        Return WpfGetText(element)
     End Function
 
     Public Function GetAllText(ByVal WindowHandle As IntPtr) As String
@@ -365,11 +376,22 @@ Friend Class IndependentWindowsFunctionsv1
         Return GetAllText(hwnd)
     End Function
 
+    Public Function GetText(ByVal element As AutomationElement) As String
+        Return WpfGetText(element)
+    End Function
+
     Public Function GetHwndByXY(ByVal x As Integer, ByVal y As Integer) As IntPtr
         Return WindowFromPoint(x, y)
     End Function
 
+    Public Function GetAutomationElementByXY(ByVal x As Integer, ByVal y As Integer) As AutomationElement
+        Return GetAutomationElement(New System.Drawing.Point(x, y))
+    End Function
+
     Public Function GetLocation(ByVal hwnd As IntPtr) As System.Drawing.Rectangle
+        If (GenericMethodsUIAutomation.IsCustom(hwnd)) Then
+            Return WpfGetLocation(hwnd)
+        End If
         Dim rec As RECT
         If hwnd <> IntPtr.Zero And WinAPI.API.IsWindow(hwnd) Then
             If GetWindowRect(hwnd, rec) <> False Then
@@ -377,6 +399,10 @@ Friend Class IndependentWindowsFunctionsv1
             End If
         End If
         Return New System.Drawing.Rectangle(0, 0, 0, 0)
+    End Function
+
+    Public Function GetLocation(ByVal element As AutomationElement) As System.Drawing.Rectangle
+        Return WpfGetLocation(element)
     End Function
 
     Public Function GetClientLocation(ByVal hwnd As IntPtr) As System.Drawing.Rectangle
@@ -468,6 +494,19 @@ Friend Class IndependentWindowsFunctionsv1
         Microsoft.VisualBasic.AppActivate(procId)
     End Sub
 
+    Sub AppActivateByHwnd(ByVal element As AutomationElement)
+        Dim pid As Integer = element.Current.ProcessId
+        If (pid <= 0) Then
+            Throw New SlickTestAPIException("Unable to get a process id.")
+        End If
+
+        If (GetProcessID(TopWindow.GetCurrentlyActiveWindowHandle()) = pid) Then
+            Return
+        End If
+
+        Microsoft.VisualBasic.AppActivate(pid)
+    End Sub
+
     Private Function FindParentTitle(ByVal hChild As IntPtr) As String
         Return Me.GetAllWindowTextSmart(GetTopParent(hChild))
     End Function
@@ -486,7 +525,7 @@ Friend Class IndependentWindowsFunctionsv1
     ' <param name="hwnd">The object you wish to create the description for.  
     ' Pass the parent object in agian, if you want that for the description
     ' created.</param>
-    ' <returns>returns the description created.</returns>
+    ' <returns>Returns the description created.</returns>
     ' <remarks></remarks>
     Public Function CreateDescription(ByVal TopWindowhwnd As IntPtr, ByVal hwnd As IntPtr) As Description
         possibleHandles = New System.Collections.Generic.List(Of IntPtr)
@@ -668,7 +707,7 @@ Friend Class IndependentWindowsFunctionsv1
         HwndCountPreCheck = HandlesList.Length
 
         '///////////////////////window type////////////////////////
-        type = "windowtype"
+        type = "ControlType"
         desc.Add(type, GetObjectTypeAsString(hwnd))
 
         For Each handle As IntPtr In HandlesList
@@ -1058,7 +1097,7 @@ Friend Class IndependentWindowsFunctionsv1
     '    Return Count
     'End Function
 
-    Public Function SearchForObj(ByVal desc As Description, ByVal hwnd As IntPtr) As IntPtr
+    Public Function SearchForObj(ByVal desc As IDescription, ByVal hwnd As IntPtr) As IntPtr
         Dim TmpHwnd As IntPtr = IntPtr.Zero
         possibleHandles = New System.Collections.Generic.List(Of IntPtr)
         Dim tmpText As String = ""
@@ -1286,7 +1325,7 @@ Friend Class IndependentWindowsFunctionsv1
         End If
 
         'search Window Type
-        If (desc.Contains(Description.DescriptionData.WindowType) = True) Then
+        If (desc.Contains(Description.DescriptionData.ControlType) = True) Then
             For Each handle As IntPtr In HandlesList
                 If (GetObjectTypeAsString(handle).ToLower = desc.WindowType) Then
                     possibleHandles.Add(handle)
@@ -1367,15 +1406,12 @@ Friend Class IndependentWindowsFunctionsv1
         ElseIf (Me.TabControl.IsTabControl(hwnd)) Then
             retVal = "TabControl"
         ElseIf (Window.IsWindow(CType(hwnd, IntPtr))) Then
-#If (IncludeWeb = 1) Then
+
             If (IsWebPartIE(hwnd) = True) Then
                 retVal = "IEWebBrowser"
             Else
                 retVal = "Window"
             End If
-#Else
-            retVal = "Window"
-#End If
         Else
             retVal = "WinObject"
         End If
@@ -1434,7 +1470,14 @@ Friend Class IndependentWindowsFunctionsv1
         Return True
     End Function
 
+    Public Function GetClassName(ByVal element As AutomationElement) As String
+        Return element.Current.ClassName
+    End Function
+
     Public Function GetClassName(ByVal hWnd As IntPtr) As String
+        If (GenericMethodsUIAutomation.IsCustom(hWnd)) Then
+            Return WpfGetClassName(hWnd)
+        End If
         Try
             Dim str As String = Me.GetClassNameNoDotNet(hWnd)
             If (str.ToLowerInvariant.IndexOf(DotNetNameWindowsForms) = -1) Then Return str
@@ -1460,7 +1503,7 @@ Friend Class IndependentWindowsFunctionsv1
         Return (GetClassName(Hwnd) = "IEFrame")
     End Function
 
-    Public Function IsWebPartIEHTML(ByRef Hwnd As IntPtr) As Boolean
+    Public Function IsWebPartIEHTML(ByVal Hwnd As IntPtr) As Boolean
         Return (GetClassName(Hwnd) = "Internet Explorer_Server")
     End Function
 

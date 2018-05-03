@@ -41,7 +41,7 @@ Public Class Button
     ''' <remarks></remarks>
     Public Function IsButton() As Boolean
         Try
-            Return WindowsFunctions.Button.IsButton(Me.Hwnd())
+            Return WindowsFunctions.Button.IsButton(New IntPtr(Me.Hwnd()))
         Catch ex As Exception
             Throw ex
         End Try

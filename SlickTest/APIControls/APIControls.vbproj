@@ -42,8 +42,38 @@
     <Import Include="System.Linq" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="UIAutomation\ButtonUIAutomation.vb" />
+    <Compile Include="UIAutomation\ComboBoxUIAutomation.vb" />
+    <Compile Include="UIAutomation\TabControlUIAutomation.vb" />
+    <Compile Include="UIAutomation\ListViewUIAutomation.vb" />
+    <Compile Include="UIAutomation\WindowUIAutomation.vb" />
+    <Compile Include="UIAutomation\StaticLabelUIAutomation.vb" />
+    <Compile Include="UIAutomation\TextBoxUIAutomation.vb" />
+    <Compile Include="UIAutomation\TreeViewUIAutomation.vb" />
+    <Compile Include="UIAutomation\ListBoxUIAutomation.vb" />
+    <Compile Include="UIAutomation\GenericMethodsUIAutomation.vb" />
+    <Compile Include="UIAutomation\IndependentUIAutomation.vb" />
+    <Compile Include="Web\WebLinkAPI.vb" />
+    <Compile Include="Web\WebButtonAPI.vb" />
+    <Compile Include="Web\WebGenericImageAPI.vb" />
+    <Compile Include="Web\WebInputTextFieldAPI.vb" />
+    <Compile Include="Web\WebInputImageAPI.vb" />
+    <Compile Include="Web\WebFileUploadAPI.vb" />
+    <Compile Include="Web\WebInputButtonAPI.vb" />
+    <Compile Include="Web\WebCheckboxAPI.vb" />
+    <Compile Include="Web\WebDivAPI.vb" />
+    <Compile Include="Web\WebDropDownComboBoxAPI.vb" />
+    <Compile Include="Web\WebInputAPI.vb" />
+    <Compile Include="Web\WebListAPI.vb" />
+    <Compile Include="Web\WebListItemAPI.vb" />
+    <Compile Include="Web\WebRadioButtonAPI.vb" />
+    <Compile Include="Web\WebSpanAPI.vb" />
+    <Compile Include="Web\WebTableRowAPI.vb" />
+    <Compile Include="Web\WebTableCellAPI.vb" />
     <Compile Include="Web\IElement.vb" />
-    <Compile Include="Web\VElement.vb" />
+    <Compile Include="Web\WebTableAPI.vb" />
+    <Compile Include="Web\WebTagDefinitions.vb" />
+    <Compile Include="Web\WebTextBoxAPI.vb" />
     <Compile Include="Windows\ButtonWindowsAPI.vb" />
     <Compile Include="Windows\ComboBoxWindowsAPI.vb" />
     <Compile Include="Description.vb" />
@@ -63,7 +93,7 @@
     <Compile Include="Windows\TextBoxWindowsAPI.vb" />
     <Compile Include="Windows\TopWindow.vb" />
     <Compile Include="Windows\TreeViewWindowsAPI.vb" />
-    <Compile Include="Web\WebElement.vb" />
+    <Compile Include="Web\WebElementAPI.vb" />
     <Compile Include="Windows\Win32Window.vb" />
     <Compile Include="Windows\WindowWindowsAPI.vb" />
   </ItemGroup>
@@ -94,6 +124,9 @@
       <RequiredTargetFramework>3.0</RequiredTargetFramework>
     </Reference>
     <Reference Include="UIAutomationTypes">
+      <RequiredTargetFramework>3.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="WindowsBase">
       <RequiredTargetFramework>3.0</RequiredTargetFramework>
     </Reference>
   </ItemGroup>

@@ -15,6 +15,9 @@ Friend Class TreeViewWindowsAPI
     End Sub
 
     Public Function IsTreeView(ByVal hWnd As IntPtr) As Boolean
+        If (GenericMethodsUIAutomation.IsWPFOrCustom(hWnd) = True) Then
+            Return WindowsFunctions.WpfTreeView.IsTreeView(hWnd)
+        End If
         If (WindowsFunctions.GetClassNameNoDotNet(hWnd).ToUpperInvariant().IndexOf("TREEVIEW") <> -1) Then
             Return True
         End If

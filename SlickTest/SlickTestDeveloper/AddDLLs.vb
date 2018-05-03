@@ -9,7 +9,6 @@ Public Class AddDLLs
     Private Shared KillProgram As Boolean = False
     Private Shared ItemsToAdd As New System.Collections.ArrayList()
 
-
     Private DisplayItemToFilePath As New System.Collections.Specialized.StringDictionary()
 
     Private Sub OK_Button_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles OK_Button.Click
@@ -237,8 +236,8 @@ Public Class AddDLLs
     End Sub
 
     Private Sub BackgroundWorker1_RunWorkerCompleted(ByVal sender As Object, ByVal e As System.ComponentModel.RunWorkerCompletedEventArgs) Handles BackgroundWorker1.RunWorkerCompleted
-        For Each Item() As String In AddDLLs.ItemsToAdd
-            AsmListView.Items.Add(New System.Windows.Forms.ListViewItem(Item))
+        For Each ItemArray() As String In AddDLLs.ItemsToAdd
+            AsmListView.Items.Add(New System.Windows.Forms.ListViewItem(ItemArray))
             If ((counter Mod 100) = 0) Then
                 SetText(Me.Label1.Text.Replace("...", "") + ".")
             End If

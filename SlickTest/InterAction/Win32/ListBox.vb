@@ -1,5 +1,5 @@
 ''' <summary>
-''' A ListBox is just a specialized WinObject, and so it performs everything a WinObject does.
+''' A ListBox is just a specialized WinObject, and it performs everything a WinObject does.
 ''' </summary>
 ''' <remarks></remarks>
 Public NotInheritable Class ListBox
@@ -30,7 +30,7 @@ Public NotInheritable Class ListBox
     ''' <remarks></remarks>
     Public Function IsListBox() As Boolean
         Try
-            Return WindowsFunctions.ListBox.IsListBox(Me.Hwnd())
+            Return WindowsFunctions.ListBox.IsListBox(New IntPtr(Me.Hwnd()))
         Catch ex As Exception
             Throw ex
         End Try
@@ -45,7 +45,7 @@ Public NotInheritable Class ListBox
     ''' ListBox fails.</exception>
     ''' <remarks></remarks>
     Public Function GetItemCount() As Integer
-        Return WindowsFunctions.ListBox.ListBoxItemsCount(Me.Hwnd())
+        Return WindowsFunctions.ListBox.ListBoxItemsCount(New IntPtr(Me.Hwnd()))
     End Function
 
     ''' <summary>
@@ -69,7 +69,7 @@ Public NotInheritable Class ListBox
     Public Function GetAllItems() As String()
         Dim retVal As String() = {""}
         Try
-            Return WindowsFunctions.ListBox.GetListBoxItems(Me.Hwnd())
+            Return WindowsFunctions.ListBox.GetListBoxItems(New IntPtr(Me.Hwnd()))
         Catch ex As Exception
             Throw ex
         End Try
@@ -89,7 +89,7 @@ Public NotInheritable Class ListBox
     Public Function GetSelectedItems() As Integer()
         Dim retVal As Integer() = {-1}
         Try
-            Return WindowsFunctions.ListBox.GetListBoxSelectedItems(Me.Hwnd())
+            Return WindowsFunctions.ListBox.GetListBoxSelectedItems(New IntPtr(Me.Hwnd()))
         Catch ex As Exception
             Throw ex
         End Try
@@ -101,14 +101,14 @@ Public NotInheritable Class ListBox
     ''' </summary>
     ''' <param name="ItemNumber">The item to select.  This allows for all items
     ''' between 0 and count-1.</param>
-    ''' <returns>returns true if it is able to successfully select the item.  Returns false if it is
+    ''' <returns>Returns true if it is able to successfully select the item.  Returns false if it is
     ''' unable to select the item for any reason.</returns>
     ''' <exception cref="Exception">An exception maybe thrown if communication with the
     ''' ListBox fails.</exception>
     ''' <remarks></remarks>
     Public Function SetSelectedItem(ByVal ItemNumber As Integer) As Boolean
         Try
-            Dim i As Boolean = WindowsFunctions.ListBox.SelectListBoxItem(Me.Hwnd(), ItemNumber)
+            Dim i As Boolean = WindowsFunctions.ListBox.SelectListBoxItem(New IntPtr(Me.Hwnd()), ItemNumber)
             Return i
         Catch ex As Exception
             Throw ex
@@ -119,14 +119,14 @@ Public NotInheritable Class ListBox
     ''' <summary>
     ''' Gets the index of the item currently selected in the ListBox.
     ''' </summary>
-    ''' <returns>returns the index number of the currently selected item.  Returns -1 if it is
+    ''' <returns>Returns the index number of the currently selected item.  Returns -1 if it is
     ''' unable to get the selected the item for any reason.</returns>
     ''' <exception cref="Exception">An exception maybe thrown if communication with the
     ''' ListBox fails.</exception>
     ''' <remarks></remarks>
     Public Function GetSelectedItemNumber() As Integer
         Try
-            Return WindowsFunctions.ListBox.GetListBoxSelectedItem(Me.Hwnd())
+            Return WindowsFunctions.ListBox.GetListBoxSelectedItem(New IntPtr(Me.Hwnd()))
         Catch ex As Exception
             Throw
         End Try
@@ -142,7 +142,7 @@ Public NotInheritable Class ListBox
     ''' <remarks></remarks>
     Public Function GetItemByIndex(ByVal index As Integer) As String
         Try
-            Dim AppHwnd As IntPtr = Me.Hwnd()
+            Dim AppHwnd As IntPtr = New IntPtr(Me.Hwnd())
             If (index < 0 Or WindowsFunctions.ListBox.ListBoxItemsCount(AppHwnd) <= index) Then
                 Throw New IndexOutOfRangeException("Index " & index & " was outside the range of the ListBox (" & Me.Name & ").")
             End If

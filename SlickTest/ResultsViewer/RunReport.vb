@@ -55,6 +55,8 @@ Public Class RunReport
         Me.OpenFileDialog1.Title = "Select the database you wish to load."
         If (Me.OpenFileDialog1.ShowDialog() = Windows.Forms.DialogResult.OK) Then
             DBLocation = Me.OpenFileDialog1.FileName
+        Else
+            Me.Close()
         End If
 
         ReportDatabasePath = DBLocation
@@ -105,7 +107,7 @@ Public Class RunReport
         End Get
     End Property
 
-    Private Function RunNonSelectCommand(ByVal cmd As SqlServerCe.SqlCeCommand) As Boolean
+    Private Function RunNonSelectCommand(ByRef cmd As SqlServerCe.SqlCeCommand) As Boolean
         sqlException = Nothing
         Try
             Using connection As New SqlServerCe.SqlCeConnection(LocalConnectionString)
@@ -120,7 +122,8 @@ Public Class RunReport
                 LastSQL = cmd.CommandText
 
                 cmd.Dispose()
-                connection.Close()
+                'connection.Close()
+                'connection.Dispose()
             End Using
         Catch ex As Exception
             sqlException = ex
@@ -129,7 +132,7 @@ Public Class RunReport
         Return True 'success
     End Function
 
-    Private Function RunSelectCommand(ByVal cmd As SqlServerCe.SqlCeCommand) As DataSet
+    Private Function RunSelectCommand(ByRef cmd As SqlServerCe.SqlCeCommand) As DataSet
         sqlException = Nothing
         Dim ds As New DataSet()
 
@@ -149,7 +152,8 @@ Public Class RunReport
                 LastSQL = cmd.CommandText
 
                 cmd.Dispose()
-                connection.Close()
+                'connection.Close()
+                'connection.Dispose()
             End Using
         Catch ex As Exception
             sqlException = ex
@@ -564,6 +568,8 @@ Public Class RunReport
                 Exit For
             End If
         Next
+        rdr.Dispose()
+
     End Sub
 
     Private Sub SetColor(ByVal state As String)

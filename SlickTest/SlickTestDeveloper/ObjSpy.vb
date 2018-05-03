@@ -1,6 +1,5 @@
 Imports winAPI.API
 Imports System.Runtime.InteropServices
-#Const IncludeWeb = 2 'set to 1 to enable web
 
 Public Class ObjSpy
     Private Property description() As APIControls.IDescription
@@ -60,20 +59,12 @@ Public Class ObjSpy
 
 #Region "Web Stuff"
 
-#If IncludeWeb = 1 Then
-
     Sub BuildWebTree(ByVal MainWindow As IntPtr, ByVal x As Integer, ByVal y As Integer) ', ByVal Strings As String) ' As String
         If (MainWindow.Equals(IntPtr.Zero)) Then
-            'Return Strings
             Return
         End If
         Try
-            'If (RedHighlight.IE IsNot Nothing) Then
-            '    IE = RedHighlight.IE
-            'Else
-            'Dim ElemRec As System.Drawing.Rectangle = IE.GetElementLocation(x, y)
-            'End If
-            Dim element As APIControls.Element = GetIEElement(MainWindow, x, y)
+            Dim element As APIControls.WebElementAPI = GetIEElement(MainWindow, x, y)
             Dim ieDesc As APIControls.Description = WindowsFunctions.CreateDescriptionFromHwnd(MainWindow)
             BuildWebTreeRecursion(element)
             descriptions.Add(ieDesc)
@@ -81,19 +72,36 @@ Public Class ObjSpy
         End Try
     End Sub
 
-    Private Function GetIEElement(ByRef MainWindow As IntPtr, ByVal x As Integer, ByVal y As Integer) As APIControls.Element
+    Private Function GetIEElement(ByRef MainWindow As IntPtr, ByVal x As Integer, ByVal y As Integer) As APIControls.WebElementAPI
         Dim IE As New APIControls.InternetExplorer()
         If (WindowsFunctions.IsWebPartIE(MainWindow)) Then
-            IE.TakeOverIESearch(MainWindow)
+            Dim takeOverIEResult As Boolean
+            SyncLock (IE)
+                takeOverIEResult = IE.TakeOverIESearch(MainWindow)
+            End SyncLock
+
             Return IE.GetElement(x, y)
         End If
         Return Nothing
     End Function
 
-    Private Sub BuildWebTreeRecursion(ByVal elem As APIControls.Element)
+    Private Function GetIE(ByRef MainWindow As IntPtr) As APIControls.InternetExplorer
+        Dim IE As New APIControls.InternetExplorer()
+        If (WindowsFunctions.IsWebPartIE(MainWindow)) Then
+            Dim takeOverIEResult As Boolean
+            SyncLock (IE)
+                takeOverIEResult = IE.TakeOverIESearch(MainWindow)
+            End SyncLock
+
+            Return IE
+        End If
+        Return Nothing
+    End Function
+
+    Private Sub BuildWebTreeRecursion(ByVal elem As APIControls.WebElementAPI)
         If (elem Is Nothing) Then Return
         Dim desc As APIControls.Description = GetWebDescription(elem)
-        Dim SubElem As APIControls.Element = Nothing
+        Dim SubElem As APIControls.WebElementAPI = Nothing
         Try
             SubElem = elem.GetParent()
         Catch ex As Exception
@@ -104,7 +112,7 @@ Public Class ObjSpy
         BuildWebTreeRecursion(SubElem)
     End Sub
 
-    Private Function GetWebDescription(ByVal e As APIControls.Element) As APIControls.Description
+    Private Function GetWebDescription(ByVal e As APIControls.WebElementAPI) As APIControls.Description
         Dim desc As New APIControls.Description()
         Try
             desc.Add(APIControls.Description.DescriptionData.Width, e.Width.ToString())
@@ -118,15 +126,19 @@ Public Class ObjSpy
             desc.Add(APIControls.Description.DescriptionData.WebTitle, e.Title)
             desc.Add(APIControls.Description.DescriptionData.WebInnerHTML, e.InnerHtml)
             desc.Add(APIControls.Description.DescriptionData.WebOuterHTML, e.OuterHtml)
+            desc.Add(APIControls.Description.DescriptionData.Index, e.Index.ToString())
+            'desc.Add(APIControls.Description.DescriptionData.WebType, e.TagName)
+            desc.Add(APIControls.Description.DescriptionData.WebValue, e.Value)
+            desc.Add(APIControls.Description.DescriptionData.ControlType, e.GetWebType())
         Catch ex As Exception
         End Try
         Try
-            desc.Add(APIControls.Description.DescriptionData.WebID, e.Id.ToString())
+            desc.Add(APIControls.Description.DescriptionData.WebID, e.Id)
         Catch ex As Exception
             'likely to fail
         End Try
         Try
-            desc.Add(APIControls.Description.DescriptionData.Name, e.Attribute("Name"))
+            desc.Add(APIControls.Description.DescriptionData.Name, e.Name)
         Catch ex As Exception
             'likely to fail
         End Try
@@ -149,67 +161,54 @@ Public Class ObjSpy
         End Try
         Dim Parentnode As TreeNode = Nothing
         For i As Integer = descriptions.Count - 1 To 0 Step -1
-            Dim wTextStr As String = String.Empty
+            Dim TextStr As String = String.Empty
 
             If (i = descriptions.Count - 1) Then
                 'IE instance.
-                wTextStr = descriptions(i).Value
-                If (wTextStr Is Nothing) Then wTextStr = String.Empty
-                If wTextStr.Length <> 0 Then
-                    wTextStr = descriptions(i).Name & " - """ & wTextStr & """"
+                TextStr = descriptions(i).Value
+                If (TextStr Is Nothing) Then TextStr = String.Empty
+                If TextStr.Length <> 0 Then
+                    TextStr = descriptions(i).Name & " - """ & TextStr & """"
                 Else
-                    wTextStr = descriptions(i).Name
+                    TextStr = descriptions(i).Name
                 End If
-                wTextStr = (wTextStr & " - hWnd: " & descriptions(i).Hwnd.ToString()).Replace(vbNewLine, "")
+                TextStr = (TextStr & " - hWnd: " & descriptions(i).Hwnd.ToString()).Replace(vbNewLine, "")
             Else
-                wTextStr = "Tag: <" & descriptions(i).WebTag & "> ID: " & descriptions(i).WebID & _
+                TextStr = "Tag: <" & descriptions(i).WebTag & "> ID: " & descriptions(i).WebID & _
                 " Name: " & descriptions(i).Name & " Value: " & descriptions(i).WebValue
             End If
-            Dim str As String = wTextStr
             'This needs to be fixed so that it works the same way record does.
 
             If (Parentnode Is Nothing) Then
-                SpyObjectsTreeView.Nodes.Add(str.Replace(vbCr, ""))
+                SpyObjectsTreeView.Nodes.Add(TextStr.Replace(vbCr, ""))
                 SpyObjectsTreeView.Nodes(0).Tag = descriptions(i)
                 Parentnode = SpyObjectsTreeView.Nodes(0)
             Else
-                Parentnode.Nodes.Add(str.Replace(vbCr, ""))
+                Parentnode.Nodes.Add(TextStr.Replace(vbCr, ""))
                 Parentnode.Nodes(0).Tag = descriptions(i)
                 Parentnode = Parentnode.Nodes(0)
             End If
-            PreviousHwnd = CType(descriptions(i).Hwnd, Int64)
-            'addNodes(TreeView1.Nodes(0), strs, strs.Length - 3)
+            PreviousHwnd = descriptions(i).Hwnd.ToInt64()
         Next
+        Dim desc As APIControls.IDescription = descriptions(0)
         descriptions.Clear()
         SpyObjectsTreeView.Nodes(0).ExpandAll()
         Dim Node As TreeNode
         Node = SpyObjectsTreeView.Nodes(0)
+        Me.description = desc
+        Dim values As System.Collections.Generic.Dictionary(Of String, String) = _
+        Me.DumpDataFromWeb(Me.TreeNodeToDescription(Me.SpyObjectsTreeView.Nodes(0)).Hwnd, desc)
         For i As Integer = 1 To SpyObjectsTreeView.GetNodeCount(True) - 1
             Node = Node.Nodes(0)
         Next
-        Dim searchVal As Integer = Node.Text.IndexOf("hWnd: ")
-        If (searchVal = -1) Then Return
-        Dim hwnd As IntPtr = IntPtr.Zero
-        Try
-            hwnd = New IntPtr(Convert.ToInt64(Node.Text.Substring(searchVal + "hWnd: ".Length)))
-        Catch ex As Exception
-            Return
-        End Try
-        Dim desc As APIControls.Description = WindowsFunctions.CreateDescriptionFromHwnd(hwnd)
-        Me.SpyDataViewer.Rows.Clear()
-        For Each item As APIControls.Description.DescriptionData In [Enum].GetValues(GetType(APIControls.Description.DescriptionData))
-            If (desc.Contains(item) = True) Then
-                Dim str1() As String = {desc.GetItemName(item), desc.GetItemValue(item)}
-                'If (str1(1) <> "") Then 'a value must be present in order to list it.
-                'Not needed due to the use of contains.
-                Me.SpyDataViewer.Rows.Add(str1)
-                'End If
-            End If
+        For Each item As String In values.Keys
+            Dim str() As String = {item, values(item)}
+            Me.SpyDataViewer.Rows.Add(str)
         Next
+        Me.SpyDataViewer.Rows.Clear()
+        AddAndSortDescription(desc)
     End Sub
 
-
-#End If
 #End Region
 
     Private Sub ObjSpy_FormClosing(ByVal sender As Object, ByVal e As System.Windows.Forms.FormClosingEventArgs) Handles Me.FormClosing
@@ -265,22 +264,15 @@ Public Class ObjSpy
     Private Sub ScanAndUpdateTreeView()
         descriptions = New System.Collections.Generic.List(Of APIControls.Description)
         SpyObjectsTreeView.Nodes().Clear()
-        'Dim str As String = BuildWindowTree(WindowFromPoint(interact.Mouse.GetCurrentX, interact.Mouse.GetCurrentY), "")
         Dim x, y As Integer
         x = UIControls.Mouse.CurrentX
         y = UIControls.Mouse.CurrentY
         Dim WinHwnd As IntPtr = WindowFromPoint(x, y)
-#If IncludeWeb = 1 Then
-        If (WindowsFunctions.IsWebPartIEHTML(WinHwnd) = True) Then
 
+        If (WindowsFunctions.IsWebPartIEHTML(WinHwnd) = True AndAlso WindowsFunctions.IsWebPartIE(WinHwnd)) Then
 
-            'If (WindowsFunctions.GetClassName(WinHwnd) = "Internet Explorer_Server") Then
             Dim cRect As New RECT
             GetWindowRect(WinHwnd, cRect)
-            'Dim rec As New System.Drawing.Rectangle()
-            'rec = Rectangle.Empty
-            'rec.X = cRect.Left
-            'rec.Y = cRect.Top
             y = y - (cRect.Top)
             x = x - (cRect.Left)
 
@@ -290,18 +282,10 @@ Public Class ObjSpy
             Completed = False
             Me.BuildWebTimer.Enabled = True
             Me.BuildWebTimer.Start()
-            'While (Completed = False)
-            '    System.Threading.Thread.Sleep(10)
-            'End While
-            'BuildWebTree(WinHwnd, x, y) 'temp. code
-
         Else
-#End If
-        BuildWindowTree(WinHwnd)
-        UpdateTreeViewForWindows()
-#If IncludeWeb = 1 Then
+            BuildWindowTree(WinHwnd)
+            UpdateTreeViewForWindows()
         End If
-#End If
 
         Me.Activate()
     End Sub
@@ -316,30 +300,30 @@ Public Class ObjSpy
         If (Not PreviousHwnd.Equals(0)) Then
             Dim Parentnode As TreeNode = Nothing
             For i As Integer = descriptions.Count - 1 To 0 Step -1
-                Dim wTextStr As String = String.Empty
-                wTextStr = descriptions(i).Value
-                If (wTextStr Is Nothing) Then wTextStr = String.Empty
-                If wTextStr.Length <> 0 Then
-                    wTextStr = descriptions(i).Name & " - """ & wTextStr & """"
+                Dim TextStr As String = String.Empty
+                TextStr = descriptions(i).Value
+                If (TextStr Is Nothing) Then TextStr = String.Empty
+                If TextStr.Length <> 0 Then
+                    TextStr = descriptions(i).Name & " - """ & TextStr & """"
                 Else
-                    wTextStr = descriptions(i).Name
+                    TextStr = descriptions(i).Name
                 End If
-                Dim str As String = (wTextStr & " - hWnd: " & descriptions(i).Hwnd.ToString()).Replace(vbNewLine, "")
+                TextStr = (TextStr & " - hWnd: " & descriptions(i).Hwnd.ToString()).Replace(vbNewLine, "")
                 'This needs to be fixed so that it works the same way record does.
                 If (New IntPtr(PreviousHwnd) <> descriptions(i).Hwnd) Then
                     If (descriptions(i).Hwnd <> IntPtr.Zero) Then
                         If (APIControls.EnumerateWindows.isChildDirectlyConnectedToParent(New IntPtr(PreviousHwnd), descriptions(i).Hwnd) = False) Then
                             SpyObjectsTreeView.Nodes().Clear()
-                            Parentnode = Nothing 'TreeView1.Nodes(0)
+                            Parentnode = Nothing
                         End If
                     End If
                 End If
                 If (Parentnode Is Nothing) Then
-                    SpyObjectsTreeView.Nodes.Add(str.Replace(vbCr, ""))
+                    SpyObjectsTreeView.Nodes.Add(TextStr.Replace(vbCr, ""))
                     Parentnode = SpyObjectsTreeView.Nodes(0)
                 Else
                     If (Not descriptions(i).Hwnd.Equals(IntPtr.Zero)) Then 'no zero int ptrs
-                        Parentnode.Nodes.Add(str.Replace(vbCr, ""))
+                        Parentnode.Nodes.Add(TextStr.Replace(vbCr, ""))
                         Parentnode = Parentnode.Nodes(0)
                     End If
                 End If
@@ -363,31 +347,37 @@ Public Class ObjSpy
             End Try
             Dim desc As APIControls.Description = WindowsFunctions.CreateDescriptionFromHwnd(hwnd)
             Me.SpyDataViewer.Rows.Clear()
-            For Each item As APIControls.Description.DescriptionData In [Enum].GetValues(GetType(APIControls.Description.DescriptionData))
-                If (desc.Contains(item) = True) Then
-                    Dim str1() As String = {desc.GetItemName(item), desc.GetItemValue(item)}
-                    'If (str1(1) <> "") Then 'a value must be present in order to list it.
-                    'Not needed due to the use of contains.
-                    Me.SpyDataViewer.Rows.Add(str1)
-                    'End If
-                End If
-            Next
             Me.description = desc
+
             Dim values As Dictionary(Of String, String) = DumpDataFromWindows(desc, Me.TreeNodeToHwnd(Me.SpyObjectsTreeView.Nodes(0)))
             For Each item As String In values.Keys
                 Dim str() As String = {item, values(item)}
                 Me.SpyDataViewer.Rows.Add(str)
             Next
 
-            If (Not Me.SpyDataViewer.SortOrder = SortOrder.None) Then
-                If (Me.SpyDataViewer.SortOrder = SortOrder.Ascending) Then
-                    Me.SpyDataViewer.Sort(Me.SpyDataViewer.SortedColumn, System.ComponentModel.ListSortDirection.Ascending)
-                Else
-                    Me.SpyDataViewer.Sort(Me.SpyDataViewer.SortedColumn, System.ComponentModel.ListSortDirection.Descending)
-                End If
-                Me.SpyDataViewer.Refresh()
-            End If
+            AddAndSortDescription(description)
         End If
+    End Sub
+
+    Private Sub DoSpyDataViewerSort()
+        If (Not Me.SpyDataViewer.SortOrder = SortOrder.None) Then
+            If (Me.SpyDataViewer.SortOrder = SortOrder.Ascending) Then
+                Me.SpyDataViewer.Sort(Me.SpyDataViewer.SortedColumn, System.ComponentModel.ListSortDirection.Ascending)
+            Else
+                Me.SpyDataViewer.Sort(Me.SpyDataViewer.SortedColumn, System.ComponentModel.ListSortDirection.Descending)
+            End If
+            Me.SpyDataViewer.Refresh()
+        End If
+    End Sub
+
+    Private Sub AddAndSortDescription(ByVal desc As APIControls.IDescription)
+        For Each item As APIControls.Description.DescriptionData In [Enum].GetValues(GetType(APIControls.Description.DescriptionData))
+            If (desc.Contains(item) = True) Then
+                Dim str1() As String = {desc.GetItemName(item), desc.GetItemValue(item)}
+                Me.SpyDataViewer.Rows.Add(str1)
+            End If
+        Next
+        DoSpyDataViewerSort()
     End Sub
 
     Private Sub AddNodes(ByVal Parentnode As TreeNode, ByVal items() As String, ByVal num As Integer)
@@ -400,34 +390,32 @@ Public Class ObjSpy
     Private Sub MouseTimer_Tick(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MouseTimer.Tick
         Dim cX As Integer = UIControls.Mouse.CurrentX
         Dim cY As Integer = UIControls.Mouse.CurrentY
-        Dim wTextStr As String
+        Dim TextStr As String
         Me.MouseLocationTextBox.Text = cX & ", " & cY
-        Dim tmp As IntPtr = WindowFromPoint(cX, cY)
-#If IncludeWeb = 1 Then
-        If (Not WindowsFunctions.IsWebPartIEHTML(tmp)) Then
-#End If
-        wTextStr = WindowsFunctions.GetAllText(tmp)
-        If wTextStr.Length <> 0 Then
-            wTextStr = WindowsFunctions.GetClassName(tmp) & " - """ & wTextStr & """"
+        Dim windowHwnd As IntPtr = WindowFromPoint(cX, cY)
+
+        If (Not WindowsFunctions.IsWebPartIEHTML(windowHwnd) AndAlso WindowsFunctions.IsWebPartIE(windowHwnd)) Then
+            TextStr = WindowsFunctions.GetAllText(windowHwnd)
+            If TextStr.Length <> 0 Then
+                TextStr = WindowsFunctions.GetClassName(windowHwnd) & " - """ & TextStr & """"
+            Else
+                TextStr = WindowsFunctions.GetClassName(windowHwnd)
+            End If
+            Me.ClassNameTextBox.Text = TextStr & " - hWnd: " & windowHwnd.ToString()
+
         Else
-            wTextStr = WindowsFunctions.GetClassName(tmp)
-        End If
-        Me.ClassNameTextBox.Text = wTextStr & " - hWnd: " & tmp.ToString()
-#If IncludeWeb = 1 Then
-        Else
-            Dim elem As APIControls.Element = GetIEElement(tmp, cX, cY)
+            Dim elem As APIControls.WebElementAPI = GetIEElement(windowHwnd, cX, cY)
             If (elem Is Nothing) Then
                 Me.ClassNameTextBox.Text = ""
                 Return
             End If
             Dim desc As APIControls.Description = GetWebDescription(elem)
 
-            wTextStr = "Tag: <" & desc.WebTag & "> ID: " & desc.WebID & _
+            TextStr = "Type: <" & desc.ControlType & "> ID: " & desc.WebID & _
             " Name: " & desc.Name & " Value: " & desc.WebValue
 
-            Me.ClassNameTextBox.Text = wTextStr
+            Me.ClassNameTextBox.Text = TextStr
         End If
-#End If
     End Sub
 
     Private Const DotNetClassName As String = "windowsform"
@@ -435,40 +423,38 @@ Public Class ObjSpy
     Private Sub TreeView1_NodeMouseClick(ByVal sender As Object, ByVal e As System.Windows.Forms.TreeNodeMouseClickEventArgs) Handles SpyObjectsTreeView.NodeMouseClick
         If (e.Button = Windows.Forms.MouseButtons.Left) Then
             Me.ClassNameTextBox.Text = e.Node.Text
-            'Dim searchVal As Integer = e.Node.Text.IndexOf("hWnd: ")
-            'If (searchVal = -1) Then Return
-            'Dim hwnd As IntPtr = IntPtr.Zero
-            'Try
-            '    hwnd = New IntPtr(Convert.ToInt32(e.Node.Text.Substring(searchVal + "hWnd: ".Length)))
-            '    If (hwnd = IntPtr.Zero) Then Return
-            'Catch ex As Exception
-            '    Return
-            'End Try
             Dim hwnd As IntPtr = TreeNodeToHwnd(e.Node)
             Dim desc As APIControls.Description
             If (hwnd <> IntPtr.Zero) Then
                 desc = WindowsFunctions.CreateDescriptionFromHwnd(hwnd)
             Else
                 'Must be web
-                desc = DirectCast(e.Node.Tag, APIControls.Description)
+                desc = TreeNodeToDescription(e.Node) 'DirectCast(e.Node.Tag, APIControls.Description)
+                If (desc.Hwnd <> IntPtr.Zero) Then
+                    hwnd = desc.Hwnd
+                End If
             End If
             description = desc
 
             Me.SpyDataViewer.Rows.Clear()
-            For Each item As APIControls.Description.DescriptionData In [Enum].GetValues(GetType(APIControls.Description.DescriptionData))
-                If (desc.Contains(item) = True) Then
-                    Dim str() As String = {desc.GetItemName(item), desc.GetItemValue(item)}
-                    Me.SpyDataViewer.Rows.Add(str)
-                End If
-            Next
+            Dim values As Dictionary(Of String, String)
             If (hwnd <> IntPtr.Zero) Then
-                Dim values As Dictionary(Of String, String) = DumpDataFromWindows(desc, Me.TreeNodeToHwnd(Me.SpyObjectsTreeView.Nodes(0)))
-                For Each item As String In values.Keys
-                    Dim str() As String = {item, values(item)}
-                    Me.SpyDataViewer.Rows.Add(str)
-                Next
+                values = DumpDataFromWindows(desc, Me.TreeNodeToHwnd(Me.SpyObjectsTreeView.Nodes(0)))
+            Else
+                Dim IEDesc As APIControls.IDescription = Me.TreeNodeToDescription(Me.SpyObjectsTreeView.Nodes(0))
+                If (WindowsFunctions.IsWebPartIE(IEDesc.Hwnd)) Then
+                    values = DumpDataFromWeb(IEDesc.Hwnd, desc)
+                Else
+                    values = New Dictionary(Of String, String)()
+                End If
             End If
-            Me.SpyDataViewer.Sort(Me.SpyDataViewer.Columns(0), System.ComponentModel.ListSortDirection.Ascending)
+
+            For Each item As String In values.Keys
+                Dim str() As String = {item, values(item)}
+                Me.SpyDataViewer.Rows.Add(str)
+            Next
+            AddAndSortDescription(description)
+
         Else
             Me.TreeViewContextMenuStrip.Show(Me.SpyObjectsTreeView, e.Location)
             Me.SpyObjectsTreeView.SelectedNode = Me.SpyObjectsTreeView.GetNodeAt(e.Location)
@@ -484,7 +470,7 @@ Public Class ObjSpy
     End Sub
 
     Private Sub DataGridView1_CellClick(ByVal sender As Object, ByVal e As System.Windows.Forms.DataGridViewCellEventArgs) Handles SpyDataViewer.CellClick
-        If (Not Me.SpyDataViewer.CurrentCell Is Nothing) Then
+        If (Not Me.SpyDataViewer.CurrentCell Is Nothing AndAlso Not Me.SpyDataViewer.CurrentCell.Value Is Nothing) Then
             Me.ClassNameTextBox.Text = Me.SpyDataViewer.CurrentCell.Value.ToString()
         End If
     End Sub
@@ -519,8 +505,7 @@ Public Class ObjSpy
     ''' </summary>
     ''' <returns>Returns an array of descriptions that are children of
     ''' the current window.</returns>
-    ''' <remarks>This converts the list into generic objects, rather than
-    ''' description objects for scripting related reasons.</remarks>
+    ''' <remarks></remarks>
     Public Function GetChildDescriptions(ByVal Description As APIControls.Description) As APIControls.Description()
         Dim tmpDescs As System.Collections.Generic.List(Of APIControls.Description)
         tmpDescs = New System.Collections.Generic.List(Of APIControls.Description)
@@ -545,9 +530,6 @@ Public Class ObjSpy
         Dim TmpName As String = ""
         For i As Integer = 0 To strDescriptionCollection.Count - 2 'excludes the latest add
             If (strDescriptionCollection.Item(i).Equals(tmpstrDescriptionName, StringComparison.OrdinalIgnoreCase)) Then 'names match, get a new name
-                'If (strDescriptionName.Contains("VsChannel") = True) Then
-                '    strDescriptionName = strDescriptionName
-                'End If
                 Dim Index As Integer = strDescriptionName.LastIndexOf("_")
                 If (Index >= 0) Then
                     If (IsNumeric(strDescriptionName.Substring(Index + 1)) = True) Then
@@ -571,11 +553,6 @@ Public Class ObjSpy
                 End If
             End If
         Next
-        'If (strDescriptionName.StartsWith("[") = True) Then
-        '    If (strDescriptionName.Equals("[Static]") = False) Then
-        '        strDescriptionName = strDescriptionName.Replace("[Static]", "Static")
-        '    End If
-        'End If
         strDescriptionCollection.Item(strDescriptionCollection.Count - 1) = strDescriptionName
         Return strDescriptionName
     End Function
@@ -690,50 +667,72 @@ Public Class ObjSpy
         Else 'records descriptions dynamically.
             descriptions = New System.Collections.Generic.List(Of APIControls.Description)
             Dim hwnd As IntPtr = WindowFromPoint(x, y)
-            If (WindowsFunctions.IsWebPartIEHTML(New IntPtr(hwnd.ToInt64()))) Then
-                MessageBox.Show("IE is unsupported by this feature.  ", SlickTestDev.MsgBoxTitle, _
-                                MessageBoxButtons.OK, MessageBoxIcon.Warning)
-                Return
+            Dim IsWeb As Boolean = False
+            If (WindowsFunctions.IsWebPartIEHTML(hwnd) AndAlso WindowsFunctions.IsWebPartIE(hwnd)) Then
+                IsWeb = True
+                'MessageBox.Show("IE is unsupported by this feature.  ", SlickTestDev.MsgBoxTitle, _
+                '                MessageBoxButtons.OK, MessageBoxIcon.Warning)
+
+                'Return
             End If
-
+            Dim WebDescription As UIControls.Description = UIControls.Description.Create()
             '//////////////////////////////////////////////////////////////////////////////////
-            If (AltState = True) Then
-                BuildWindowTree(hwnd)
-                Dim PreviousHwnd As Int64 = descriptions(descriptions.Count - 1).Hwnd.ToInt64()
-                hwnd = New IntPtr(PreviousHwnd)
-                For i As Integer = descriptions.Count - 1 To 0 Step -1
+            If (AltState = True) Then 'include everything
+                If (IsWeb = False) Then
+                    BuildWindowTree(hwnd)
+                    Dim PreviousHwnd As Int64 = descriptions(descriptions.Count - 1).Hwnd.ToInt64()
+                    hwnd = New IntPtr(PreviousHwnd)
+                    For i As Integer = descriptions.Count - 1 To 0 Step -1
 
-                    'This needs to be fixed so that it works the same way record does.
-                    If (New IntPtr(PreviousHwnd) <> descriptions(i).Hwnd) Then
-                        If (APIControls.EnumerateWindows.isChildDirectlyConnectedToParent(New IntPtr(PreviousHwnd), descriptions(i).Hwnd) = False) Then
-                            If (descriptions.Count >= i + 1) Then
-                                hwnd = descriptions(i + 1).Hwnd
-                                Exit For
+                        'This needs to be fixed so that it works the same way record does.
+                        If (New IntPtr(PreviousHwnd) <> descriptions(i).Hwnd) Then
+                            If (APIControls.EnumerateWindows.isChildDirectlyConnectedToParent(New IntPtr(PreviousHwnd), descriptions(i).Hwnd) = False) Then
+                                If (descriptions.Count >= i + 1) Then
+                                    hwnd = descriptions(i + 1).Hwnd
+                                    Exit For
+                                End If
                             End If
                         End If
-                    End If
-                    PreviousHwnd = descriptions(i).Hwnd.ToInt64()
-                Next
+                        PreviousHwnd = descriptions(i).Hwnd.ToInt64()
+                        'addNodes(TreeView1.Nodes(0), strs, strs.Length - 3)
+                    Next
+                    descriptions.Clear()
+                Else
+                    WebDescription.Add(APIControls.Description.DescriptionData.Hwnd, hwnd.ToString())
+                    'Get All items in web.
+                    For Each description As UIControls.Description In New UIControls.IEWebBrowser(WebDescription).GetChildDescriptions()
+                        descriptions.Add(description)
+                    Next
+                End If
             End If
-            descriptions.Clear()
 
             '//////////////////////////////////////////////////////////////////////////////////
             Dim desc As New APIControls.Description()
-
-            'desc = InterAction.Windows.CreateDescription(hwnd, hwnd) 'this doesn't work so well...
-            'desc.Add("hwnd", hwnd.ToString())
             desc = WindowsFunctions.CreateDescriptionFromHwnd(hwnd)
 
             descriptions.Add(desc)
-            descriptions.AddRange(GetChildDescriptions(descriptions.Item(0))) 'not sure this will work.
+            Dim b As UIControls.IEWebBrowser
+            If (IsWeb = False) Then
+                descriptions.AddRange(GetChildDescriptions(descriptions.Item(0))) 'not sure this will work.
+            Else
+                If (descriptions.Count = 0) Then
+                    
+                    WebDescription.Add(APIControls.Description.DescriptionData.Hwnd, hwnd.ToString())
 
+                    b = New UIControls.IEWebBrowser(WebDescription)
+                    b.reporter = New UIControls.StubbedReport()
 
+                    For Each WebDesc As UIControls.Description In b.WebElement(GetIEElement(hwnd, x, y).CreateFullDescription()).GetChildDescriptions()
+                        descriptions.Add(WebDesc)
+                    Next
 
+                End If
+            End If
             Dim str As New System.Text.StringBuilder((descriptions.Count * 120) + 1) 'Give a guess at the string size.
             Dim Names As New System.Collections.Generic.List(Of String)
 
             'include the tree up, but not searching everywhere.
-            If (descriptions.Count = 1) Then
+            If (descriptions.Count = 1 AndAlso IsWeb = False) Then
                 descriptions.Clear()
                 BuildWindowTree(desc.Hwnd)
                 descriptions.Reverse()
@@ -755,21 +754,42 @@ Public Class ObjSpy
                 Next
 
             Else
-                For i As Integer = 0 To descriptions.Count - 1
-                    desc = descriptions.Item(i)
-                    If (i <> 0) Then 'Produces a filtered description.
-                        desc = WindowsFunctions.CreateDescription(hwnd, desc.Hwnd)
-                    Else 'Produces a filtered description.
-                        desc = WindowsFunctions.CreateDescription(hwnd, IntPtr.Zero) 'for main window
-                    End If
-                    Dim DescStrLocation As String = ""
-                    RecordHelper.description = desc
+                If (IsWeb = False) Then
+                    For i As Integer = 0 To descriptions.Count - 1
+                        desc = descriptions.Item(i)
+                        If (i <> 0) Then 'Produces a filtered description.
+                            desc = WindowsFunctions.CreateDescription(hwnd, desc.Hwnd)
+                        Else 'Produces a filtered description.
+                            desc = WindowsFunctions.CreateDescription(hwnd, IntPtr.Zero) 'for main window
+                        End If
+                        Dim DescStrLocation As String = ""
+                        RecordHelper.description = desc
 
-                    Names.Add(RecordHelper.SmartNameBuilder(40)) 'A little longer than average, but more helpful names... I hope.
-                    str.Append( _
-                    RecordHelper.BuildDescription( _
-                    DoSearch(Names.Item(Names.Count - 1), Names)) & vbNewLine)
-                Next
+                        Names.Add(RecordHelper.SmartNameBuilder(40)) 'A little longer than average, but more helpful names... I hope.
+                        str.Append( _
+                        RecordHelper.BuildDescription( _
+                        DoSearch(Names.Item(Names.Count - 1), Names)) & vbNewLine)
+                    Next
+                Else
+                    WebDescription.Add(APIControls.Description.DescriptionData.Hwnd, hwnd.ToString())
+
+                    b = New UIControls.IEWebBrowser(WebDescription)
+                    b.reporter = New UIControls.StubbedReport()
+                    Dim IE As APIControls.InternetExplorer = GetIE(hwnd)
+                    For i As Integer = 0 To descriptions.Count - 1
+                        desc = descriptions.Item(i)
+                        desc = IE.FindGoodDescription(IE.FindElement(desc, Nothing), True)
+
+                        Dim DescStrLocation As String = ""
+                        RecordHelper.description = desc
+
+                        Names.Add(RecordHelper.SmartNameBuilder(40)) 'A little longer than average, but more helpful names... I hope.
+                        str.Append( _
+                        RecordHelper.BuildDescription( _
+                        DoSearch(Names.Item(Names.Count - 1), Names)) & vbNewLine)
+
+                    Next
+                End If
             End If
             If (str.Length <> 0) Then
                 If (CodeView Is Nothing OrElse CodeView.IsClosed = True) Then
@@ -840,29 +860,153 @@ Public Class ObjSpy
         Return New IntPtr(Convert.ToInt64(node.Tag))
     End Function
 
+    Private Function TreeNodeToDescription(ByVal node As TreeNode) As UIControls.Description
+        If (TypeOf node.Tag Is UIControls.Description) Then Return node.Tag
+        If (TypeOf node.Tag Is APIControls.Description) Then
+            Return UIControls.Description.ConvertApiToUiDescription(node.Tag)
+        End If
+        Dim desc As UIControls.Description = UIControls.Description.Create()
+        desc.Add(APIControls.Description.DescriptionData.Hwnd, Convert.ToInt64(node.Tag).ToString())
+        Return desc
+    End Function
+
     Private Sub HighlightToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles HighlightToolStripMenuItem.Click
         Dim hwnd As IntPtr = TreeNodeToHwnd(Me.SpyObjectsTreeView.SelectedNode)
         Try
-            WindowsFunctions.AppActivateByHwnd(hwnd)
-            HideHighlightSpiedItem()
+            If (hwnd <> IntPtr.Zero) Then
+                WindowsFunctions.AppActivateByHwnd(hwnd)
+                HideHighlightSpiedItem()
+                highlightSpiedItem = New UIControls.RedHighlight(hwnd)
+            Else
+                hwnd = TreeNodeToDescription(Me.SpyObjectsTreeView.TopNode).Hwnd
+                If (hwnd = IntPtr.Zero) Then
+                    System.Windows.Forms.MessageBox.Show("Unable to highlight window.", SlickTestDev.MsgBoxTitle)
+                    Return
+                Else
+                    Dim desc As UIControls.Description = TreeNodeToDescription(Me.SpyObjectsTreeView.SelectedNode)
+                    WindowsFunctions.AppActivateByHwnd(hwnd)
+
+                    If (desc.Location.Left = -2 AndAlso desc.Top = -1 OrElse _
+                        desc.WindowType.ToUpperInvariant.StartsWith("WEB") OrElse _
+                        desc.WindowType.ToUpperInvariant().Contains("UNKNOWN")) Then
+                        System.Windows.Forms.MessageBox.Show("Unable to highlight window.", SlickTestDev.MsgBoxTitle)
+                        Return
+                    End If
+                    highlightSpiedItem = New UIControls.RedHighlight(IntPtr.Zero, desc.Location)
+                End If
+            End If
         Catch ex As Exception
             System.Windows.Forms.MessageBox.Show("Unable to highlight window because: " & ex.Message, SlickTestDev.MsgBoxTitle)
             Return
         End Try
-        highlightSpiedItem = New UIControls.RedHighlight(hwnd)
         highlightSpiedItem.Show()
         highlightSpiedItem.DoDraw()
     End Sub
 
-    Private Sub DumpWindowToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles DumpWindowToolStripMenuItem.Click
+    Private Enum ExportStyle As Byte
+        StandardString
+        Xml
+    End Enum
+
+    Private Function ConvertDataToString(ByVal items As System.Collections.Generic.Dictionary(Of String, System.Collections.Generic.Dictionary(Of String, String)), ByVal style As ExportStyle) As String
+        Dim window As New System.Text.StringBuilder(10000)
+        If (style = ExportStyle.StandardString) Then
+            For Each item As String In items.Keys
+                window.AppendLine(item)
+                For Each description As String In items(item).Keys
+                    window.AppendLine(vbTab & description & "='" & items(item)(description) & "'")
+                Next
+            Next
+        Else
+            Dim stream As New System.IO.MemoryStream
+            Dim xml As New System.Xml.XmlTextWriter(stream, System.Text.Encoding.UTF8)
+            xml.Formatting = System.Xml.Formatting.Indented
+            xml.Indentation = 4
+            xml.WriteStartDocument(True)
+            xml.WriteStartElement("Items")
+
+            For Each item As String In items.Keys
+                xml.WriteStartElement("Item")
+                xml.WriteAttributeString("DistinctName", item)
+
+                For Each description As String In items(item).Keys
+                    xml.WriteStartElement(description.Replace("/", "_"))
+                    xml.WriteString(items(item)(description))
+                    xml.WriteEndElement()
+                Next
+                xml.WriteEndElement()
+            Next
+            xml.WriteEndElement()
+            xml.WriteEndDocument()
+            xml.Flush()
+
+            Dim reader As New System.IO.StreamReader(stream)
+
+            stream.Seek(0, IO.SeekOrigin.Begin)
+            window.Append(reader.ReadToEnd())
+            'cleanup
+            reader.Close()
+            xml.Close()
+            stream.Close()
+        End If
+        Return window.ToString()
+    End Function
+
+
+    Private Sub TextToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles TextToolStripMenuItem.Click
+        DumpData(ExportStyle.StandardString)
+    End Sub
+
+    Private Sub XmlToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles XmlToolStripMenuItem.Click
+        DumpData(ExportStyle.Xml)
+    End Sub
+
+    Private Sub DumpData(ByVal style As ExportStyle)
         Dim windowResults As String
         Try
             Dim hwnd As IntPtr = TreeNodeToHwnd(Me.SpyObjectsTreeView.SelectedNode)
             Dim windowsDescription As UIControls.Description = UIControls.Description.Create()
-            windowsDescription.Add(UIControls.Description.DescriptionData.Hwnd, hwnd.ToString())
-            Dim w As New UIControls.Window(windowsDescription)
-            w.reporter = New UIControls.StubbedReport()
-            windowResults = w.DumpWindowData()
+            If (hwnd = IntPtr.Zero) Then
+                hwnd = TreeNodeToDescription(Me.SpyObjectsTreeView.SelectedNode).Hwnd
+            End If
+            UIControls.AutomationSettings.Timeout = 0
+            If (hwnd <> IntPtr.Zero) Then
+                windowsDescription.Add(UIControls.Description.DescriptionData.Hwnd, hwnd.ToString())
+                Dim w As New UIControls.Window(windowsDescription)
+                w.reporter = New UIControls.StubbedReport()
+                windowResults = ConvertDataToString(w.DumpWindowDataAsDictionary(), style)
+            Else
+                windowsDescription = TreeNodeToDescription(Me.SpyObjectsTreeView.SelectedNode) '.WindowType
+                If (Not String.IsNullOrEmpty(windowsDescription.WindowType) AndAlso windowsDescription.WindowType.ToLowerInvariant().Contains("web")) Then
+                    If (System.Windows.Forms.MessageBox.Show("This may take several minutes to execute.  " & _
+                                                             "Do you wish to continue?", _
+                                                             SlickTestDev.MsgBoxTitle, _
+                                                             MessageBoxButtons.YesNo) = Windows.Forms.DialogResult.No) Then
+                        Return
+                    End If
+
+                    Dim browser As New UIControls.IEWebBrowser(TreeNodeToDescription(Me.SpyObjectsTreeView.Nodes(0)))
+                    browser.reporter = New UIControls.StubbedReport()
+                    'grab the things most likely to be found.
+                    UIControls.AbstractWinObject.ExistTimeout = 3
+
+                    Dim tmpElementDescription As UIControls.Description = UIControls.Description.Create()
+                    tmpElementDescription.Add(APIControls.Description.DescriptionData.WebTag, windowsDescription.WebTag)
+                    tmpElementDescription.Add(APIControls.Description.DescriptionData.Name, windowsDescription.Name)
+                    tmpElementDescription.Add(APIControls.Description.DescriptionData.WebID, windowsDescription.WebID)
+                    tmpElementDescription.Add(APIControls.Description.DescriptionData.Index, windowsDescription.Index.ToString())
+
+                    Dim count As Integer = browser.GetNumberOfElementsLikeDescription(tmpElementDescription)
+                    If (count = 1) Then windowsDescription = tmpElementDescription
+
+                    Dim w As UIControls.WebElement = browser.WebElement(windowsDescription)
+                    w.reporter = New UIControls.StubbedReport()
+                    windowResults = ConvertDataToString(w.DumpWindowDataAsDictionary(), style)
+                Else
+                    windowResults = "This is currently unsupported."
+                End If
+            End If
+
         Catch ex As Exception
             windowResults = ex.Message & vbNewLine & vbNewLine & "Details: " & vbNewLine & ex.ToString()
         End Try
@@ -877,10 +1021,11 @@ Public Class ObjSpy
 
 #Region "Dump Window Data (Duplication :()"
     Public Function DumpDataFromWindows(ByVal desc As APIControls.IDescription, ByVal TopHwnd As IntPtr) As Dictionary(Of String, String)
+
         Dim valueToAddToList As New Dictionary(Of String, String)
         Dim w As UIControls.AbstractWinObject = New UIControls.WinObject(desc)
         If (w Is Nothing) Then Return valueToAddToList
-        w.reporter = New UIControls.StubbedReport
+        w.reporter = New UIControls.StubbedReport()
         Try
 
             valueToAddToList.Add("Style", w.GetStyle())
@@ -1013,10 +1158,12 @@ Public Class ObjSpy
                 Case Else
                     valueToAddToList.Add("IsEnabled", w.IsEnabled())
             End Select
-            valueToAddToList.Add("StyleInfoGeneric", UIControls.InterAct.StyleInfo.ValueInfo(w.GetStyle()))
-            valueToAddToList.Add("StyleExInfoGeneric", UIControls.InterAct.StyleExtendedInfo.ValueInfo(w.GetStyleEx()))
-            valueToAddToList.Add("ClientAreaRect", w.GetClientAreaRect().ToString())
+            If (UIType.ToUpperInvariant().StartsWith("WEB") = False) Then
 
+                valueToAddToList.Add("StyleInfoGeneric", UIControls.InterAct.StyleInfo.ValueInfo(w.GetStyle()))
+                valueToAddToList.Add("StyleExInfoGeneric", UIControls.InterAct.StyleExtendedInfo.ValueInfo(w.GetStyleEx()))
+                valueToAddToList.Add("ClientAreaRect", w.GetClientAreaRect().ToString())
+            End If
             If (Not String.IsNullOrEmpty(w.Name)) Then
                 Dim tmpClassName As String = w.Name
                 If (tmpClassName.ToLowerInvariant().IndexOf(DotNetClassName) <> -1) Then
@@ -1027,7 +1174,54 @@ Public Class ObjSpy
                 End If
             End If
         Catch ex As Exception
-            MessageBox.Show("Failed to get some description details." & vbNewLine & vbNewLine & "Error Details: " & ex.ToString(), SlickTestDev.MsgBoxTitle, MessageBoxButtons.OK, MessageBoxIcon.Error)
+            MessageBox.Show("Failed to get some description details." & _
+                            vbNewLine & vbNewLine & "Error Details: " & _
+                            ex.ToString(), SlickTestDev.MsgBoxTitle, _
+                            MessageBoxButtons.OK, MessageBoxIcon.Error)
+        End Try
+        Return valueToAddToList
+    End Function
+
+    Public Function DumpDataFromWeb(ByVal IEHwnd As IntPtr, ByVal desc As APIControls.IDescription) As Dictionary(Of String, String)
+        Dim valueToAddToList As New Dictionary(Of String, String)
+        If (IEHwnd = IntPtr.Zero) Then Return valueToAddToList
+        Dim IEDesc As UIControls.Description = UIControls.Description.Create()
+        IEDesc.Add(UIControls.Description.DescriptionData.Hwnd, IEHwnd.ToString())
+        Dim window As New UIControls.IEWebBrowser(IEDesc)
+        If (window Is Nothing) Then Return valueToAddToList
+        window.reporter = New UIControls.StubbedReport()
+        Dim NoEmptyStringDescription As APIControls.IDescription = UIControls.Description.Create()
+
+        For Each item As APIControls.Description.DescriptionData In [Enum].GetValues(GetType(APIControls.Description.DescriptionData))
+            If (desc.Contains(item) = True) Then
+                If (desc.GetItemValue(item) <> "") Then
+                    NoEmptyStringDescription.Add(desc.GetItemName(item), desc.GetItemValue(item))
+                End If
+            End If
+        Next
+
+        Dim w As UIControls.WebElement = window.WebElement(NoEmptyStringDescription)
+        If (w Is Nothing) Then Return valueToAddToList
+        w.reporter = New UIControls.StubbedReport()
+        If (w.Exists(0) = False) Then Return valueToAddToList
+        Try
+            valueToAddToList.Add("TabIndex", w.GetTabIndex())
+            valueToAddToList.Add("IsEnabled", w.IsEnabled())
+            valueToAddToList.Add("IsTabStop", w.IsTabStop())
+            valueToAddToList.Add("ScopeName", w.ScopeName())
+            valueToAddToList.Add("TagUrn", w.TagUrn())
+
+            valueToAddToList.Add("Style", w.GetStyleInfo.GetCssText())
+            'valueToAddToList.Add("Style", w.GetStyleInfo.GetBackgroundImage())
+            'valueToAddToList.Add("IsTabStop", w.IsTabStop())
+            'valueToAddToList.Add("ScopeName", w.ScopeName())
+            'valueToAddToList.Add("StyleBackground", w.GetStyleInfo.GetBackground())
+
+        Catch ex As Exception
+            MessageBox.Show("Failed to get some description details." & _
+                 vbNewLine & vbNewLine & "Error Details: " & _
+                 ex.ToString(), SlickTestDev.MsgBoxTitle, _
+                 MessageBoxButtons.OK, MessageBoxIcon.Error)
         End Try
         Return valueToAddToList
     End Function
@@ -1039,14 +1233,10 @@ Public Class ObjSpy
 End Class
 
 
-Public Class LayerForm
+Friend Class LayerForm
     Inherits UIControls.RedHighlight
 
 #Region " API DECLARATIONS "
-    '<DllImport("user32", EntryPoint:="WindowFromPoint")> _
-    'Private Shared Function WindowFromPoint(ByVal xPoint As Integer, _
-    'ByVal yPoint As Integer) As IntPtr
-    'End Function
     <DllImport("user32", EntryPoint:="GetForegroundWindow")> _
     Private Shared Function GetForegroundWindow() As IntPtr
     End Function
@@ -1066,10 +1256,9 @@ Public Class LayerForm
 
     Dim prec As Rectangle
     Private Shared WindowsFunctions As New APIControls.IndependentWindowsFunctionsv1()
-#If (IncludeWeb = 1) Then
+
     Friend IE As APIControls.InternetExplorer
-#End If
-    Private Element As APIControls.Element
+    Private Element As APIControls.WebElementAPI
 
 
     Public Sub New(ByVal SpyHandle As IntPtr)
@@ -1104,10 +1293,9 @@ Public Class LayerForm
         BringWindowToTop(Me.Handle)
         rec = GetRectangle(hwnd)
 
-#If IncludeWeb = 1 Then
 
-        'If (WindowsFunctions.GetClassName(hwnd) = "Internet Explorer_Server") Then
-        If (WindowsFunctions.IsWebPartIEHTML(hwnd)) Then
+
+        If (WindowsFunctions.IsWebPartIEHTML(hwnd) AndAlso WindowsFunctions.IsWebPartIE(hwnd)) Then
             Dim point As System.Drawing.Point = Windows.Forms.Cursor.Position
             Dim x, y As Int32
             x = point.X
@@ -1117,7 +1305,12 @@ Public Class LayerForm
             IE = New APIControls.InternetExplorer()
             Dim IEHwnd As IntPtr = hwnd
             If (WindowsFunctions.IsWebPartIE(IEHwnd) = True) Then
-                If (IE.TakeOverIESearch(IEHwnd) = True) Then
+                Dim takeOverIEResult As Boolean
+                SyncLock (IE)
+                    takeOverIEResult = IE.TakeOverIESearch(IEHwnd)
+                End SyncLock
+
+                If (takeOverIEResult = True) Then
                     Dim ElemRec As System.Drawing.Rectangle = IE.GetElementLocation(x, y)
                     rec = ElemRec
                     'System.Console.WriteLine("ObjectSpy says element location: " & rec.X & ", " & rec.Y & "; Width: " & rec.Width & " Height: " & rec.Height)
@@ -1128,7 +1321,6 @@ Public Class LayerForm
                 End If
             End If
         End If
-#End If
         If prec <> rec Then
             Me.SetPlacement(rec)
         End If

@@ -11,8 +11,11 @@ Friend Class ComboBoxWindowsAPI
     Private Shared WindowsFunctions As APIControls.IndependentWindowsFunctionsv1
 
     Public Function IsComboBox(ByVal hWnd As IntPtr) As Boolean
-        Dim lCount As Long
+        If (GenericMethodsUIAutomation.IsWPFOrCustom(hWnd) = True) Then
+            Return WindowsFunctions.WpfComboBox.IsComboBox(hWnd)
+        End If
 
+        Dim lCount As Long
         'lCount = WinAPI.NativeFunctions.SendMessage(hWnd, CB_GETCOUNT, 0&, 0&)
         lCount = WinAPI.NativeFunctions.SendMessage(hWnd, CB_GETCOUNT, IntPtr.Zero, IntPtr.Zero)
         If (lCount = CB_ERR) Then

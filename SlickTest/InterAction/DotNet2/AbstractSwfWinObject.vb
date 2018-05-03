@@ -1,6 +1,6 @@
 Imports System.Windows.Automation
 ''' <summary>
-''' The Abstract Window is a list of all the abilities all object types have.
+''' The Abstract SwfWindow is a list of all the abilities all SwfWindow object types have.
 ''' </summary>
 ''' <remarks>The Abstract System.Windows.Forms WinObject can't be created, but is the base
 ''' for all Slick Test Developer SWF Windows Objects.</remarks>

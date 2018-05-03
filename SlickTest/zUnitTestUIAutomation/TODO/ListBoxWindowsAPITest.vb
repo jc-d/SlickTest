@@ -1,6 +1,6 @@
 ﻿'Imports System
 
-'Imports Microsoft.VisualStudio.TestTools.UnitTesting
+'Imports NUnit.Framework
 
 'Imports APIControls
 
@@ -10,11 +10,11 @@
 ''''This is a test class for ListBoxWindowsAPITest and is intended
 ''''to contain all ListBoxWindowsAPITest Unit Tests
 ''''</summary>
-'<TestClass()> _
+'<TestFixture()>  _
 'Public Class ListBoxWindowsAPITest
 
 
-'    Private testContextInstance As TestContext
+'
 
 '    '''<summary>
 '    '''Gets or sets the test context which provides
@@ -35,7 +35,7 @@
 '    '
 '    'Use ClassInitialize to run code before running the first test in the class
 '    '<ClassInitialize()>  _
-'    'Public Shared Sub MyClassInitialize(ByVal testContext As TestContext)
+'    'Public Shared Sub MyClassInitialize()
 '    'End Sub
 '    '
 '    'Use ClassCleanup to run code after all tests in a class have run
@@ -59,7 +59,7 @@
 '    '''<summary>
 '    '''A test for SelectListBoxItem
 '    '''</summary>
-'    <TestMethod()> _
+'    <Test()> _
 '    Public Sub SelectListBoxItemTest()
 '        Dim wf As New IndependentWindowsFunctionsv1()
 '        Dim target As ListBoxWindowsAPI = New ListBoxWindowsAPI(wf) ' TODO: Initialize to an appropriate value
@@ -68,14 +68,14 @@
 '        Dim expected As Boolean = False ' TODO: Initialize to an appropriate value
 '        Dim actual As Boolean
 '        actual = target.SelectListBoxItem(hwnd, item)
-'        Assert.AreEqual(expected, actual)
-'        Assert.Inconclusive("Verify the correctness of this test method.")
+'        Verify.AreEqual(expected, actual)
+'        Verify.Inconclusive("Verify the correctness of this test method.")
 '    End Sub
 
 '    '''<summary>
 '    '''A test for ListBoxItemsCount
 '    '''</summary>
-'    <TestMethod()> _
+'    <Test()> _
 '    Public Sub ListBoxItemsCountTest()
 '        Dim wf As New IndependentWindowsFunctionsv1()
 '        Dim target As ListBoxWindowsAPI = New ListBoxWindowsAPI(wf) ' TODO: Initialize to an appropriate value
@@ -83,14 +83,14 @@
 '        Dim expected As Integer = 0 ' TODO: Initialize to an appropriate value
 '        Dim actual As Integer
 '        actual = target.ListBoxItemsCount(lhWnd)
-'        Assert.AreEqual(expected, actual)
-'        Assert.Inconclusive("Verify the correctness of this test method.")
+'        Verify.AreEqual(expected, actual)
+'        Verify.Inconclusive("Verify the correctness of this test method.")
 '    End Sub
 
 '    '''<summary>
 '    '''A test for ListBoxCount
 '    '''</summary>
-'    <TestMethod()> _
+'    <Test()> _
 '    Public Sub ListBoxCountTest()
 '        Dim wf As New IndependentWindowsFunctionsv1()
 '        Dim target As ListBoxWindowsAPI = New ListBoxWindowsAPI(wf) ' TODO: Initialize to an appropriate value
@@ -98,14 +98,14 @@
 '        Dim expected As Integer = 0 ' TODO: Initialize to an appropriate value
 '        Dim actual As Integer
 '        actual = target.ListBoxCount(Hwnd)
-'        Assert.AreEqual(expected, actual)
-'        Assert.Inconclusive("Verify the correctness of this test method.")
+'        Verify.AreEqual(expected, actual)
+'        Verify.Inconclusive("Verify the correctness of this test method.")
 '    End Sub
 
 '    '''<summary>
 '    '''A test for IsListBox
 '    '''</summary>
-'    <TestMethod()> _
+'    <Test()> _
 '    Public Sub IsListBoxTest()
 '        Dim wf As New IndependentWindowsFunctionsv1()
 '        Dim target As ListBoxWindowsAPI = New ListBoxWindowsAPI(wf) ' TODO: Initialize to an appropriate value
@@ -113,14 +113,14 @@
 '        Dim expected As Boolean = False ' TODO: Initialize to an appropriate value
 '        Dim actual As Boolean
 '        actual = target.IsListBox(hWnd)
-'        Assert.AreEqual(expected, actual)
-'        Assert.Inconclusive("Verify the correctness of this test method.")
+'        Verify.AreEqual(expected, actual)
+'        Verify.Inconclusive("Verify the correctness of this test method.")
 '    End Sub
 
 '    '''<summary>
 '    '''A test for GetListBoxSelectedItems
 '    '''</summary>
-'    <TestMethod()> _
+'    <Test()> _
 '    Public Sub GetListBoxSelectedItemsTest()
 '        Dim wf As New IndependentWindowsFunctionsv1()
 '        Dim target As ListBoxWindowsAPI = New ListBoxWindowsAPI(wf) ' TODO: Initialize to an appropriate value
@@ -128,14 +128,14 @@
 '        Dim expected() As Integer = Nothing ' TODO: Initialize to an appropriate value
 '        Dim actual() As Integer
 '        actual = target.GetListBoxSelectedItems(lhWnd)
-'        Assert.AreEqual(expected, actual)
-'        Assert.Inconclusive("Verify the correctness of this test method.")
+'        Verify.AreEqual(expected, actual)
+'        Verify.Inconclusive("Verify the correctness of this test method.")
 '    End Sub
 
 '    '''<summary>
 '    '''A test for GetListBoxSelectedItem
 '    '''</summary>
-'    <TestMethod()> _
+'    <Test()> _
 '    Public Sub GetListBoxSelectedItemTest()
 '        Dim wf As New IndependentWindowsFunctionsv1()
 '        Dim target As ListBoxWindowsAPI = New ListBoxWindowsAPI(wf) ' TODO: Initialize to an appropriate value
@@ -143,14 +143,14 @@
 '        Dim expected As Integer = 0 ' TODO: Initialize to an appropriate value
 '        Dim actual As Integer
 '        actual = target.GetListBoxSelectedItem(hwnd)
-'        Assert.AreEqual(expected, actual)
-'        Assert.Inconclusive("Verify the correctness of this test method.")
+'        Verify.AreEqual(expected, actual)
+'        Verify.Inconclusive("Verify the correctness of this test method.")
 '    End Sub
 
 '    '''<summary>
 '    '''A test for GetListBoxItems
 '    '''</summary>
-'    <TestMethod()> _
+'    <Test()> _
 '    Public Sub GetListBoxItemsTest()
 '        Dim wf As New IndependentWindowsFunctionsv1()
 '        Dim target As ListBoxWindowsAPI = New ListBoxWindowsAPI(wf) ' TODO: Initialize to an appropriate value
@@ -158,14 +158,14 @@
 '        Dim expected() As String = Nothing ' TODO: Initialize to an appropriate value
 '        Dim actual() As String
 '        actual = target.GetListBoxItems(lhWnd)
-'        Assert.AreEqual(expected, actual)
-'        Assert.Inconclusive("Verify the correctness of this test method.")
+'        Verify.AreEqual(expected, actual)
+'        Verify.Inconclusive("Verify the correctness of this test method.")
 '    End Sub
 
 '    '''<summary>
 '    '''A test for GetListBoxItem
 '    '''</summary>
-'    <TestMethod()> _
+'    <Test()> _
 '    Public Sub GetListBoxItemTest()
 '        Dim wf As New IndependentWindowsFunctionsv1()
 '        Dim target As ListBoxWindowsAPI = New ListBoxWindowsAPI(wf) ' TODO: Initialize to an appropriate value
@@ -174,17 +174,17 @@
 '        Dim expected As String = String.Empty ' TODO: Initialize to an appropriate value
 '        Dim actual As String
 '        actual = target.GetListBoxItem(index, hWnd)
-'        Assert.AreEqual(expected, actual)
-'        Assert.Inconclusive("Verify the correctness of this test method.")
+'        Verify.AreEqual(expected, actual)
+'        Verify.Inconclusive("Verify the correctness of this test method.")
 '    End Sub
 
 '    '''<summary>
 '    '''A test for ListBoxWindowsAPI Constructor
 '    '''</summary>
-'    <TestMethod()> _
+'    <Test()> _
 '    Public Sub ListBoxWindowsAPIConstructorTest()
 '        Dim wf As New IndependentWindowsFunctionsv1()
 '        Dim target As ListBoxWindowsAPI = New ListBoxWindowsAPI(wf)
-'        Assert.Inconclusive("TODO: Implement code to verify target")
+'        Verify.Inconclusive("TODO: Implement code to verify target")
 '    End Sub
 'End Class

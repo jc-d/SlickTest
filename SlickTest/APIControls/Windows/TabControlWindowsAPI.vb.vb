@@ -13,6 +13,9 @@ Friend Class TabControlWindowsAPI
     End Sub
 
     Function IsTabControl(ByVal hwnd As IntPtr) As Boolean
+        If (GenericMethodsUIAutomation.IsWPFOrCustom(hwnd) = True) Then
+            Return WindowsFunctions.WpfTabControl.IsTabControl(hwnd)
+        End If
         Dim cn As String = WindowsFunctions.GetClassNameNoDotNet(hwnd)
         If (cn.ToLowerInvariant.Contains("systabcontrol") = True) Then
             Return True

@@ -1,4 +1,4 @@
-﻿'Imports Microsoft.VisualStudio.TestTools.UnitTesting
+﻿'Imports NUnit.Framework
 
 'Imports UIControls
 
@@ -8,11 +8,11 @@
 ''''This is a test class for Capture_RECTTest and is intended
 ''''to contain all Capture_RECTTest Unit Tests
 ''''</summary>
-'<TestClass()> _
+'<TestFixture()>  _
 'Public Class Capture_RECTTest
 
 
-'    Private testContextInstance As TestContext
+'
 
 '    '''<summary>
 '    '''Gets or sets the test context which provides
@@ -33,7 +33,7 @@
 '    '
 '    'Use ClassInitialize to run code before running the first test in the class
 '    '<ClassInitialize()>  _
-'    'Public Shared Sub MyClassInitialize(ByVal testContext As TestContext)
+'    'Public Shared Sub MyClassInitialize()
 '    'End Sub
 '    '
 '    'Use ClassCleanup to run code after all tests in a class have run
@@ -57,10 +57,10 @@
 '    '''<summary>
 '    '''A test for RECT Constructor
 '    '''</summary>
-'    <TestMethod(), _
+'    <Test(), _
 '     DeploymentItem("InterAction.dll")> _
 '    Public Sub Capture_RECTConstructorTest()
 '        Dim target As Capture_Accessor.RECT = New Capture_Accessor.RECT
-'        Assert.Inconclusive("TODO: Implement code to verify target")
+'        Verify.Inconclusive("TODO: Implement code to verify target")
 '    End Sub
 'End Class

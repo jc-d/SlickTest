@@ -80,6 +80,6 @@ Public NotInheritable Class RadioButton
     ''' <returns></returns>
     ''' <remarks></remarks>
     Public Function IsRadioButton() As Boolean
-        Return WindowsFunctions.Button.IsRadioButton(Me.Hwnd())
+        Return WindowsFunctions.Button.IsRadioButton(New IntPtr(Me.Hwnd()))
     End Function
 End Class

@@ -303,6 +303,7 @@
     </EmbeddedResource>
     <EmbeddedResource Include="VerifyDescription.resx">
       <DependentUpon>VerifyDescription.vb</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
@@ -336,6 +337,18 @@
     <ProjectReference Include="..\ResultsViewer\ResultsViewer.vbproj">
       <Project>{4DBF7A70-2693-43A5-B0FB-E02986723064}</Project>
       <Name>ResultsViewer</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SlickUnitRunnerCmd\SlickUnitRunnerCmd.vbproj">
+      <Project>{B5FD33C2-F0D6-4197-BB6E-466D2BD4CE8B}</Project>
+      <Name>SlickUnitRunnerCmd</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SlickUnitRunner\SlickUnitRunner.vbproj">
+      <Project>{72D157E4-9695-41C1-B8F6-0DA8A4E9A350}</Project>
+      <Name>SlickUnitRunner</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SlickUnit\SlickUnit.vbproj">
+      <Project>{BD218E7C-FB65-498E-8713-789447597A0A}</Project>
+      <Name>SlickUnit</Name>
     </ProjectReference>
     <ProjectReference Include="..\TextEditor\TextEditor.csproj">
       <Project>{7D1E0025-826F-4382-833B-51C6F0A77FD4}</Project>

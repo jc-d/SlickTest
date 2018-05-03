@@ -63,16 +63,19 @@ System.Text.RegularExpressions.RegexOptions.Multiline Or System.Text.RegularExpr
         Dim RetName As String = ""
         If (Not String.IsNullOrEmpty(description.Name)) Then
             RetName = description.Name.Substring(0, Math.Min(15, description.Name.Length))
-#If IncludeWeb = 1 Then
+
         Else
-            If (Not String.IsNullOrEmpty(description.WebTag)) Then
-                RetName = description.WebTag.Substring(0, Math.Min(15, description.WebTag.Length))
+            If (Not String.IsNullOrEmpty(description.ControlType)) Then
+                RetName = description.ControlType.Substring(0, Math.Min(15, description.ControlType.Length))
             Else
                 If (Not String.IsNullOrEmpty(description.WebTitle)) Then
                     RetName = description.WebTitle.Substring(0, Math.Min(15, description.WebTitle.Length))
+                Else
+                    If (Not String.IsNullOrEmpty(description.WindowType)) Then
+                        RetName = description.WindowType.Substring(0, Math.Min(15, description.WindowType.Length))
+                    End If
                 End If
             End If
-#End If
         End If
         If (Not String.IsNullOrEmpty(description.Value)) Then
             If (Not String.IsNullOrEmpty(RetName)) Then
@@ -81,7 +84,7 @@ System.Text.RegularExpressions.RegexOptions.Multiline Or System.Text.RegularExpr
                 RetName += description.Value.Substring(0, Math.Min(25, description.Value.Length))
             End If
         Else
-#If IncludeWeb = 1 Then
+
             If (Not String.IsNullOrEmpty(description.WebValue)) Then
                 If (Not String.IsNullOrEmpty(RetName)) Then
                     RetName += "_" & description.WebValue.Substring(0, Math.Min(25, description.WebValue.Length))
@@ -89,7 +92,6 @@ System.Text.RegularExpressions.RegexOptions.Multiline Or System.Text.RegularExpr
                     RetName += description.WebValue.Substring(0, Math.Min(25, description.WebValue.Length))
                 End If
             End If
-#End If
         End If
         RetName = RetName.Substring(0, Math.Min(MaxDescriptionLength, RetName.Length))
 
